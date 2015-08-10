@@ -34,7 +34,7 @@ class NotificationsControllerTest extends BaseTestCase
         $kernel = $this->container->get('kernel');
         $this->ws_data_dir = $kernel->locateResource("@CacicWSBundle/Resources/data/fixtures/");
         $this->modifications = file_get_contents($this->ws_data_dir."modifications.json");
-        $this->coleta_modifications = file_get_contents($this->ws_data_dir."coleta-modifications.json");
+        $this->coleta_modifications = file_get_contents($this->ws_data_dir."coleta/coleta-modifications.json");
     }
 
     /**

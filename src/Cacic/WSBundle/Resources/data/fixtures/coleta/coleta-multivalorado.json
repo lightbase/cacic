@@ -1,0 +1,1216 @@
+﻿{
+    "computador": {
+        "networkDevices": [
+            {
+                "ipv4": "10.209.57.107",
+                "ipv6": "fe80::14e0:21d7:5ffe:7d74%11",
+                "mac": "0C:54:A5:42:71:65",
+                "netmask_ipv4": "255.255.255.0",
+                "netmask_ipv6": "ffff:ffff:ffff:ffff::",
+                "nome": "Conexão local"
+            }
+        ],
+        "nmComputador": "MP-154036",
+        "operatingSystem": {
+            "idOs": 144,
+            "nomeOs": "Microsoft Windows 7 Professional",
+            "tipo": "windows",
+            "upTime": 1356391
+        },
+        "usuario": "Rafael Costa",
+        "versaoAgente": "3.1.15",
+        "versaoGercols": "3.1.15"
+    },
+    "hardware": {
+        "IsNotebook": {
+            "Value": false
+        },
+        "NetworkAdapterConfiguration": [
+            {
+                "ipv4": "10.209.57.107",
+                "ipv6": "fe80::14e0:21d7:5ffe:7d74%11",
+                "mac": "0C:54:A5:42:71:65",
+                "netmask_ipv4": "255.255.255.0",
+                "netmask_ipv6": "ffff:ffff:ffff:ffff::",
+                "nome": "Conexão local"
+            }
+        ],
+        "OperatingSystem": {
+            "CSDVersion": "Service Pack 1",
+            "Caption": "Microsoft Windows 7 Professional",
+            "InstallDate": "11/08/2014",
+            "Name": "Microsoft Windows 7 Professional |C:\\\\Windows|\\\\Device\\\\Harddisk0\\\\Partition2",
+            "OSArchitecture": "64-bit",
+            "Organization": "Microsoft",
+            "RegisteredUser": "MP",
+            "SerialNumber": "00371-OEM-8992671-00498",
+            "Version": "6.1.7601"
+        },
+        "Win32_BIOS": {
+            "BIOSVersion": [
+                "POSITI - 1072009",
+                "BIOS Date: 03/08/13 16:58:38 Ver: 04.06.05",
+                "BIOS Date: 03/08/13 16:58:38 Ver: 04.06.05"
+            ],
+            "Manufacturer": "Desenvolvida por Positivo Informatica SA",
+            "Name": "BIOS Date: 03/08/13 16:58:38 Ver: 04.06.05",
+            "ReleaseDate": "08/03/2013",
+            "SMBIOSBIOSVersion": "0304S.L",
+            "SerialNumber": "1AB70K63P",
+            "SoftwareElementID": "BIOS Date: 03/08/13 16:58:38 Ver: 04.06.05",
+            "SoftwareElementState": "3",
+            "TargetOperatingSystem": "0",
+            "Version": "0304S.L"
+        },
+        "Win32_BaseBoard": {
+            "Manufacturer": "Positivo Informatica SA",
+            "SerialNumber": "1AB70K63P",
+            "Tag": "Base Board"
+        },
+        "Win32_CDROMDrive": {
+            "Caption": "HL-DT-ST DVDRAM GH24NS95",
+            "Description": "CD-ROM Drive",
+            "DeviceID": "IDE\\\\CDROMHL-DT-ST_DVDRAM_GH24NS95________________RN01____\\\\4&1F21BA6D&0&0.1.0",
+            "Manufacturer": "(Unidades de CD-ROM padrão)",
+            "MediaType": "DVD Writer",
+            "Name": "HL-DT-ST DVDRAM GH24NS95"
+        },
+        "Win32_ComputerSystem": {
+            "Caption": "MP-154036",
+            "Description": "AT/AT COMPATIBLE",
+            "Domain": "MP-RLSL",
+            "Manufacturer": "POSITIVO",
+            "Model": "POS-PIQ77CL",
+            "Name": "MP-154036",
+            "PrimaryOwnerName": "MP",
+            "TotalPhysicalMemory": "8252039168",
+            "Workgroup": "MP-RLSL"
+        },
+        "Win32_DesktopMonitor": {
+            "Caption": "Monitor Genérico PnP",
+            "Description": "Monitor Genérico PnP",
+            "DeviceID": "DesktopMonitor1",
+            "MonitorManufacturer": "(Tipos de monitor padrão)",
+            "MonitorType": "Monitor Genérico PnP",
+            "Name": "Monitor Genérico PnP"
+        },
+        "Win32_DiskDrive": {
+            "Caption": "TOSHIBA DT01ACA050",
+            "Description": "Unidade de disco",
+            "DeviceID": "\\\\\\\\.\\\\PHYSICALDRIVE0",
+            "Manufacturer": "(Unidades de disco padrão)",
+            "MediaType": "Fixed hard disk media",
+            "Model": "TOSHIBA DT01ACA050",
+            "Name": "\\\\\\\\.\\\\PHYSICALDRIVE0",
+            "Size": "500105249280"
+        },
+        "Win32_Keyboard": {
+            "Caption": "Enhanced (101- or 102-key)",
+            "Description": "Dispositivo de Entrada USB",
+            "DeviceID": "USB\\\\VID_1A2C&PID_0C21&MI_00\\\\7&15010B67&1&0000",
+            "Layout": "00010416",
+            "Name": "Enhanced (101- or 102-key)"
+        },
+        "Win32_LogicalDisk": [
+            {
+                "Caption": "C:",
+                "DeviceID": "C:",
+                "DriveType": "3",
+                "FileSystem": "NTFS",
+                "FreeSpace": "266362826752",
+                "MediaType": "12",
+                "Size": "484377096192",
+                "VolumeName": "Windows"
+            },
+            {
+                "Caption": "D:",
+                "DeviceID": "D:",
+                "DriveType": "5",
+                "FileSystem": "NTFS",
+                "FreeSpace": "266362826752",
+                "MediaType": "11",
+                "Size": "484377096192",
+                "VolumeName": "Windows"
+            }
+        ],
+        "Win32_MemoryDevice": {
+            "Caption": "Memory Device",
+            "Description": "Memory Device",
+            "DeviceID": "Memory Device 0",
+            "Name": "Memory Device"
+        },
+        "Win32_PhysicalMemory": {
+            "BankLabel": "BANK 0",
+            "Capacity": "8589934592",
+            "Caption": "Physical Memory",
+            "Description": "Physical Memory",
+            "DeviceLocator": "ChannelA-DIMM0",
+            "MemoryType": "0",
+            "Speed": "1600",
+            "Tag": "Physical Memory 0"
+        },
+        "Win32_PointingDevice": [
+            {
+                "Caption": "Dispositivo de Entrada USB",
+                "Description": "Dispositivo de Entrada USB",
+                "DeviceID": "USB\\\\VID_2188&PID_0AE1\\\\6&3AEE45EF&0&6",
+                "DeviceInterface": "162",
+                "Manufacturer": "(Dispositivos padrão do sistema)",
+                "PointingType": "2"
+            },
+            {
+                "Caption": "Mouse compatível com HID",
+                "Description": "Mouse compatível com HID",
+                "DeviceID": "HID\\\\VID_1A2C&PID_0C21&MI_01&COL01\\\\8&2A0F4C38&0&0000",
+                "DeviceInterface": "162",
+                "Manufacturer": "Microsoft",
+                "PointingType": "2"
+            }
+        ],
+        "Win32_Printer": [
+            {
+                "Comment": "PDFCreator Printer",
+                "DeviceID": "PDFCreator",
+                "DriverName": "PDFCreator",
+                "HorizontalResolution": "600",
+                "Name": "PDFCreator",
+                "Network": "FALSE",
+                "PortName": "pdfcmon",
+                "ShareName": "PDFCreator",
+                "Shared": "FALSE",
+                "VerticalResolution": "600"
+            },
+            {
+                "Comment": "PDFCreator Printer",
+                "DeviceID": "Microsoft XPS Document Writer",
+                "DriverName": "Microsoft XPS Document Writer",
+                "HorizontalResolution": "600",
+                "Name": "Microsoft XPS Document Writer",
+                "Network": "FALSE",
+                "PortName": "XPSPort:",
+                "ShareName": "PDFCreator",
+                "Shared": "FALSE",
+                "VerticalResolution": "600"
+            },
+            {
+                "Comment": "PDFCreator Printer",
+                "DeviceID": "Foxit Reader PDF Printer",
+                "DriverName": "Foxit Reader PDF Printer Driver",
+                "HorizontalResolution": "300",
+                "Name": "Foxit Reader PDF Printer",
+                "Network": "FALSE",
+                "PortName": "FOXIT_Reader:",
+                "ShareName": "PDFCreator",
+                "Shared": "FALSE",
+                "VerticalResolution": "300"
+            },
+            {
+                "Comment": "PDFCreator Printer",
+                "DeviceID": "Fax",
+                "DriverName": "Microsoft Shared Fax Driver",
+                "HorizontalResolution": "200",
+                "Name": "Fax",
+                "Network": "FALSE",
+                "PortName": "SHRFAX:",
+                "ShareName": "PDFCreator",
+                "Shared": "FALSE",
+                "VerticalResolution": "200"
+            }
+        ],
+        "Win32_Processor": {
+            "AddressWidth": "64",
+            "Architecture": "9",
+            "Caption": "Intel64 Family 6 Model 58 Stepping 9",
+            "CpuStatus": "1",
+            "CurrentClockSpeed": "1792",
+            "DataWidth": "64",
+            "DeviceID": "CPU0",
+            "Family": "6",
+            "L2CacheSize": "1024",
+            "Level": "6",
+            "Manufacturer": "GenuineIntel",
+            "MaxClockSpeed": "3201",
+            "Name": "Intel(R) Core(TM) i5-3470 CPU @ 3.20GHz",
+            "NumberOfCores": "4",
+            "NumberOfLogicalProcessors": "4",
+            "ProcessorId": "BFEBFBFF000306A9",
+            "SocketDesignation": "SOCKET 0",
+            "VoltageCaps": "0"
+        },
+        "Win32_SMBIOSMemory": [
+            {
+                "Caption": "Memory Device",
+                "Description": "Memory Device",
+                "DeviceID": "Memory Device 0",
+                "Name": "Memory Device"
+            },
+            {
+                "Caption": "Memory Array",
+                "Description": "Memory Array",
+                "DeviceID": "Memory Array 0",
+                "Name": "Memory Array"
+            }
+        ],
+        "Win32_SerialPort": [
+            {
+                "Caption": "Porta de comunicação (COM2)",
+                "Description": "Porta de comunicação",
+                "DeviceID": "COM2",
+                "Name": "Porta de comunicação (COM2)",
+                "StatusInfo": "3"
+            },
+            {
+                "Caption": "Porta de comunicação (COM1)",
+                "Description": "Porta de comunicação",
+                "DeviceID": "COM1",
+                "Name": "Porta de comunicação (COM1)",
+                "StatusInfo": "3"
+            }
+        ],
+        "Win32_SystemEnclosure": {
+            "ChassisTypes": [
+                "3"
+            ],
+            "Manufacturer": "Positivo Informatica SA",
+            "SerialNumber": "1AB70K63P",
+            "Tag": "System Enclosure 0"
+        },
+        "Win32_SystemSlot": [
+            {
+                "CurrentUsage": "4",
+                "Description": "System Slot",
+                "Name": "System Slot",
+                "Shared": "TRUE",
+                "SlotDesignation": "J6B2",
+                "Status": "OK",
+                "Tag": "System Slot 0"
+            },
+            {
+                "CurrentUsage": "4",
+                "Description": "System Slot",
+                "Name": "System Slot",
+                "Shared": "TRUE",
+                "SlotDesignation": "J6B1",
+                "Status": "OK",
+                "Tag": "System Slot 1"
+            },
+            {
+                "CurrentUsage": "4",
+                "Description": "System Slot",
+                "Name": "System Slot",
+                "Shared": "TRUE",
+                "SlotDesignation": "J6D1",
+                "Status": "OK",
+                "Tag": "System Slot 2"
+            },
+            {
+                "CurrentUsage": "4",
+                "Description": "System Slot",
+                "Name": "System Slot",
+                "Shared": "TRUE",
+                "SlotDesignation": "J7B1",
+                "Status": "OK",
+                "Tag": "System Slot 3"
+            }
+        ],
+        "Win32_USBController": [
+            {
+                "Caption": "Intel(R) 7 Series/C216 Chipset Family USB Enhanced Host Controller - 1E26",
+                "Description": "Intel(R) 7 Series/C216 Chipset Family USB Enhanced Host Controller - 1E26",
+                "DeviceID": "PCI\\\\VEN_8086&DEV_1E26&SUBSYS_01521B0A&REV_04\\\\3&11583659&0&E8",
+                "Manufacturer": "Intel",
+                "Name": "Intel(R) 7 Series/C216 Chipset Family USB Enhanced Host Controller - 1E26"
+            },
+            {
+                "Caption": "Intel(R) 7 Series/C216 Chipset Family USB Enhanced Host Controller - 1E2D",
+                "Description": "Intel(R) 7 Series/C216 Chipset Family USB Enhanced Host Controller - 1E2D",
+                "DeviceID": "PCI\\\\VEN_8086&DEV_1E2D&SUBSYS_01521B0A&REV_04\\\\3&11583659&0&D0",
+                "Manufacturer": "Intel",
+                "Name": "Intel(R) 7 Series/C216 Chipset Family USB Enhanced Host Controller - 1E2D"
+            },
+            {
+                "Caption": "Controlador host eXtensível Intel(R) USB 3.0",
+                "Description": "Controlador host eXtensível Intel(R) USB 3.0",
+                "DeviceID": "PCI\\\\VEN_8086&DEV_1E31&SUBSYS_01521B0A&REV_04\\\\3&11583659&0&A0",
+                "Manufacturer": "Intel(R) Corporation",
+                "Name": "Controlador host eXtensível Intel(R) USB 3.0"
+            }
+        ],
+        "Win32_VideoController": {
+            "AdapterRAM": "2415919104",
+            "Caption": "Intel(R) HD Graphics",
+            "CurrentHorizontalResolution": "1600",
+            "CurrentVerticalResolution": "900",
+            "Description": "Intel(R) HD Graphics",
+            "DeviceID": "VideoController1",
+            "Name": "Intel(R) HD Graphics",
+            "VideoProcessor": "Intel(R) HD Graphics Family"
+        }
+    },
+    "software": {
+        "AddressBook": {
+            "name": "AddressBook"
+        },
+        "Adobe Flash Player ActiveX": {
+            "description": "Adobe Flash Player 17 ActiveX",
+            "name": "Adobe Flash Player ActiveX",
+            "publisher": "Adobe Systems Incorporated",
+            "uninstallString": "C:\\Windows\\SysWOW64\\Macromed\\Flash\\FlashUtil32_17_0_0_190_ActiveX.exe -maintain activex",
+            "url": "http://www.adobe.com",
+            "version": "17.0.0.190"
+        },
+        "Adobe Flash Player NPAPI": {
+            "description": "Adobe Flash Player 17 NPAPI",
+            "name": "Adobe Flash Player NPAPI",
+            "publisher": "Adobe Systems Incorporated",
+            "uninstallString": "C:\\Windows\\SysWOW64\\Macromed\\Flash\\FlashUtil32_17_0_0_190_Plugin.exe -maintain plugin",
+            "url": "http://www.adobe.com",
+            "version": "17.0.0.190"
+        },
+        "Adobe Shockwave Player": {
+            "description": "Adobe Shockwave Player 12.0",
+            "installLocation": "C:\\Windows\\SysWOW64\\Adobe",
+            "name": "Adobe Shockwave Player",
+            "publisher": "Adobe Systems, Inc.",
+            "uninstallString": "\"C:\\Windows\\SysWOW64\\Adobe\\Shockwave 12\\uninstaller.exe\"",
+            "url": "http://www.adobe.com",
+            "version": "12.0.7.148"
+        },
+        "Aulete digital_is1": {
+            "description": "Aulete digital",
+            "installDate": "20140117",
+            "installLocation": "C:\\Program Files (x86)\\Aulete digital\\",
+            "name": "Aulete digital_is1",
+            "publisher": "Lexikon Editora Digital",
+            "quietUninstallString": "\"C:\\Program Files (x86)\\Aulete digital\\unins000.exe\" /SILENT",
+            "uninstallString": "\"C:\\Program Files (x86)\\Aulete digital\\unins000.exe\"",
+            "url": "http://www.lexikon.com.br",
+            "version": "2.0"
+        },
+        "Connection Manager": {
+            "name": "Connection Manager"
+        },
+        "DXM_Runtime": {
+            "name": "DXM_Runtime"
+        },
+        "DirectDrawEx": {
+            "name": "DirectDrawEx"
+        },
+        "FCEC33AD40CEA5E0FC4CEE6E42041A0DA189652D": {
+            "description": "Pacote de Driver do Windows - Nokia pccsmcfd  (08/22/2008 7.0.0.0)",
+            "name": "FCEC33AD40CEA5E0FC4CEE6E42041A0DA189652D",
+            "publisher": "Nokia",
+            "uninstallString": "C:\\PROGRA~1\\DIFX\\F4092DA208C2C970\\dpinst.exe /u C:\\Windows\\system32\\DRVSTORE\\pccsmcfdx6_8A3BAB842294F8D9255C3CF2A3B1CECAEEB8EA7E\\pccsmcfdx64.inf",
+            "version": "08/22/2008 7.0.0.0"
+        },
+        "Fontcore": {
+            "name": "Fontcore"
+        },
+        "Foxit Reader_is1": {
+            "description": "Foxit Reader",
+            "installDate": "20140117",
+            "installLocation": "C:\\Program Files (x86)\\Foxit Software\\Foxit Reader\\",
+            "name": "Foxit Reader_is1",
+            "publisher": "Foxit Corporation",
+            "quietUninstallString": "\"C:\\Program Files (x86)\\Foxit Software\\Foxit Reader\\unins000.exe\" /SILENT",
+            "uninstallString": "\"C:\\Program Files (x86)\\Foxit Software\\Foxit Reader\\unins000.exe\"",
+            "url": "http://www.foxitsoftware.com/?Language=en",
+            "version": "6.0.10.1213"
+        },
+        "GomezPEER": {
+            "description": "Dynatrace Peer",
+            "name": "GomezPEER",
+            "publisher": "Dynatrace",
+            "uninstallString": "C:\\Program Files (x86)\\Dynatrace\\LastMile\\uninstall.exe",
+            "url": "http://www.gomezpeerzone.com",
+            "version": "3.2"
+        },
+        "Google Chrome": {
+            "description": "Google Chrome",
+            "installDate": "20150127",
+            "installLocation": "C:\\Program Files (x86)\\Google\\Chrome\\Application",
+            "name": "Google Chrome",
+            "publisher": "Google Inc.",
+            "uninstallString": "\"C:\\Program Files (x86)\\Google\\Chrome\\Application\\43.0.2357.130\\Installer\\setup.exe\" --uninstall --multi-install --chrome --system-level",
+            "version": "43.0.2357.130"
+        },
+        "IE40": {
+            "name": "IE40"
+        },
+        "IE4Data": {
+            "name": "IE4Data"
+        },
+        "IE5BAKEX": {
+            "name": "IE5BAKEX"
+        },
+        "IEData": {
+            "name": "IEData"
+        },
+        "MPlayer2": {
+            "name": "MPlayer2"
+        },
+        "MobileOptionPack": {
+            "name": "MobileOptionPack"
+        },
+        "Mozilla Firefox 38.0.5 (x86 pt-BR)": {
+            "description": "Mozilla Firefox 38.0.5 (x86 pt-BR)",
+            "installLocation": "C:\\Program Files (x86)\\Mozilla Firefox",
+            "name": "Mozilla Firefox 38.0.5 (x86 pt-BR)",
+            "publisher": "Mozilla",
+            "uninstallString": "\"C:\\Program Files (x86)\\Mozilla Firefox\\uninstall\\helper.exe\"",
+            "url": "https://www.mozilla.org",
+            "version": "38.0.5"
+        },
+        "Mozilla Thunderbird 24.2.0 (x86 pt-BR)": {
+            "description": "Mozilla Thunderbird 24.2.0 (x86 pt-BR)",
+            "installLocation": "C:\\Program Files (x86)\\Mozilla Thunderbird",
+            "name": "Mozilla Thunderbird 24.2.0 (x86 pt-BR)",
+            "publisher": "Mozilla",
+            "uninstallString": "C:\\Program Files (x86)\\Mozilla Thunderbird\\uninstall\\helper.exe",
+            "url": "http://www.mozilla.org/pt-BR/",
+            "version": "24.2.0"
+        },
+        "MozillaMaintenanceService": {
+            "description": "Mozilla Maintenance Service",
+            "name": "MozillaMaintenanceService",
+            "publisher": "Mozilla",
+            "uninstallString": "\"C:\\Program Files (x86)\\Mozilla Maintenance Service\\uninstall.exe\"",
+            "version": "35.0"
+        },
+        "OpenSSL Light (32-bit)_is1": {
+            "description": "OpenSSL 1.0.1j Light (32-bit)",
+            "installDate": "20150622",
+            "installLocation": "C:\\OpenSSL-Win32\\",
+            "name": "OpenSSL Light (32-bit)_is1",
+            "publisher": "OpenSSL Win32 Installer Team",
+            "quietUninstallString": "\"C:\\OpenSSL-Win32\\unins000.exe\" /SILENT",
+            "uninstallString": "\"C:\\OpenSSL-Win32\\unins000.exe\"",
+            "url": "http://www.openssl.org"
+        },
+        "Rapport_msi": {
+            "description": "Proteção de Terminal Trusteer",
+            "installLocation": "C:\\",
+            "name": "Rapport_msi",
+            "publisher": "Trusteer",
+            "uninstallString": "msiexec /x{1DD81E7D-0D28-4ceb-87B2-C041A4FCB215} /lvx+ \"C:\\ProgramData\\Trusteer\\Rapport\\logs\\uninstall.log\" ",
+            "version": "3.5.1412.173"
+        },
+        "SchedulingAgent": {
+            "name": "SchedulingAgent"
+        },
+        "Sevinst": {
+            "name": "Sevinst",
+            "quietUninstallString": "\"C:\\Program Files\\Common Files\\Symantec Shared\\SEVINST64x86.EXE\" /U /Q"
+        },
+        "VLC media player": {
+            "description": "VLC media player 2.0.2",
+            "installLocation": "C:\\Program Files (x86)\\VideoLAN\\VLC",
+            "name": "VLC media player",
+            "publisher": "VideoLAN",
+            "uninstallString": "C:\\Program Files (x86)\\VideoLAN\\VLC\\uninstall.exe",
+            "url": "http://www.videolan.org/",
+            "version": "2.0.2"
+        },
+        "WIC": {
+            "name": "WIC"
+        },
+        "Windows 7 - Codec Pack": {
+            "description": "Windows 7 Codec Pack 4.0.8",
+            "name": "Windows 7 - Codec Pack",
+            "publisher": "Windows 7 Codec Pack",
+            "uninstallString": "C:\\Windows\\SysWOW64\\C2MP\\Uninst.exe",
+            "url": "http://www.windows7codecs.com/",
+            "version": "4.0.8"
+        },
+        "winscp3_is1": {
+            "description": "WinSCP 5.5.6",
+            "installDate": "20150116",
+            "installLocation": "C:\\Program Files (x86)\\WinSCP\\",
+            "name": "winscp3_is1",
+            "publisher": "Martin Prikryl",
+            "quietUninstallString": "\"C:\\Program Files (x86)\\WinSCP\\unins000.exe\" /SILENT",
+            "uninstallString": "\"C:\\Program Files (x86)\\WinSCP\\unins000.exe\"",
+            "url": "http://winscp.net/",
+            "version": "5.5.6"
+        },
+        "{0001B4FD-9EA3-4D90-A79E-FD14BA3AB01D}": {
+            "description": "PDFCreator",
+            "installDate": "20140117",
+            "name": "{0001B4FD-9EA3-4D90-A79E-FD14BA3AB01D}",
+            "publisher": "pdfforge",
+            "uninstallString": "C:\\Program Files (x86)\\PDFCreator\\unins000.exe",
+            "url": "http://www.pdfforge.org",
+            "version": "1.7.2"
+        },
+        "{050d4fc8-5d48-4b8f-8972-47c82c46020f}": {
+            "description": "Microsoft Visual C++ 2013 Redistributable (x64) - 12.0.30501",
+            "name": "{050d4fc8-5d48-4b8f-8972-47c82c46020f}",
+            "publisher": "Microsoft Corporation",
+            "quietUninstallString": "\"C:\\ProgramData\\Package Cache\\{050d4fc8-5d48-4b8f-8972-47c82c46020f}\\vcredist_x64.exe\" /uninstall /quiet",
+            "uninstallString": "\"C:\\ProgramData\\Package Cache\\{050d4fc8-5d48-4b8f-8972-47c82c46020f}\\vcredist_x64.exe\"  /uninstall",
+            "version": "12.0.30501.0"
+        },
+        "{05DBF996-83D0-4C40-8D3A-A6850800BC88}": {
+            "description": "Emergency Download Driver",
+            "installDate": "20150518",
+            "name": "{05DBF996-83D0-4C40-8D3A-A6850800BC88}",
+            "publisher": "Nokia",
+            "uninstallString": "MsiExec.exe /I{05DBF996-83D0-4C40-8D3A-A6850800BC88}",
+            "version": "1.1.7.1439"
+        },
+        "{06904B2B-5000-4C58-9471-256BA1A303BE}": {
+            "description": "Fuse Drivers x64",
+            "installDate": "20150518",
+            "installLocation": "C:\\Program Files (x86)\\Common Files\\Nokia\\Fuse\\",
+            "name": "{06904B2B-5000-4C58-9471-256BA1A303BE}",
+            "publisher": "Nokia",
+            "uninstallString": "MsiExec.exe /I{06904B2B-5000-4C58-9471-256BA1A303BE}",
+            "url": "http://www.nokia.com",
+            "version": "11.34.1"
+        },
+        "{09536BA1-E498-4CC3-B834-D884A67D7E34}": {
+            "description": "Intel® Trusted Connect Service Client",
+            "installDate": "20140102",
+            "name": "{09536BA1-E498-4CC3-B834-D884A67D7E34}",
+            "publisher": "Intel Corporation",
+            "uninstallString": "MsiExec.exe /X{09536BA1-E498-4CC3-B834-D884A67D7E34}",
+            "version": "1.23.605.1"
+        },
+        "{13A4EE12-23EA-3371-91EE-EFB36DDFFF3E}": {
+            "description": "Microsoft Visual C++ 2013 x86 Minimum Runtime - 12.0.21005",
+            "installDate": "20150325",
+            "name": "{13A4EE12-23EA-3371-91EE-EFB36DDFFF3E}",
+            "publisher": "Microsoft Corporation",
+            "uninstallString": "MsiExec.exe /X{13A4EE12-23EA-3371-91EE-EFB36DDFFF3E}",
+            "version": "12.0.21005"
+        },
+        "{153FA35C-4C49-44DB-AB09-272C590969CC}": {
+            "description": "Fuse Installer",
+            "installDate": "20150518",
+            "name": "{153FA35C-4C49-44DB-AB09-272C590969CC}",
+            "publisher": "Nokia",
+            "uninstallString": "MsiExec.exe /I{153FA35C-4C49-44DB-AB09-272C590969CC}",
+            "version": "5.0.7"
+        },
+        "{196467F1-C11F-4F76-858B-5812ADC83B94}": {
+            "description": "MSXML 4.0 SP3 Parser",
+            "installDate": "20140117",
+            "installLocation": "C:\\Windows\\SysWOW64\\",
+            "name": "{196467F1-C11F-4F76-858B-5812ADC83B94}",
+            "publisher": "Microsoft Corporation",
+            "uninstallString": "MsiExec.exe /I{196467F1-C11F-4F76-858B-5812ADC83B94}",
+            "version": "4.30.2100.0"
+        },
+        "{1D8E6291-B0D5-35EC-8441-6616F567A0F7}": {
+            "description": "Microsoft Visual C++ 2010  x64 Redistributable - 10.0.40219",
+            "installDate": "20140102",
+            "name": "{1D8E6291-B0D5-35EC-8441-6616F567A0F7}",
+            "publisher": "Microsoft Corporation",
+            "uninstallString": "MsiExec.exe /X{1D8E6291-B0D5-35EC-8441-6616F567A0F7}",
+            "version": "10.0.40219"
+        },
+        "{1D8E6291-B0D5-35EC-8441-6616F567A0F7}.KB2151757": {
+            "name": "{1D8E6291-B0D5-35EC-8441-6616F567A0F7}.KB2151757"
+        },
+        "{1D8E6291-B0D5-35EC-8441-6616F567A0F7}.KB2467173": {
+            "name": "{1D8E6291-B0D5-35EC-8441-6616F567A0F7}.KB2467173"
+        },
+        "{1D8E6291-B0D5-35EC-8441-6616F567A0F7}.KB2524860": {
+            "name": "{1D8E6291-B0D5-35EC-8441-6616F567A0F7}.KB2524860"
+        },
+        "{1D8E6291-B0D5-35EC-8441-6616F567A0F7}.KB2544655": {
+            "name": "{1D8E6291-B0D5-35EC-8441-6616F567A0F7}.KB2544655"
+        },
+        "{1D8E6291-B0D5-35EC-8441-6616F567A0F7}.KB2549743": {
+            "name": "{1D8E6291-B0D5-35EC-8441-6616F567A0F7}.KB2549743"
+        },
+        "{1D8E6291-B0D5-35EC-8441-6616F567A0F7}.KB2565063": {
+            "name": "{1D8E6291-B0D5-35EC-8441-6616F567A0F7}.KB2565063"
+        },
+        "{1D8E6291-B0D5-35EC-8441-6616F567A0F7}.KB982573": {
+            "name": "{1D8E6291-B0D5-35EC-8441-6616F567A0F7}.KB982573"
+        },
+        "{1D95BA90-F4F8-47EC-A882-441C99D30C1E}": {
+            "description": "MSXML 4.0 SP3 Parser (KB2758694)",
+            "installDate": "20141216",
+            "installLocation": "c:\\Windows\\SysWOW64\\",
+            "name": "{1D95BA90-F4F8-47EC-A882-441C99D30C1E}",
+            "publisher": "Microsoft Corporation",
+            "uninstallString": "MsiExec.exe /I{1D95BA90-F4F8-47EC-A882-441C99D30C1E}",
+            "version": "4.30.2117.0"
+        },
+        "{1DD81E7D-0D28-4CEB-87B2-C041A4FCB215}": {
+            "description": "Rapport",
+            "installDate": "20150610",
+            "name": "{1DD81E7D-0D28-4CEB-87B2-C041A4FCB215}",
+            "publisher": "Trusteer",
+            "uninstallString": "MsiExec.exe /X{1DD81E7D-0D28-4CEB-87B2-C041A4FCB215}",
+            "version": "3.5.1412.173"
+        },
+        "{1E18A938-C9B7-415D-8C43-753D6A917662}": {
+            "description": "Windows Phone app for desktop",
+            "installDate": "20150112",
+            "name": "{1E18A938-C9B7-415D-8C43-753D6A917662}",
+            "publisher": "Microsoft Corporation",
+            "uninstallString": "MsiExec.exe /X{1E18A938-C9B7-415D-8C43-753D6A917662}",
+            "version": "1.1.2726.0"
+        },
+        "{1F1C2DFC-2D24-3E06-BCB8-725134ADF989}": {
+            "description": "Microsoft Visual C++ 2008 Redistributable - x86 9.0.30729.4148",
+            "installDate": "20150107",
+            "name": "{1F1C2DFC-2D24-3E06-BCB8-725134ADF989}",
+            "publisher": "Microsoft Corporation",
+            "uninstallString": "MsiExec.exe /X{1F1C2DFC-2D24-3E06-BCB8-725134ADF989}",
+            "version": "9.0.30729.4148"
+        },
+        "{20E60725-16C8-4FB9-8BC2-AF92C5F8D06D}_is1": {
+            "description": "Warsaw 1.5.1.8886 64 bits",
+            "installDate": "20150325",
+            "installLocation": "C:\\Program Files\\Diebold\\Warsaw\\",
+            "name": "{20E60725-16C8-4FB9-8BC2-AF92C5F8D06D}_is1",
+            "publisher": "GAS Tecnologia",
+            "quietUninstallString": "\"C:\\Program Files\\Diebold\\Warsaw\\unins000.exe\" /SILENT",
+            "uninstallString": "\"C:\\Program Files\\Diebold\\Warsaw\\unins000.exe\"",
+            "url": "http://www.gastecnologia.com.br",
+            "version": "1.5.1.8886"
+        },
+        "{23170F69-40C1-2702-0920-000001000000}": {
+            "description": "7-Zip 9.20 (x64 edition)",
+            "installDate": "20140117",
+            "name": "{23170F69-40C1-2702-0920-000001000000}",
+            "publisher": "Igor Pavlov",
+            "uninstallString": "MsiExec.exe /I{23170F69-40C1-2702-0920-000001000000}",
+            "url": "http://www.7-zip.org/",
+            "version": "9.20.00.0"
+        },
+        "{238EAE31-4E9E-43CF-B244-C4879279E6AF}": {
+            "description": "WinUSB Drivers ext",
+            "installDate": "20150518",
+            "name": "{238EAE31-4E9E-43CF-B244-C4879279E6AF}",
+            "publisher": "Nokia",
+            "uninstallString": "MsiExec.exe /I{238EAE31-4E9E-43CF-B244-C4879279E6AF}",
+            "version": "1.1.12.1439"
+        },
+        "{240C3DDD-C5E9-4029-9DF7-95650D040CF2}": {
+            "description": "Intel(R) USB 3.0 eXtensible Host Controller Driver",
+            "installLocation": "C:\\Program Files (x86)\\Intel\\Intel(R) USB 3.0 eXtensible Host Controller Driver",
+            "name": "{240C3DDD-C5E9-4029-9DF7-95650D040CF2}",
+            "publisher": "Intel Corporation",
+            "uninstallString": "C:\\Program Files (x86)\\Intel\\Intel(R) USB 3.0 eXtensible Host Controller Driver\\Uninstall\\setup.exe -uninstall",
+            "version": "1.0.3.214"
+        },
+        "{24991BA0-F0EE-44AD-9CC8-5EC50AECF6B7}": {
+            "description": "Skype™ 7.4",
+            "installDate": "20150519",
+            "installLocation": "C:\\Program Files (x86)\\Skype\\",
+            "name": "{24991BA0-F0EE-44AD-9CC8-5EC50AECF6B7}",
+            "publisher": "Skype Technologies S.A.",
+            "uninstallString": "MsiExec.exe /X{24991BA0-F0EE-44AD-9CC8-5EC50AECF6B7}",
+            "url": "http://www.skype.com",
+            "version": "7.4.102"
+        },
+        "{26784146-6E05-3FF9-9335-786C7C0FB5BE}": {
+            "description": "Microsoft .NET Framework 4.5.2",
+            "installDate": "20150514",
+            "name": "{26784146-6E05-3FF9-9335-786C7C0FB5BE}",
+            "publisher": "Microsoft Corporation",
+            "uninstallString": "MsiExec.exe /X{26784146-6E05-3FF9-9335-786C7C0FB5BE}",
+            "url": "http://go.microsoft.com/fwlink/?LinkId=286133",
+            "version": "4.5.51209"
+        },
+        "{26A24AE4-039D-4CA4-87B4-2F83218031F0}": {
+            "description": "Java 8 Update 31",
+            "installDate": "20150203",
+            "name": "{26A24AE4-039D-4CA4-87B4-2F83218031F0}",
+            "publisher": "Oracle Corporation",
+            "uninstallString": "MsiExec.exe /I{26A24AE4-039D-4CA4-87B4-2F83218031F0}",
+            "url": "http://java.com",
+            "version": "8.0.310"
+        },
+        "{2DBD047B-C523-44EA-A274-BFDD352A93CE}": {
+            "description": "LibreOffice 4.3 Help Pack (Portuguese (Brazil))",
+            "installDate": "20150429",
+            "installLocation": "C:\\Program Files (x86)\\LibreOffice 4\\",
+            "name": "{2DBD047B-C523-44EA-A274-BFDD352A93CE}",
+            "publisher": "The Document Foundation",
+            "uninstallString": "MsiExec.exe /I{2DBD047B-C523-44EA-A274-BFDD352A93CE}",
+            "url": "http://www.documentfoundation.org",
+            "version": "4.3.7.2"
+        },
+        "{2ec04fd8-3cde-4e6d-ae52-f6c3c1cda8d8}": {
+            "description": "Lumia Software Recovery Tool 5.0.7",
+            "name": "{2ec04fd8-3cde-4e6d-ae52-f6c3c1cda8d8}",
+            "publisher": "Microsoft",
+            "quietUninstallString": "\"C:\\ProgramData\\Package Cache\\{2ec04fd8-3cde-4e6d-ae52-f6c3c1cda8d8}\\Bootstrapper.exe\" /uninstall /quiet",
+            "uninstallString": "\"C:\\ProgramData\\Package Cache\\{2ec04fd8-3cde-4e6d-ae52-f6c3c1cda8d8}\\Bootstrapper.exe\"  /uninstall",
+            "version": "5.0.7"
+        },
+        "{316ED84C-ACDA-4F1F-8E64-52B7AFF8677D}": {
+            "description": "WinUSB Compatible ID Drivers",
+            "installDate": "20150518",
+            "name": "{316ED84C-ACDA-4F1F-8E64-52B7AFF8677D}",
+            "publisher": "Nokia",
+            "uninstallString": "MsiExec.exe /I{316ED84C-ACDA-4F1F-8E64-52B7AFF8677D}",
+            "version": "1.1.9.1439"
+        },
+        "{33d1fd90-4274-48a1-9bc1-97e33d9c2d6f}": {
+            "description": "Microsoft Visual C++ 2012 Redistributable (x86) - 11.0.61030",
+            "name": "{33d1fd90-4274-48a1-9bc1-97e33d9c2d6f}",
+            "publisher": "Microsoft Corporation",
+            "quietUninstallString": "\"C:\\ProgramData\\Package Cache\\{33d1fd90-4274-48a1-9bc1-97e33d9c2d6f}\\vcredist_x86.exe\" /uninstall /quiet",
+            "uninstallString": "\"C:\\ProgramData\\Package Cache\\{33d1fd90-4274-48a1-9bc1-97e33d9c2d6f}\\vcredist_x86.exe\"  /uninstall",
+            "version": "11.0.61030.0"
+        },
+        "{36386dc9-8543-4b12-ae6b-220fd52f19f3}_is1": {
+            "description": "Módulo de Segurança - Banco do Brasil",
+            "installDate": "20150108",
+            "installLocation": "C:\\Users\\Rafael Costa\\AppData\\Local\\GAS Tecnologia\\GBBD\\",
+            "name": "{36386dc9-8543-4b12-ae6b-220fd52f19f3}_is1",
+            "quietUninstallString": "\"C:\\Users\\Rafael Costa\\AppData\\Roaming\\unins000.exe\" /SILENT",
+            "uninstallString": "\"C:\\Users\\Rafael Costa\\AppData\\Roaming\\unins000.exe\"",
+            "version": "3.11.0.1"
+        },
+        "{37B8F9C7-03FB-3253-8781-2517C99D7C00}": {
+            "description": "Microsoft Visual C++ 2012 x64 Additional Runtime - 11.0.61030",
+            "installDate": "20140102",
+            "name": "{37B8F9C7-03FB-3253-8781-2517C99D7C00}",
+            "publisher": "Microsoft Corporation",
+            "uninstallString": "MsiExec.exe /X{37B8F9C7-03FB-3253-8781-2517C99D7C00}",
+            "version": "11.0.61030"
+        },
+        "{3BF5D67C-72FA-4148-926E-E01E4E79E054}": {
+            "description": "Lumia Software Recovery Tool 5.0.7",
+            "installDate": "20150518",
+            "name": "{3BF5D67C-72FA-4148-926E-E01E4E79E054}",
+            "publisher": "Microsoft",
+            "uninstallString": "MsiExec.exe /I{3BF5D67C-72FA-4148-926E-E01E4E79E054}",
+            "version": "5.0.7"
+        },
+        "{3E29EE6C-963A-4aae-86C1-DC237C4A49FC}": {
+            "description": "Intel(R) Rapid Storage Technology",
+            "installLocation": "C:\\Program Files (x86)\\Intel\\Intel(R) Rapid Storage Technology",
+            "name": "{3E29EE6C-963A-4aae-86C1-DC237C4A49FC}",
+            "publisher": "Intel Corporation",
+            "uninstallString": "C:\\Program Files (x86)\\Intel\\Intel(R) Rapid Storage Technology\\Uninstall\\setup.exe -uninstall",
+            "version": "11.0.0.1032"
+        },
+        "{4A03706F-666A-4037-7777-5F2748764D10}": {
+            "description": "Java Auto Updater",
+            "installDate": "20150203",
+            "name": "{4A03706F-666A-4037-7777-5F2748764D10}",
+            "publisher": "Oracle Corporation",
+            "version": "2.8.31.13"
+        },
+        "{4B6C7001-C7D6-3710-913E-5BC23FCE91E6}": {
+            "description": "Microsoft Visual C++ 2008 Redistributable - x64 9.0.30729.4148",
+            "installDate": "20150107",
+            "name": "{4B6C7001-C7D6-3710-913E-5BC23FCE91E6}",
+            "publisher": "Microsoft Corporation",
+            "uninstallString": "MsiExec.exe /X{4B6C7001-C7D6-3710-913E-5BC23FCE91E6}",
+            "version": "9.0.30729.4148"
+        },
+        "{53012BD2-D1A3-4530-9AE2-B0C503B5C1C2}": {
+            "description": "USB Serial Port Driver (x64)",
+            "installDate": "20150518",
+            "installLocation": "C:\\Program Files (x86)\\Common Files\\Nokia\\Fuse\\drivers\\usbser\\",
+            "name": "{53012BD2-D1A3-4530-9AE2-B0C503B5C1C2}",
+            "publisher": "Nokia",
+            "uninstallString": "MsiExec.exe /I{53012BD2-D1A3-4530-9AE2-B0C503B5C1C2}",
+            "url": "http://www.nokia.com",
+            "version": "2013.30.0.313"
+        },
+        "{60EC980A-BDA2-4CB6-A427-B07A5498B4CA}": {
+            "description": "Google Update Helper",
+            "installDate": "20150516",
+            "name": "{60EC980A-BDA2-4CB6-A427-B07A5498B4CA}",
+            "publisher": "Google Inc.",
+            "uninstallString": "MsiExec.exe /I{60EC980A-BDA2-4CB6-A427-B07A5498B4CA}",
+            "version": "1.3.27.5"
+        },
+        "{612C34C7-5E90-47D8-9B5C-0F717DD82726}": {
+            "description": "swMSM",
+            "installDate": "20140117",
+            "installLocation": "C:\\Windows\\My Product Name\\",
+            "name": "{612C34C7-5E90-47D8-9B5C-0F717DD82726}",
+            "publisher": "Adobe Systems, Inc",
+            "uninstallString": "MsiExec.exe /I{612C34C7-5E90-47D8-9B5C-0F717DD82726}",
+            "url": "http://www.adobe.com",
+            "version": "12.0.0.1"
+        },
+        "{618C7427-6804-49DA-8D6D-5DC40D2E2CAB}": {
+            "description": "Flash Update Installer",
+            "installDate": "20150518",
+            "name": "{618C7427-6804-49DA-8D6D-5DC40D2E2CAB}",
+            "publisher": "Microsoft",
+            "uninstallString": "MsiExec.exe /I{618C7427-6804-49DA-8D6D-5DC40D2E2CAB}",
+            "version": "5.0.7"
+        },
+        "{65153EA5-8B6E-43B6-857B-C6E4FC25798A}": {
+            "description": "Intel(R) Management Engine Components",
+            "installLocation": "C:\\Program Files (x86)\\Intel\\Intel(R) Management Engine Components",
+            "name": "{65153EA5-8B6E-43B6-857B-C6E4FC25798A}",
+            "publisher": "Intel Corporation",
+            "uninstallString": "C:\\Program Files (x86)\\Intel\\Intel(R) Management Engine Components\\Uninstall\\setup.exe -uninstall",
+            "version": "8.0.4.1441"
+        },
+        "{6AE35C55-F02A-41EE-B694-8F2706FE4819}": {
+            "description": "NOKIA 3806 USB DRIVER Ver:1.5",
+            "installDate": "20150518",
+            "installLocation": "C:\\Program Files (x86)\\NOKIA\\3806_USB_Driver\\",
+            "name": "{6AE35C55-F02A-41EE-B694-8F2706FE4819}",
+            "publisher": "NOKIA",
+            "uninstallString": "MsiExec.exe /I{6AE35C55-F02A-41EE-B694-8F2706FE4819}",
+            "url": "http://www.NOKIA.com",
+            "version": "2.00.0000"
+        },
+        "{6D1221A9-17BF-4EC0-81F2-27D30EC30701}": {
+            "description": "Skype Click to Call",
+            "installDate": "20150528",
+            "name": "{6D1221A9-17BF-4EC0-81F2-27D30EC30701}",
+            "publisher": "Microsoft Corporation",
+            "uninstallString": "MsiExec.exe /X{6D1221A9-17BF-4EC0-81F2-27D30EC30701}",
+            "url": "https://support.skype.com/category/SKYPE_CALLS_FROM_BROWSERS/",
+            "version": "7.4.0.9058"
+        },
+        "{6DD01BF0-18A3-4608-BBB1-AE6C956EDCC2}": {
+            "description": "Nokia Care Suite PST 5",
+            "installDate": "20150518",
+            "installLocation": "C:\\Program Files (x86)\\Nokia\\Nokia Care Suite\\",
+            "name": "{6DD01BF0-18A3-4608-BBB1-AE6C956EDCC2}",
+            "publisher": "Nokia",
+            "uninstallString": "MsiExec.exe /I{6DD01BF0-18A3-4608-BBB1-AE6C956EDCC2}",
+            "url": "http://www.nokia.com",
+            "version": "5.4.119.1432"
+        },
+        "{7299052b-02a4-4627-81f2-1818da5d550d}": {
+            "description": "Microsoft Visual C++ 2005 Redistributable",
+            "installDate": "20150518",
+            "name": "{7299052b-02a4-4627-81f2-1818da5d550d}",
+            "publisher": "Microsoft Corporation",
+            "uninstallString": "MsiExec.exe /X{7299052b-02a4-4627-81f2-1818da5d550d}",
+            "version": "8.0.56336"
+        },
+        "{7E265513-8CDA-4631-B696-F40D983F3B07}_is1": {
+            "description": "CDBurnerXP",
+            "installDate": "20140102",
+            "installLocation": "C:\\Program Files (x86)\\CDBurnerXP\\",
+            "name": "{7E265513-8CDA-4631-B696-F40D983F3B07}_is1",
+            "publisher": "CDBurnerXP",
+            "quietUninstallString": "\"C:\\Program Files (x86)\\CDBurnerXP\\unins000.exe\" /SILENT",
+            "uninstallString": "\"C:\\Program Files (x86)\\CDBurnerXP\\unins000.exe\"",
+            "url": "http://www.cdburnerxp.se",
+            "version": "4.5.0.3552"
+        },
+        "{837b34e3-7c30-493c-8f6a-2b0f04e2912c}": {
+            "description": "Microsoft Visual C++ 2005 Redistributable",
+            "installDate": "20140102",
+            "name": "{837b34e3-7c30-493c-8f6a-2b0f04e2912c}",
+            "publisher": "Microsoft Corporation",
+            "uninstallString": "MsiExec.exe /X{837b34e3-7c30-493c-8f6a-2b0f04e2912c}",
+            "version": "8.0.59193"
+        },
+        "{8ED4A1FC-56CF-414C-A9AB-A37714AA9EA7}": {
+            "description": "LibreOffice 4.3.7.2",
+            "installDate": "20150429",
+            "installLocation": "C:\\Program Files (x86)\\LibreOffice 4\\",
+            "name": "{8ED4A1FC-56CF-414C-A9AB-A37714AA9EA7}",
+            "publisher": "The Document Foundation",
+            "uninstallString": "MsiExec.exe /I{8ED4A1FC-56CF-414C-A9AB-A37714AA9EA7}",
+            "url": "http://www.documentfoundation.org",
+            "version": "4.3.7.2"
+        },
+        "{8e70e4e1-06d7-470b-9f74-a51bef21088e}": {
+            "description": "Microsoft Visual C++ 2012 Redistributable (x86) - 11.0.51106",
+            "name": "{8e70e4e1-06d7-470b-9f74-a51bef21088e}",
+            "publisher": "Microsoft Corporation",
+            "quietUninstallString": "\"C:\\ProgramData\\Package Cache\\{8e70e4e1-06d7-470b-9f74-a51bef21088e}\\vcredist_x86.exe\" /uninstall /quiet",
+            "uninstallString": "\"C:\\ProgramData\\Package Cache\\{8e70e4e1-06d7-470b-9f74-a51bef21088e}\\vcredist_x86.exe\"  /uninstall",
+            "version": "11.0.51106.1"
+        },
+        "{929FBD26-9020-399B-9A7A-751D61F0B942}": {
+            "description": "Microsoft Visual C++ 2013 x64 Additional Runtime - 12.0.21005",
+            "installDate": "20150325",
+            "name": "{929FBD26-9020-399B-9A7A-751D61F0B942}",
+            "publisher": "Microsoft Corporation",
+            "uninstallString": "MsiExec.exe /X{929FBD26-9020-399B-9A7A-751D61F0B942}",
+            "version": "12.0.21005"
+        },
+        "{92FB6C44-E685-45AD-9B20-CADF4CABA132} - 1033": {
+            "description": "Microsoft .NET Framework 4.5.2",
+            "installLocation": "C:\\Windows\\Microsoft.NET\\Framework64\\v4.0.30319\\SetupCache\\v4.5.51209\\",
+            "name": "{92FB6C44-E685-45AD-9B20-CADF4CABA132} - 1033",
+            "publisher": "Microsoft Corporation",
+            "uninstallString": "C:\\Windows\\Microsoft.NET\\Framework64\\v4.0.30319\\SetupCache\\v4.5.51209\\\\Setup.exe /repair /x86 /x64",
+            "url": "http://go.microsoft.com/fwlink/?LinkId=286133",
+            "version": "4.5.51209"
+        },
+        "{92FB6C44-E685-45AD-9B20-CADF4CABA132}.KB3023224": {
+            "description": "Security Update for Microsoft .NET Framework 4.5.2 (KB3023224)",
+            "name": "{92FB6C44-E685-45AD-9B20-CADF4CABA132}.KB3023224",
+            "publisher": "Microsoft Corporation",
+            "uninstallString": "C:\\Windows\\Microsoft.NET\\Framework64\\v4.0.30319\\SetupCache\\v4.5.51209\\setup.exe /uninstallpatch {175C1563-5389-3174-A18B-A90AD45208D2}",
+            "url": "http://support.microsoft.com",
+            "version": "1"
+        },
+        "{92FB6C44-E685-45AD-9B20-CADF4CABA132}.KB3035490": {
+            "description": "Security Update for Microsoft .NET Framework 4.5.2 (KB3035490)",
+            "name": "{92FB6C44-E685-45AD-9B20-CADF4CABA132}.KB3035490",
+            "publisher": "Microsoft Corporation",
+            "uninstallString": "C:\\Windows\\Microsoft.NET\\Framework64\\v4.0.30319\\SetupCache\\v4.5.51209\\setup.exe /uninstallpatch {6F197100-4BF3-3105-AA93-C5731C4FA85F}",
+            "url": "http://support.microsoft.com",
+            "version": "1"
+        },
+        "{92FB6C44-E685-45AD-9B20-CADF4CABA132}.KB3037581": {
+            "description": "Security Update for Microsoft .NET Framework 4.5.2 (KB3037581)",
+            "name": "{92FB6C44-E685-45AD-9B20-CADF4CABA132}.KB3037581",
+            "publisher": "Microsoft Corporation",
+            "uninstallString": "C:\\Windows\\Microsoft.NET\\Framework64\\v4.0.30319\\SetupCache\\v4.5.51209\\setup.exe /uninstallpatch {99A495FF-BC65-375D-B3C9-934E1DE4F558}",
+            "url": "http://support.microsoft.com",
+            "version": "1"
+        },
+        "{9590C850-8A55-43DB-A413-DFF6E5636570}": {
+            "description": "PC Connectivity Solution",
+            "installDate": "20150518",
+            "installLocation": "C:\\Program Files (x86)\\PC Connectivity Solution\\",
+            "name": "{9590C850-8A55-43DB-A413-DFF6E5636570}",
+            "publisher": "Nokia",
+            "uninstallString": "MsiExec.exe /I{9590C850-8A55-43DB-A413-DFF6E5636570}",
+            "version": "10.30.0.0"
+        },
+        "{9A25302D-30C0-39D9-BD6F-21E6EC160475}": {
+            "description": "Microsoft Visual C++ 2008 Redistributable - x86 9.0.30729.17",
+            "installDate": "20150413",
+            "name": "{9A25302D-30C0-39D9-BD6F-21E6EC160475}",
+            "publisher": "Microsoft Corporation",
+            "uninstallString": "MsiExec.exe /X{9A25302D-30C0-39D9-BD6F-21E6EC160475}",
+            "version": "9.0.30729"
+        },
+        "{A749D8E6-B613-3BE3-8F5F-045C84EBA29B}": {
+            "description": "Microsoft Visual C++ 2013 x64 Minimum Runtime - 12.0.21005",
+            "installDate": "20150325",
+            "name": "{A749D8E6-B613-3BE3-8F5F-045C84EBA29B}",
+            "publisher": "Microsoft Corporation",
+            "uninstallString": "MsiExec.exe /X{A749D8E6-B613-3BE3-8F5F-045C84EBA29B}",
+            "version": "12.0.21005"
+        },
+        "{A92DAB39-4E2C-4304-9AB6-BC44E68B55E2}": {
+            "description": "Google Update Helper",
+            "installDate": "20150114",
+            "name": "{A92DAB39-4E2C-4304-9AB6-BC44E68B55E2}",
+            "publisher": "Google Inc.",
+            "uninstallString": "MsiExec.exe /I{A92DAB39-4E2C-4304-9AB6-BC44E68B55E2}",
+            "version": "1.3.25.11"
+        },
+        "{AC76BA86-7AD7-1046-7B44-AB0000000001}": {
+            "description": "Adobe Reader XI - Português",
+            "installDate": "20140102",
+            "installLocation": "C:\\Program Files (x86)\\Adobe\\Reader 11.0\\Reader\\",
+            "name": "{AC76BA86-7AD7-1046-7B44-AB0000000001}",
+            "publisher": "Adobe Systems Incorporated",
+            "uninstallString": "MsiExec.exe /I{AC76BA86-7AD7-1046-7B44-AB0000000001}",
+            "url": "http://www.brasil.adobe.com/",
+            "version": "11.0.00"
+        },
+        "{B175520C-86A2-35A7-8619-86DC379688B9}": {
+            "description": "Microsoft Visual C++ 2012 x86 Additional Runtime - 11.0.61030",
+            "installDate": "20140102",
+            "name": "{B175520C-86A2-35A7-8619-86DC379688B9}",
+            "publisher": "Microsoft Corporation",
+            "uninstallString": "MsiExec.exe /X{B175520C-86A2-35A7-8619-86DC379688B9}",
+            "version": "11.0.61030"
+        },
+        "{B53661DC-CD94-4B14-B15F-D9DDCFF72558}": {
+            "description": "Symantec Endpoint Protection",
+            "installDate": "20150107",
+            "installLocation": "C:\\Symantec\\12.1.4013.4013.105\\",
+            "name": "{B53661DC-CD94-4B14-B15F-D9DDCFF72558}",
+            "publisher": "Symantec Corporation",
+            "uninstallString": "MsiExec.exe /I{B53661DC-CD94-4B14-B15F-D9DDCFF72558}",
+            "version": "12.1.4013.4013"
+        },
+        "{B7D4B08A-9D89-4369-B51C-92CF8C03D2F8}": {
+            "description": "WinUsb CoInstallers",
+            "installDate": "20150518",
+            "name": "{B7D4B08A-9D89-4369-B51C-92CF8C03D2F8}",
+            "publisher": "Nokia",
+            "uninstallString": "MsiExec.exe /I{B7D4B08A-9D89-4369-B51C-92CF8C03D2F8}",
+            "version": "1.1.8.1406"
+        },
+        "{BD95A8CD-1D9F-35AD-981A-3E7925026EBB}": {
+            "description": "Microsoft Visual C++ 2012 x86 Minimum Runtime - 11.0.61030",
+            "installDate": "20140102",
+            "name": "{BD95A8CD-1D9F-35AD-981A-3E7925026EBB}",
+            "publisher": "Microsoft Corporation",
+            "uninstallString": "MsiExec.exe /X{BD95A8CD-1D9F-35AD-981A-3E7925026EBB}",
+            "version": "11.0.61030"
+        },
+        "{CF2BEA3C-26EA-32F8-AA9B-331F7E34BA97}": {
+            "description": "Microsoft Visual C++ 2012 x64 Minimum Runtime - 11.0.61030",
+            "installDate": "20140102",
+            "name": "{CF2BEA3C-26EA-32F8-AA9B-331F7E34BA97}",
+            "publisher": "Microsoft Corporation",
+            "uninstallString": "MsiExec.exe /X{CF2BEA3C-26EA-32F8-AA9B-331F7E34BA97}",
+            "version": "11.0.61030"
+        },
+        "{D1FF6F91-B563-4EF8-9DE3-1F25121E772D}": {
+            "description": "Product API Installer",
+            "installDate": "20150518",
+            "name": "{D1FF6F91-B563-4EF8-9DE3-1F25121E772D}",
+            "publisher": "Microsoft",
+            "uninstallString": "MsiExec.exe /I{D1FF6F91-B563-4EF8-9DE3-1F25121E772D}",
+            "version": "5.0.7"
+        },
+        "{D4BF151C-70A8-4CE2-906F-4173A575BAD9}": {
+            "description": "Nokia Connectivity Cable Driver",
+            "installDate": "20150518",
+            "installLocation": "C:\\Program Files (x86)\\Nokia\\Connectivity Cable Driver\\",
+            "name": "{D4BF151C-70A8-4CE2-906F-4173A575BAD9}",
+            "publisher": "Nokia",
+            "uninstallString": "MsiExec.exe /I{D4BF151C-70A8-4CE2-906F-4173A575BAD9}",
+            "url": "http://www.nokia.com/pcsuite",
+            "version": "7.1.182.0"
+        },
+        "{D6EEB835-5BBF-4F6B-8382-1681148D7771}": {
+            "description": "Lumia UEFI Blue Driver",
+            "installDate": "20150518",
+            "name": "{D6EEB835-5BBF-4F6B-8382-1681148D7771}",
+            "publisher": "Nokia",
+            "uninstallString": "MsiExec.exe /I{D6EEB835-5BBF-4F6B-8382-1681148D7771}",
+            "version": "1.1.8.1448"
+        },
+        "{E452E727-86B8-4233-8CC3-41FD817AFAFF}": {
+            "installDate": "19691231",
+            "name": "{E452E727-86B8-4233-8CC3-41FD817AFAFF}"
+        },
+        "{EC35EE8E-87D1-4E3E-B5CC-D8B1544615F5}": {
+            "description": "Microsoft Silverlight 5 Toolkit December 2011",
+            "installDate": "20140117",
+            "name": "{EC35EE8E-87D1-4E3E-B5CC-D8B1544615F5}",
+            "publisher": "Microsoft Corporation",
+            "uninstallString": "MsiExec.exe /I{EC35EE8E-87D1-4E3E-B5CC-D8B1544615F5}",
+            "url": "http://go.microsoft.com/fwlink/?LinkId=139719",
+            "version": "5.0.51209.1124"
+        },
+        "{ECC3713C-08A4-40E3-95F1-7D0704F1CE5E}": {
+            "description": "PL-2303 USB-to-Serial",
+            "installDate": "20150413",
+            "installLocation": "C:\\Program Files (x86)\\Prolific Technology INC\\PL-2303 USB-to-Serial",
+            "name": "{ECC3713C-08A4-40E3-95F1-7D0704F1CE5E}",
+            "publisher": "Prolific Technology INC",
+            "uninstallString": "\"C:\\Program Files (x86)\\InstallShield Installation Information\\{ECC3713C-08A4-40E3-95F1-7D0704F1CE5E}\\setup.exe\" -runfromtemp -l0x0009 -removeonly",
+            "version": "1.3.0"
+        },
+        "{F0C3E5D1-1ADE-321E-8167-68EF0DE699A5}": {
+            "description": "Microsoft Visual C++ 2010  x86 Redistributable - 10.0.40219",
+            "installDate": "20140102",
+            "name": "{F0C3E5D1-1ADE-321E-8167-68EF0DE699A5}",
+            "publisher": "Microsoft Corporation",
+            "uninstallString": "MsiExec.exe /X{F0C3E5D1-1ADE-321E-8167-68EF0DE699A5}",
+            "version": "10.0.40219"
+        },
+        "{F0C3E5D1-1ADE-321E-8167-68EF0DE699A5}.KB2151757": {
+            "name": "{F0C3E5D1-1ADE-321E-8167-68EF0DE699A5}.KB2151757"
+        },
+        "{F0C3E5D1-1ADE-321E-8167-68EF0DE699A5}.KB2467173": {
+            "name": "{F0C3E5D1-1ADE-321E-8167-68EF0DE699A5}.KB2467173"
+        },
+        "{F0C3E5D1-1ADE-321E-8167-68EF0DE699A5}.KB2524860": {
+            "name": "{F0C3E5D1-1ADE-321E-8167-68EF0DE699A5}.KB2524860"
+        },
+        "{F0C3E5D1-1ADE-321E-8167-68EF0DE699A5}.KB2544655": {
+            "name": "{F0C3E5D1-1ADE-321E-8167-68EF0DE699A5}.KB2544655"
+        },
+        "{F0C3E5D1-1ADE-321E-8167-68EF0DE699A5}.KB2549743": {
+            "name": "{F0C3E5D1-1ADE-321E-8167-68EF0DE699A5}.KB2549743"
+        },
+        "{F0C3E5D1-1ADE-321E-8167-68EF0DE699A5}.KB2565063": {
+            "name": "{F0C3E5D1-1ADE-321E-8167-68EF0DE699A5}.KB2565063"
+        },
+        "{F0C3E5D1-1ADE-321E-8167-68EF0DE699A5}.KB982573": {
+            "name": "{F0C3E5D1-1ADE-321E-8167-68EF0DE699A5}.KB982573"
+        },
+        "{F0E3AD40-2BBD-4360-9C76-B9AC9A5886EA}": {
+            "description": "Intel(R) Processor Graphics",
+            "installLocation": "C:\\Program Files (x86)\\Intel\\Intel(R) Processor Graphics",
+            "name": "{F0E3AD40-2BBD-4360-9C76-B9AC9A5886EA}",
+            "publisher": "Intel Corporation",
+            "uninstallString": "C:\\Program Files (x86)\\Intel\\Intel(R) Processor Graphics\\Uninstall\\setup.exe -uninstall",
+            "version": "9.17.10.2828"
+        },
+        "{F132AF7F-7BCA-4EDE-8A7C-958108FE7DBC}": {
+            "description": "Realtek High Definition Audio Driver",
+            "installDate": "20140102",
+            "installLocation": "C:\\Program Files\\Realtek\\Audio\\HDA",
+            "name": "{F132AF7F-7BCA-4EDE-8A7C-958108FE7DBC}",
+            "publisher": "Realtek Semiconductor Corp.",
+            "uninstallString": "RunDll32 C:\\PROGRA~2\\COMMON~1\\INSTAL~1\\PROFES~1\\RunTime\\11\\50\\Intel32\\Ctor.dll,LaunchSetup \"C:\\Program Files (x86)\\InstallShield Installation Information\\{F132AF7F-7BCA-4EDE-8A7C-958108FE7DBC}\\Setup.exe\"  -removeonly",
+            "version": "6.0.1.6710"
+        },
+        "{F3D3D00A-71E9-41BB-BE19-30C4CC7ED3B0}": {
+            "description": "Windows Phone Recovery Tool 2.0.3",
+            "installDate": "20150518",
+            "name": "{F3D3D00A-71E9-41BB-BE19-30C4CC7ED3B0}",
+            "publisher": "Microsoft",
+            "uninstallString": "MsiExec.exe /I{F3D3D00A-71E9-41BB-BE19-30C4CC7ED3B0}",
+            "version": "2.0.3"
+        },
+        "{F7F0ADAA-D375-489F-98F6-6B128B77CA7A}": {
+            "description": "Cacic",
+            "installDate": "20150622",
+            "installLocation": "C:\\Cacic\\",
+            "name": "{F7F0ADAA-D375-489F-98F6-6B128B77CA7A}",
+            "publisher": "Lightbase",
+            "uninstallString": "MsiExec.exe /I{F7F0ADAA-D375-489F-98F6-6B128B77CA7A}",
+            "url": "lightbase.com.br",
+            "version": "3.1.3"
+        },
+        "{F8A9085D-4C7A-41a9-8A77-C8998A96C421}": {
+            "description": "Intel(R) Control Center",
+            "installLocation": "C:\\Program Files (x86)\\Intel\\Intel Control Center",
+            "name": "{F8A9085D-4C7A-41a9-8A77-C8998A96C421}",
+            "publisher": "Intel Corporation",
+            "uninstallString": "C:\\Program Files (x86)\\Intel\\Intel Control Center\\uninstaller\\SetupICC.exe -uninstall -force -confirm",
+            "version": "1.2.1.1007"
+        },
+        "{F8CFEB22-A2E7-3971-9EDA-4B11EDEFC185}": {
+            "description": "Microsoft Visual C++ 2013 x86 Additional Runtime - 12.0.21005",
+            "installDate": "20150325",
+            "name": "{F8CFEB22-A2E7-3971-9EDA-4B11EDEFC185}",
+            "publisher": "Microsoft Corporation",
+            "uninstallString": "MsiExec.exe /X{F8CFEB22-A2E7-3971-9EDA-4B11EDEFC185}",
+            "version": "12.0.21005"
+        },
+        "{FCB3772C-B7D0-4933-B1A9-3707EBACC573}": {
+            "description": "Intel(R) SDK for OpenCL - CPU Only Runtime Package",
+            "installLocation": "C:\\Program Files (x86)\\Intel\\OpenCL SDK\\2.0",
+            "name": "{FCB3772C-B7D0-4933-B1A9-3707EBACC573}",
+            "publisher": "Intel Corporation",
+            "uninstallString": "C:\\Program Files (x86)\\Intel\\OpenCL SDK\\2.0\\Uninstall\\setup.exe -uninstall",
+            "version": "2.0.0.37149"
+        },
+        "{b1bc8a37-a23d-4d2c-8226-9871219b387b}": {
+            "description": "Windows Phone Recovery Tool 2.0.3",
+            "name": "{b1bc8a37-a23d-4d2c-8226-9871219b387b}",
+            "publisher": "Microsoft",
+            "quietUninstallString": "\"C:\\ProgramData\\Package Cache\\{b1bc8a37-a23d-4d2c-8226-9871219b387b}\\Bootstrapper.exe\" /uninstall /quiet",
+            "uninstallString": "\"C:\\ProgramData\\Package Cache\\{b1bc8a37-a23d-4d2c-8226-9871219b387b}\\Bootstrapper.exe\"  /uninstall",
+            "version": "2.0.3"
+        },
+        "{ca67548a-5ebe-413a-b50c-4b9ceb6d66c6}": {
+            "description": "Microsoft Visual C++ 2012 Redistributable (x64) - 11.0.61030",
+            "name": "{ca67548a-5ebe-413a-b50c-4b9ceb6d66c6}",
+            "publisher": "Microsoft Corporation",
+            "quietUninstallString": "\"C:\\ProgramData\\Package Cache\\{ca67548a-5ebe-413a-b50c-4b9ceb6d66c6}\\vcredist_x64.exe\" /uninstall /quiet",
+            "uninstallString": "\"C:\\ProgramData\\Package Cache\\{ca67548a-5ebe-413a-b50c-4b9ceb6d66c6}\\vcredist_x64.exe\"  /uninstall",
+            "version": "11.0.61030.0"
+        },
+        "{f65db027-aff3-4070-886a-0d87064aabb1}": {
+            "description": "Microsoft Visual C++ 2013 Redistributable (x86) - 12.0.30501",
+            "name": "{f65db027-aff3-4070-886a-0d87064aabb1}",
+            "publisher": "Microsoft Corporation",
+            "quietUninstallString": "\"C:\\ProgramData\\Package Cache\\{f65db027-aff3-4070-886a-0d87064aabb1}\\vcredist_x86.exe\" /uninstall /quiet",
+            "uninstallString": "\"C:\\ProgramData\\Package Cache\\{f65db027-aff3-4070-886a-0d87064aabb1}\\vcredist_x86.exe\"  /uninstall",
+            "version": "12.0.30501.0"
+        }
+    }
+}

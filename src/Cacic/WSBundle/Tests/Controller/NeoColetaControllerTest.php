@@ -707,6 +707,94 @@ class NeoColetaControllerTest extends BaseTestCase {
         $this->assertEquals('Hardware', $notifications[0]->getObject(), "A ação não está mapeada como objeto Hardware");
     }
 
+    /**
+     * Testa coleta de atrbutos multivalorados
+     */
+    public function testMultivalorados() {
+        $logger = $this->container->get('logger');
+
+        $this->client->request(
+            'POST',
+            '/ws/neo/coleta',
+            array(),
+            array(),
+            array(
+                'CONTENT_TYPE'  => 'application/json',
+                //'HTTPS'         => true
+            ),
+            $this->coleta_multivalorado
+        );
+
+        $response = $this->client->getResponse();
+        $status = $response->getStatusCode();
+        $logger->debug("Response status: $status");
+        //$logger->debug("JSON da coleta: \n".$response->getContent());
+
+        $this->assertEquals($status, 200);
+
+        // Verifica se o Software Coleta foi inserido
+        $em = $this->container->get('doctrine')->getManager();
+
+        // Testa se identificou o computador
+        $so = $em->getRepository("CacicCommonBundle:So")->findOneBy(array(
+            'teSo' => 'Microsoft Windows 7 Professional'
+        ));
+        $this->assertNotEmpty($so);
+
+        $computador = $em->getRepository("CacicCommonBundle:Computador")->findOneBy(array(
+            'teNodeAddress' => '0C:54:A5:42:71:65',
+            'idSo' => $so
+        ));
+        $this->assertNotEmpty($computador);
+
+        $found_bios = false;
+        $found_usb = true;
+        $count_printer = 0;
+        $found_comment = false;
+        $count_comment = 0;
+        foreach ($computador->getHardwares() as $coleta) {
+            $classe = $coleta->getClassProperty()->getIdClass()->getNmClassName();
+
+            // 1 - Testa atributo multivalorado (mais de um valor no mesmo atributo)
+            if ($classe == 'Win32_BIOS') {
+                $property = $coleta->getClassProperty()->getNmPropertyName();
+                if ($property == 'BIOSVersion') {
+                    $found_bios = true;
+
+                    // Nesse caso deve ser possível decodificar o valor como JSON
+                    $values = json_decode($coleta->getTeClassPropertyValue(), true);
+                    $this->assertCount(3, $values, "Não foram encontrados três valores para a classe Win32_BIOS e atributo BIOSVersion");
+                }
+            }
+
+            // 2 - Testa atributo que é um outro atributo
+            if ($classe == 'Win32_Printer') {
+                // 2.1 - Deve que haver quatro ocorrências para a coleta da impressora no mesmo computador
+                $count_printer += 1;
+
+                $property = $coleta->getClassProperty()->getNmPropertyName();
+                if ($property == 'Comment') {
+
+                    // Primeiro checa atributo que deveria estar coletado
+                    if ($coleta->getTeClassPropertyValue() == 'PDFCreator Printer') {
+                        $found_comment = true;
+                    }
+
+                    // Agora adiciona contador à quantidade de vezes que asse atributo deveria ter aparecido
+                    $count_comment += 1;
+                }
+
+            }
+        }
+
+        $this->assertTrue($found_bios, "Classe Win32_BIOS e atributo BIOSVersion não encontrados");
+        $this->assertTrue($found_usb, "Classe Win32_USBController e atributo BIOSVersion não encontrados");
+        $this->assertEquals(4, $count_printer, "Não foram encontradas 4 propriedades para a classe impressora. Valor: $count_printer");
+        $this->assertTrue($found_comment, "Propriedade Comment da classe Win32_printer não encontrada");
+        $this->assertEquals(4, $count_comment, "A propriedade Comment da classe Win32_Printer não aparece 4 vezes. Valor: $count_comment");
+
+    }
+
     public function tearDown() {
 
         // Remove dados da classe pai

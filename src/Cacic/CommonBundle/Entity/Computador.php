@@ -892,6 +892,17 @@ class Computador
         return $this->notifications;
     }
 
+    /**
+     * Cria notificação para o computador
+     *
+     * @param $acao
+     * @param $object
+     * @param $subject
+     * @param $body
+     * @param $from
+     * @param null $to
+     * @return Notifications
+     */
     public function createNotification($acao, $object, $subject, $body, $from, $to = null) {
         if (empty($to)) {
             $to = $this->getIdRede()->getTeEmailContato1();

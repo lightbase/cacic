@@ -94,10 +94,12 @@ class NeoColetaController extends NeoController {
         $logger = $this->get('logger');
         $em = $this->getDoctrine()->getManager();
 
+        $data_coleta = new \DateTime();
+
         // Pega todas as propriedades de coleta
         foreach ($hardware as $classe => $valor) {
             $logger->debug("COLETA: Gravando dados da classe $classe");
-            $this->setClasse($classe, $valor, $computador);
+            $this->setClasse($classe, $valor, $computador, $data_coleta);
         }
 
         return true;
@@ -109,7 +111,7 @@ class NeoColetaController extends NeoController {
      * @param $classe
      * @param $computador
      */
-    public function setClasse($classe, $valor, $computador) {
+    public function setClasse($classe, $valor, $computador, $data_coleta) {
         $logger = $this->get('logger');
         $em = $this->getDoctrine()->getManager();
 
@@ -136,9 +138,11 @@ class NeoColetaController extends NeoController {
 
         // Trata classe multivalorada
         if (!empty($valor[0])) {
-            // Nesse caso a classe é multivalorada. Considero somente a primeira ocorrência
-            $logger->debug("COLETA: Classe $classe multivalorada. Retornando somente primeiro elemento.");
-            $valor = $valor[0];
+            // Nesse caso a classe é multivalorada. Trata um atributo de cada vez
+            foreach ($valor as $elm) {
+                $logger->debug("COLETA: Classe $classe multivalorada. Tratando elemento.");
+                $this->setClasse($classe, $elm, $computador);
+            }
         }
 
         // Eduardo: 2015-02-05
@@ -154,10 +158,11 @@ class NeoColetaController extends NeoController {
             $em = $this->getDoctrine()->getManager();
 
             if (is_array($valor[$propriedade])) {
-                $logger->debug("COLETA: Atributo $propriedade multivalorado não implementado na coleta");
-                //$logger->debug("1111111111111111111111111111111111111111 ".print_r($valor, true));
-                $valor[$propriedade] = $valor[$propriedade][0];
-                //continue;
+                $logger->debug("COLETA: Atributo $propriedade multivalorado!");
+
+                // Nesse caso, converte o atributo para JSON e armazena no valor
+                $valor[$propriedade] = json_encode($valor[$propriedade], true);
+                $logger->debug("11111111111111111111111111111111\n".print_r($valor, true));
             }
             $logger->debug("COLETA: Gravando dados da propriedade $propriedade com o valor ".$valor[$propriedade]);
 
@@ -187,7 +192,6 @@ class NeoColetaController extends NeoController {
                     'classProperty' => $classProperty
                 ));
                 if(empty($computadorColeta)) {
-                    //$logger->debug("COLETA: Registrando nova coleta para o software $software no computador ".$computador->getIdComputador());
 
                     // Armazena no banco o objeto
                     $computadorColeta = new ComputadorColeta();
@@ -195,7 +199,7 @@ class NeoColetaController extends NeoController {
                     $computadorColeta->setClassProperty($classProperty);
                     $computadorColeta->setTeClassPropertyValue($valor[$propriedade]);
                     $computadorColeta->setIdClass($classObject);
-                    $computadorColeta->setDtHrInclusao( new \DateTime() );
+                    $computadorColeta->setDtHrInclusao( $data_coleta );
                     $computadorColeta->setAtivo(true);
                     $computadorColeta->setDtHrExclusao(null);
 
@@ -210,17 +214,25 @@ class NeoColetaController extends NeoController {
                     $computadorColetaHistorico->setComputador( $computador );
                     $computadorColetaHistorico->setClassProperty( $classProperty);
                     $computadorColetaHistorico->setTeClassPropertyValue( $valor[$propriedade] );
-                    $computadorColetaHistorico->setDtHrInclusao( new \DateTime() );
+                    $computadorColetaHistorico->setDtHrInclusao( $data_coleta );
 
                     $em->persist( $computadorColetaHistorico );
                 } elseif ($computadorColeta->getTeClassPropertyValue() != $valor[$propriedade]) {
+
+                    // Vou considerar uma nova coleta se a data for diferente
+                    $interval = $computador->getDtHrInclusao()->diff($data_coleta);
+
+                    if ($interval == 0) {
+                        // Trata-se da mesma coleta. Adiciona um novo valor
+                        $computadorColeta = new ComputadorColeta();
+                    }
 
                     // Armazena no banco o objeto
                     $computadorColeta->setComputador( $computador );
                     $computadorColeta->setClassProperty($classProperty);
                     $computadorColeta->setTeClassPropertyValue($valor[$propriedade]);
                     $computadorColeta->setIdClass($classObject);
-                    $computadorColeta->setDtHrInclusao( new \DateTime() );
+                    $computadorColeta->setDtHrInclusao( $data_coleta );
                     $computadorColeta->setAtivo(true);
                     $computadorColeta->setDtHrExclusao(null);
 
@@ -229,13 +241,20 @@ class NeoColetaController extends NeoController {
                     // Pega novo computador gerado no computador coleta
                     $computador = $computadorColeta->getComputador();
 
+                    // Armazeno no histórico somente se a data for diferente
+                    if ($interval == 0) {
+                        // Trata-se da mesma coleta. Adiciona um novo valor
+                        $computadorColeta = new ComputadorColeta();
+                    }
+
+
                     // Aqui é necessário uma entrada no histórico
                     $computadorColetaHistorico = new ComputadorColetaHistorico();
                     $computadorColetaHistorico->setComputadorColeta( $computadorColeta );
                     $computadorColetaHistorico->setComputador( $computador );
                     $computadorColetaHistorico->setClassProperty( $classProperty);
                     $computadorColetaHistorico->setTeClassPropertyValue( $valor[$propriedade] );
-                    $computadorColetaHistorico->setDtHrInclusao( new \DateTime() );
+                    $computadorColetaHistorico->setDtHrInclusao( $data_coleta );
 
                     $em->persist( $computadorColetaHistorico );
                 }
