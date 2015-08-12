@@ -21,6 +21,10 @@ Cacic\CommonBundle\Entity\Classe:
             fixed: false
             nullable: false
             column: te_class_description
+    oneToMany:
+        classe_coleta:
+            targetEntity: ClasseColeta
+            mappedBy: idComputador
     uniqueConstraints:
         nm_class_uq_idx:
             columns: [nm_class_name]

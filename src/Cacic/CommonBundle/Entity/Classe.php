@@ -88,4 +88,49 @@ class Classe
     {
     	return $this->nmClassName;
     }
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $classe_coleta;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->classe_coleta = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add classe_coleta
+     *
+     * @param \Cacic\CommonBundle\Entity\ClasseColeta $classeColeta
+     * @return Classe
+     */
+    public function addClasseColetum(\Cacic\CommonBundle\Entity\ClasseColeta $classeColeta)
+    {
+        $this->classe_coleta[] = $classeColeta;
+
+        return $this;
+    }
+
+    /**
+     * Remove classe_coleta
+     *
+     * @param \Cacic\CommonBundle\Entity\ClasseColeta $classeColeta
+     */
+    public function removeClasseColetum(\Cacic\CommonBundle\Entity\ClasseColeta $classeColeta)
+    {
+        $this->classe_coleta->removeElement($classeColeta);
+    }
+
+    /**
+     * Get classe_coleta
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getClasseColeta()
+    {
+        return $this->classe_coleta;
+    }
 }

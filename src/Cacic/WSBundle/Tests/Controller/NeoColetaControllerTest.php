@@ -728,7 +728,7 @@ class NeoColetaControllerTest extends BaseTestCase {
         $response = $this->client->getResponse();
         $status = $response->getStatusCode();
         $logger->debug("Response status: $status");
-        //$logger->debug("JSON da coleta: \n".$response->getContent());
+        $logger->debug("JSON da coleta: \n".$response->getContent());
 
         $this->assertEquals($status, 200);
 
@@ -746,6 +746,14 @@ class NeoColetaControllerTest extends BaseTestCase {
             'idSo' => $so
         ));
         $this->assertNotEmpty($computador);
+
+        // Debuga o objeto do computador
+        $serializer = $this->container->get('jms_serializer');
+        $jsonContent = $serializer->serialize($computador, 'json');
+        $tmpfile = sys_get_temp_dir(). '/computador.json';
+        file_put_contents($tmpfile, $jsonContent);
+
+        $this->assertNotEmpty($computador->getHardwares(), "Coletas não encontradas no objeto do computador");
 
         $found_bios = false;
         $found_usb = true;

@@ -19,6 +19,8 @@ use Cacic\CommonBundle\Entity\PropriedadeSoftware;
 use Doctrine\ORM\ORMException;
 use Doctrine\DBAL\DBALException;
 use Doctrine\ORM\ORMInvalidArgumentException;
+use Cacic\CommonBundle\Entity\ComputadorClasseColeta;
+use Cacic\CommonBundle\Entity\ClasseColetaPropriedades;
 
 class NeoColetaController extends NeoController {
 
@@ -31,11 +33,7 @@ class NeoColetaController extends NeoController {
         if (empty($dados)) {
             $logger->error("JSON INVÁLIDO!!!!!!!!!!!!!!!!!!! Erro na COLETA");
             // Retorna erro se o JSON for inválido
-            $error_msg = '{
-                "message": "JSON Inválido",
-                "codigo": 1
-            }';
-
+            $error_msg = json_encode($this->jsonError(), true);
 
             $response = new JsonResponse();
             $response->setStatusCode('500');
@@ -141,7 +139,7 @@ class NeoColetaController extends NeoController {
             // Nesse caso a classe é multivalorada. Trata um atributo de cada vez
             foreach ($valor as $elm) {
                 $logger->debug("COLETA: Classe $classe multivalorada. Tratando elemento.");
-                $this->setClasse($classe, $elm, $computador);
+                $this->setClasse($classe, $elm, $computador, $data_coleta);
             }
         }
 
@@ -152,6 +150,49 @@ class NeoColetaController extends NeoController {
             $logger->error("COLETA: erro na coleta da classe $classe. String retornada quando deveria ser um objeto JSON: ".print_r($valor, true));
             return;
         }
+
+        // 1 - Verifica se já existe coleta da classe para essa data
+        $hardwares = $computador->getHardwares();
+        if (empty($hardwares)) {
+            // Cria uma nova entrada, porque a classe ainda não existe para o computador
+            $computadorClasseColeta = new ComputadorClasseColeta();
+            $computadorClasseColeta->setComputador($computador);
+            $computadorClasseColeta->setDtHrInclusao($data_coleta);
+            $computadorClasseColeta->setIdClass($classObject);
+
+            $em->persist($computadorClasseColeta);
+
+            // Agora pega o computador e adiciona de novo o objeto
+            $computador = $computadorClasseColeta->getComputador();
+            $computador->addHardware($computadorClasseColeta);
+            $em->persist($computador);
+
+        } else {
+            $classes = $hardwares->map( function( $obj ) { return $obj->getidClass(); } );
+            $class_index = array_search($classes, $classObject->getIdClass());
+
+            if (empty($class_index)) {
+                // A classe ainda não está cadastrada ainda. É preciso adicionar
+                $computadorClasseColeta = new ComputadorClasseColeta();
+                $computadorClasseColeta->setComputador($computador);
+                $computadorClasseColeta->setDtHrInclusao($data_coleta);
+                $computadorClasseColeta->setIdClass($classObject);
+                $em->persist($computadorClasseColeta);
+
+                // Adiciona no computador
+                $computador = $computadorClasseColeta->getComputador();
+                $computador->addHardware($computadorClasseColeta);
+                $em->persist($computador);
+            } else {
+                // Pega somente o objeto já cadastrado
+                $computadorClasseColeta = $hardwares->get($class_index);
+            }
+        }
+
+        // Recupera índice da classe para considerar mais pra baixo
+        $hardwares = $computador->getHardwares();
+        $classes = $hardwares->map( function( $obj ) { return $obj->getidClass(); } );
+        $class_index = array_search($classes, $classObject->getIdClass());
 
         foreach ($propriedades_array as $propriedade) {
             // Necessário pegar o EM novamente se estiver dando erro
@@ -168,7 +209,43 @@ class NeoColetaController extends NeoController {
 
             try {
 
-                // Pega o objeto para gravar
+                // 2 - Verifica se já existem coletas para essa classe
+                $classe_propriedades = $hardwares->get($class_index)->getClasseColetaPropriedades();
+                if (empty($classe_propriedades)) {
+                    $classe_coleta_propriedade = new ClasseColetaPropriedades();
+                    $classe_coleta_propriedade->setClassIndex($class_index);
+                    $classe_coleta_propriedade->setIdComputadorClasseColeta($computadorClasseColeta);
+                    $em->persist($classe_coleta_propriedade);
+
+                    // Recupera objeto do computador atualizado
+                    $computadorClasseColeta = $classe_propriedades->getIdComputadorClasseColeta();
+                    $computadorClasseColeta->addClasseColetaPropriedade($classe_coleta_propriedade);
+                    $em->persist($computadorClasseColeta);
+                    $computador = $classe_propriedades->getIdComputadorClasseColeta()->getComputador();
+                } else {
+                    // Verifica se já existe coleta com essa propriedade
+                    $classe_coletas = $classe_propriedades->map( function( $obj ) { return $obj->getClassIndex(); } );
+                    $classe_propriedades_index = array_search($classe_coletas, $class_index);
+
+                    if (empty($classe_propriedades_index)) {
+                        // Não existe ainda esse índice para a classe.
+                        $classe_coleta_propriedade = new ClasseColetaPropriedades();
+                        $classe_coleta_propriedade->setClassIndex($class_index);
+                        $classe_coleta_propriedade->setIdComputadorClasseColeta($computadorClasseColeta);
+                        $em->persist($classe_coleta_propriedade);
+
+                        // Recupera objeto do computador atualizado
+                        $computadorClasseColeta = $classe_propriedades->getIdComputadorClasseColeta();
+                        $computadorClasseColeta->addClasseColetaPropriedade($classe_coleta_propriedade);
+                        $em->persist($computadorClasseColeta);
+                        $computador = $classe_propriedades->getIdComputadorClasseColeta()->getComputador();
+                    } else {
+                        // Apenas retorna o índice já cadastrado
+                        $classe_coleta_propriedade = $classe_propriedades->get($classe_propriedades_index);
+                    }
+                }
+
+                // Busca a propriedade da coleta
                 $classProperty = $em->getRepository('CacicCommonBundle:ClassProperty')->findOneBy( array(
                     'nmPropertyName'=> $propriedade,
                     'idClass' => $classObject
@@ -186,77 +263,100 @@ class NeoColetaController extends NeoController {
                     $em->flush();
                 }
 
-                // Garante unicidade das informações de coleta
-                $computadorColeta = $em->getRepository('CacicCommonBundle:ComputadorColeta')->findOneBy(array(
-                    'computador' => $computador,
-                    'classProperty' => $classProperty
-                ));
-                if(empty($computadorColeta)) {
-
-                    // Armazena no banco o objeto
+                // 3 - Busca as propriedades já cadastradas para esse índice e nessa classe
+                $computadorColetaArray = $classe_coleta_propriedade->getColetas();
+                if (empty($computadorColetaArray)) {
+                    // Cadastra a propriedade recém-criada
                     $computadorColeta = new ComputadorColeta();
-                    $computadorColeta->setComputador( $computador );
                     $computadorColeta->setClassProperty($classProperty);
                     $computadorColeta->setTeClassPropertyValue($valor[$propriedade]);
                     $computadorColeta->setIdClass($classObject);
                     $computadorColeta->setDtHrInclusao( $data_coleta );
                     $computadorColeta->setAtivo(true);
                     $computadorColeta->setDtHrExclusao(null);
-
-                    $em->persist( $computadorColeta );
-
-                    // Pega novo computador gerado no computador coleta
-                    $computador = $computadorColeta->getComputador();
+                    $computadorColeta->setIdClasseColetaPropriedade($classe_coleta_propriedade);
 
                     // Gravo um histórico
                     $computadorColetaHistorico = new ComputadorColetaHistorico();
                     $computadorColetaHistorico->setComputadorColeta( $computadorColeta );
-                    $computadorColetaHistorico->setComputador( $computador );
                     $computadorColetaHistorico->setClassProperty( $classProperty);
                     $computadorColetaHistorico->setTeClassPropertyValue( $valor[$propriedade] );
                     $computadorColetaHistorico->setDtHrInclusao( $data_coleta );
 
-                    $em->persist( $computadorColetaHistorico );
-                } elseif ($computadorColeta->getTeClassPropertyValue() != $valor[$propriedade]) {
+                    $em->persist($computadorColeta);
+                    $em->persist($computadorColetaHistorico);
 
-                    // Vou considerar uma nova coleta se a data for diferente
-                    $interval = $computador->getDtHrInclusao()->diff($data_coleta);
+                    $classe_coleta_propriedade->addColeta($computadorColeta);
+                    $em->persist($classe_coleta_propriedade);
 
-                    if ($interval == 0) {
-                        // Trata-se da mesma coleta. Adiciona um novo valor
+                    // Atualiza o objeto do computador
+                    $computador = $classe_coleta_propriedade->getIdComputadorClasseColeta()->getComputador();
+
+                } else {
+                    $computador_coletas = $computadorColetaArray->map( function( $obj ) { return $obj->getIdClassProperty(); } );
+                    $computador_coletas_index = array_search($classProperty->getIdClassProperty(), $computador_coletas);
+
+                    if (empty($computador_coletas_index)) {
+                        // O índice não existe. Adicionar
                         $computadorColeta = new ComputadorColeta();
+                        $computadorColeta->setClassProperty($classProperty);
+                        $computadorColeta->setTeClassPropertyValue($valor[$propriedade]);
+                        $computadorColeta->setIdClass($classObject);
+                        $computadorColeta->setDtHrInclusao( $data_coleta );
+                        $computadorColeta->setAtivo(true);
+                        $computadorColeta->setDtHrExclusao(null);
+                        $computadorColeta->setIdClasseColetaPropriedade($classe_coleta_propriedade);
+
+                        // Gravo um histórico
+                        $computadorColetaHistorico = new ComputadorColetaHistorico();
+                        $computadorColetaHistorico->setComputadorColeta( $computadorColeta );
+                        $computadorColetaHistorico->setClassProperty( $classProperty);
+                        $computadorColetaHistorico->setTeClassPropertyValue( $valor[$propriedade] );
+                        $computadorColetaHistorico->setDtHrInclusao( $data_coleta );
+
+                        $em->persist($computadorColeta);
+                        $em->persist($computadorColetaHistorico);
+
+                        $classe_coleta_propriedade->addColeta($computadorColeta);
+                        $em->persist($classe_coleta_propriedade);
+
+                        // Atualiza o objeto do computador
+                        $computador = $classe_coleta_propriedade->getIdComputadorClasseColeta()->getComputador();
+                    } else {
+                        // Só atualiza o valor que já existia
+                        $computadorColeta = $computadorColetaArray->get($computador_coletas_index);
+
+                        // IMPORTANTE: Deve ser registrado um novo histórico?
+                        if ($computadorColeta->getDtHrInclusao() != $data_coleta &&
+                            $computadorColeta->getTeClassPropertyValue() != $valor[$propriedade]) {
+                            // Atualiza o valor e grava um novo histórico
+                            $computadorColeta->setTeClassPropertyValue($valor[$propriedade]);
+                            $computadorColeta->setDtHrInclusao( $data_coleta );
+
+                            // Mantém sempre ativo o atributo
+                            $computadorColeta->setAtivo(true);
+                            $computadorColeta->setDtHrExclusao(null);
+
+                            // Agora registra o histórico
+                            $computadorColetaHistorico = new ComputadorColetaHistorico();
+                            $computadorColetaHistorico->setComputadorColeta( $computadorColeta );
+                            $computadorColetaHistorico->setClassProperty( $classProperty);
+                            $computadorColetaHistorico->setTeClassPropertyValue( $valor[$propriedade] );
+                            $computadorColetaHistorico->setDtHrInclusao( $data_coleta );
+
+                            $em->persist($computadorColeta);
+                            $em->persist($computadorColetaHistorico);
+
+                            $classe_coleta_propriedade->addColeta($computadorColeta);
+                            $em->persist($classe_coleta_propriedade);
+                        } else {
+                            // Mantém sempre ativo o atributo
+                            $computadorColeta->setAtivo(true);
+                            $computadorColeta->setDtHrExclusao(null);
+
+                            $em->persist($computadorColeta);
+                        }
                     }
-
-                    // Armazena no banco o objeto
-                    $computadorColeta->setComputador( $computador );
-                    $computadorColeta->setClassProperty($classProperty);
-                    $computadorColeta->setTeClassPropertyValue($valor[$propriedade]);
-                    $computadorColeta->setIdClass($classObject);
-                    $computadorColeta->setDtHrInclusao( $data_coleta );
-                    $computadorColeta->setAtivo(true);
-                    $computadorColeta->setDtHrExclusao(null);
-
-                    $em->persist( $computadorColeta );
-
-                    // Pega novo computador gerado no computador coleta
-                    $computador = $computadorColeta->getComputador();
-
-                    // Armazeno no histórico somente se a data for diferente
-                    if ($interval == 0) {
-                        // Trata-se da mesma coleta. Adiciona um novo valor
-                        $computadorColeta = new ComputadorColeta();
-                    }
-
-
-                    // Aqui é necessário uma entrada no histórico
-                    $computadorColetaHistorico = new ComputadorColetaHistorico();
-                    $computadorColetaHistorico->setComputadorColeta( $computadorColeta );
-                    $computadorColetaHistorico->setComputador( $computador );
-                    $computadorColetaHistorico->setClassProperty( $classProperty);
-                    $computadorColetaHistorico->setTeClassPropertyValue( $valor[$propriedade] );
-                    $computadorColetaHistorico->setDtHrInclusao( $data_coleta );
-
-                    $em->persist( $computadorColetaHistorico );
                 }
 
                 // Persiste os objetos dependentes para evitar erro no ORM

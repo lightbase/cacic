@@ -29,15 +29,6 @@ Cacic\CommonBundle\Entity\ComputadorColetaHistorico:
                 id_computador_coleta:
                     referencedColumnName: id_computador_coleta
             orphanRemoval: false
-        computador:
-            targetEntity: Computador
-            cascade: ["merge"]
-            mappedBy: null
-            inversedBy: hardwares_historico
-            joinColumns:
-                id_computador:
-                    referencedColumnName: id_computador
-            orphanRemoval: false
         classProperty:
             targetEntity: ClassProperty
             cascade: {  }

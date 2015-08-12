@@ -15,6 +15,11 @@ class ComputadorColetaHistorico
     private $idComputadorColetaHistorico;
 
     /**
+     * @var string
+     */
+    private $teClassPropertyValue;
+
+    /**
      * @var \DateTime
      */
     private $dtHrInclusao;
@@ -22,27 +27,13 @@ class ComputadorColetaHistorico
     /**
      * @var \Cacic\CommonBundle\Entity\ComputadorColeta
      */
-    private $idComputadorColeta;
-    
-    /**
-     * @var string
-     */
-    private $teClassPropertyValue;
-
-    /**
-     * @var \Cacic\CommonBundle\Entity\ComputadorColeta
-     */
     private $computadorColeta;
-
-    /**
-     * @var \Cacic\CommonBundle\Entity\Computador
-     */
-    private $computador;
 
     /**
      * @var \Cacic\CommonBundle\Entity\ClassProperty
      */
     private $classProperty;
+
 
     /**
      * Get idComputadorColetaHistorico
@@ -55,29 +46,6 @@ class ComputadorColetaHistorico
     }
 
     /**
-     * Set dtHrInclusao
-     *
-     * @param \DateTime $dtHrInclusao
-     * @return ComputadorColetaHistorico
-     */
-    public function setDtHrInclusao($dtHrInclusao)
-    {
-        $this->dtHrInclusao = $dtHrInclusao;
-    
-        return $this;
-    }
-
-    /**
-     * Get dtHrInclusao
-     *
-     * @return \DateTime 
-     */
-    public function getDtHrInclusao()
-    {
-        return $this->dtHrInclusao;
-    }
-
-    /**
      * Set teClassPropertyValue
      *
      * @param string $teClassPropertyValue
@@ -86,7 +54,7 @@ class ComputadorColetaHistorico
     public function setTeClassPropertyValue($teClassPropertyValue)
     {
         $this->teClassPropertyValue = $teClassPropertyValue;
-    
+
         return $this;
     }
 
@@ -101,6 +69,29 @@ class ComputadorColetaHistorico
     }
 
     /**
+     * Set dtHrInclusao
+     *
+     * @param \DateTime $dtHrInclusao
+     * @return ComputadorColetaHistorico
+     */
+    public function setDtHrInclusao($dtHrInclusao)
+    {
+        $this->dtHrInclusao = $dtHrInclusao;
+
+        return $this;
+    }
+
+    /**
+     * Get dtHrInclusao
+     *
+     * @return \DateTime 
+     */
+    public function getDtHrInclusao()
+    {
+        return $this->dtHrInclusao;
+    }
+
+    /**
      * Set computadorColeta
      *
      * @param \Cacic\CommonBundle\Entity\ComputadorColeta $computadorColeta
@@ -109,7 +100,7 @@ class ComputadorColetaHistorico
     public function setComputadorColeta(\Cacic\CommonBundle\Entity\ComputadorColeta $computadorColeta = null)
     {
         $this->computadorColeta = $computadorColeta;
-    
+
         return $this;
     }
 
@@ -124,29 +115,6 @@ class ComputadorColetaHistorico
     }
 
     /**
-     * Set computador
-     *
-     * @param \Cacic\CommonBundle\Entity\Computador $computador
-     * @return ComputadorColetaHistorico
-     */
-    public function setComputador(\Cacic\CommonBundle\Entity\Computador $computador = null)
-    {
-        $this->computador = $computador;
-    
-        return $this;
-    }
-
-    /**
-     * Get computador
-     *
-     * @return \Cacic\CommonBundle\Entity\Computador 
-     */
-    public function getComputador()
-    {
-        return $this->computador;
-    }
-
-    /**
      * Set classProperty
      *
      * @param \Cacic\CommonBundle\Entity\ClassProperty $classProperty
@@ -155,7 +123,7 @@ class ComputadorColetaHistorico
     public function setClassProperty(\Cacic\CommonBundle\Entity\ClassProperty $classProperty = null)
     {
         $this->classProperty = $classProperty;
-    
+
         return $this;
     }
 

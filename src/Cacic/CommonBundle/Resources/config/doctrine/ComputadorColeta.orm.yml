@@ -28,14 +28,14 @@ Cacic\CommonBundle\Entity\ComputadorColeta:
             nullable: true
             column: dt_hr_exclusao
     manyToOne:
-        computador:
-            targetEntity: Computador
+        idClasseColetaPropriedade:
+            targetEntity: ClasseColetaPropriedades
             cascade: ["merge"]
             mappedBy: null
-            inversedBy: hardwares
+            inversedBy: coletas
             joinColumns:
-                id_computador:
-                    referencedColumnName: id_computador
+                id_classe_coleta_propriedades:
+                    referencedColumnName: id_classe_coleta_propriedades
                     nullable: false
             orphanRemoval: false
         classProperty:
@@ -57,7 +57,12 @@ Cacic\CommonBundle\Entity\ComputadorColeta:
                 id_class:
                     referencedColumnName: id_class
             orphanRemoval: false
+    oneToMany:
+        historico:
+            targetEntity: ComputadorColetaHistorico
+            mappedBy: computadorColeta
+            fetch: EXTRA_LAZY
     uniqueConstraints:
-        computador_property_idx:
-            columns: [ id_computador, id_class_property ]
+        computador_coleta_index_idx:
+            columns: [ id_classe_coleta_propriedades, id_class_property ]
     lifecycleCallbacks: {  }

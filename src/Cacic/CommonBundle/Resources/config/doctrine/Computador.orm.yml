@@ -104,15 +104,11 @@ Cacic\CommonBundle\Entity\Computador:
             targetEntity: SoftwareEstacao
             mappedBy: idComputador
         hardwares:
-            targetEntity: ComputadorColeta
+            targetEntity: ComputadorClasseColeta
             mappedBy: computador
             fetch: EXTRA_LAZY
         software_coletado:
             targetEntity: PropriedadeSoftware
-            mappedBy: computador
-            fetch: EXTRA_LAZY
-        hardwares_historico:
-            targetEntity: ComputadorColetaHistorico
             mappedBy: computador
             fetch: EXTRA_LAZY
         erros_agente:

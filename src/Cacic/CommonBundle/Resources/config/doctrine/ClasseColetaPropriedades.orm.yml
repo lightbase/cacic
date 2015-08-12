@@ -1,0 +1,31 @@
+Cacic\CommonBundle\Entity\ClasseColetaPropriedades:
+    type: entity
+    table: classe_coleta_propriedades
+    repositoryClass: Cacic\CommonBundle\Entity\ClasseColetaPropriedadesRepository
+    fields:
+        idClasseColetaPropriedade:
+            id: true
+            type: integer
+            unsigned: false
+            nullable: false
+            column: id_classe_coleta_propriedades
+            generator:
+                strategy: IDENTITY
+        classIndex:
+            type: integer
+            nullable: false
+            column: class_index
+    manyToOne:
+        idComputadorClasseColeta:
+            targetEntity: ComputadorClasseColeta
+            inversedBy: classeColetaPropriedades
+            joinColumns:
+                id_computador_classe_coleta:
+                    referencedColumnName: id_computador_classe_coleta
+    oneToMany:
+        coletas:
+            targetEntity: ComputadorColeta
+            mappedBy: idClasseColetaPropriedade
+    uniqueConstraints:
+        classe_coleta_index_idx:
+            columns: [ id_computador_classe_coleta, class_index ]
