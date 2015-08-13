@@ -175,3 +175,8 @@ select,
 .overlay-hidden {
 	display: none;
 }
+
+/* Solicitações MPOG: 2015-08-13 */
+.dropdown-menu {
+	font-size: 13px;
+}

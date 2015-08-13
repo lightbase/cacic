@@ -440,7 +440,7 @@ class FaturamentoController extends Controller {
             ->selectIp(@$data['teIpComputador'],@$data['nmComputador'] ,@$data['teNodeAddress'] );
 
 
-        return $this->render( 'CacicCommonBundle:Computador:buscar.html.twig',
+        return $this->render( 'CacicRelatorioBundle:Faturamento:buscar.html.twig',
             array(
                 'local'=>$locale ,
                 'form' => $form->createView(),
