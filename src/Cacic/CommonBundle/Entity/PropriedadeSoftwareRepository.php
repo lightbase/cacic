@@ -32,6 +32,14 @@ class PropriedadeSoftwareRepository extends EntityRepository
     }
 
 
+    /**
+     * Busca um software pelo nome no computador
+     *
+     * @param $nmSoftware
+     * @param $idComputador
+     * @return mixed
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
     public function softwareByName( $nmSoftware, $idComputador ) {
         $qb = $this->createQueryBuilder('prop')
             ->select('prop')
@@ -45,6 +53,23 @@ class PropriedadeSoftwareRepository extends EntityRepository
             ->setParameter('nmSoftware', $nmSoftware);
 
         return $qb->getQuery()->getOneOrNullResult();
+    }
+
+    /**
+     * Gera relatório de softwars desativados
+     *
+     * @return array
+     */
+    public function desativados( ) {
+        $qb = $this->createQueryBuilder('prop')
+            ->select('DISTINCT sw')
+            ->innerJoin('CacicCommonBundle:classProperty', 'cp', 'WITH', 'prop.classProperty = cp.idClassProperty')
+            ->innerJoin('CacicCommonBundle:Software', 'sw', 'WITH', 'sw.idSoftware = prop.software')
+            ->innerJoin('CacicCommonBundle:Computador', 'comp', 'WITH', 'prop.computador = comp.idComputador')
+            ->andWhere("comp.ativo IS NULL or comp.ativo = 't'")
+            ->andWhere("prop.ativo = FALSE");
+
+        return $qb->getQuery()->getArrayResult();
     }
 
 }

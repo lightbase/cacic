@@ -507,4 +507,100 @@ class ComputadorColetaRepository extends EntityRepository
 
         return $this->getEntityManager()->createQuery( $_dql )->getResult();
     }
+
+    /**
+     * Gera relatório de softwares desativados
+     *
+     * @param $filtros
+     * @return mixed
+     */
+    public function gerarRelatorioSoftwaresDesativados( $filtros )
+    {
+        $qb = $this->createQueryBuilder('coleta')
+            ->select('soft.nmSoftware', 'soft.idSoftware', 'rede.idRede', 'rede.nmRede', 'rede.teIpRede', 'local.nmLocal', 'local.idLocal','COUNT(DISTINCT coleta.computador) AS numComp')
+            ->innerJoin('coleta.classProperty', 'property')
+            ->innerJoin('property.idClass', 'classe')
+            ->innerJoin('coleta.computador', 'comp')
+            ->innerJoin('comp.idSo', 'so')
+            ->innerJoin('comp.idRede', 'rede')
+            ->innerJoin('rede.idLocal', 'local')
+            ->innerJoin(
+                'CacicCommonBundle:PropriedadeSoftware',
+                'prop',
+                'WITH',
+                'prop.classProperty = coleta.classProperty
+                 AND prop.ativo = FALSE
+                 AND comp.idComputador = prop.computador'
+            )
+            ->innerJoin('prop.software', 'soft')
+            ->andWhere("comp.ativo IS NULL or comp.ativo = 't'")
+            ->groupBy('soft.nmSoftware', 'soft.idSoftware', 'rede.idRede', 'rede.nmRede', 'rede.teIpRede', 'local.nmLocal', 'local.idLocal');
+
+        /**
+         * Verifica os filtros
+         */
+
+        if ( array_key_exists('softwares', $filtros) && !empty($filtros['softwares']) )
+            $qb->andWhere('soft.idSoftware IN (:softwares)')->setParameter('softwares', explode( ',', $filtros['softwares'] ));
+
+        if ( array_key_exists('local', $filtros) && !empty($filtros['local']) )
+            $qb->andWhere('local.idLocal IN (:locais)')->setParameter('locais', explode( ',', $filtros['local'] ));
+
+        if ( array_key_exists('redes', $filtros) && !empty($filtros['redes']) )
+            $qb->andWhere('rede.idRede IN (:redes)')->setParameter('redes', explode( ',', $filtros['redes'] ));
+
+        if ( array_key_exists('so', $filtros) && !empty($filtros['so']) )
+            $qb->andWhere('comp.idSo IN (:so)')->setParameter('so', explode( ',', $filtros['so'] ));
+
+        return $qb->getQuery()->execute();
+    }
+
+    public function gerarRelatorioSoftwaresDesativadosLista( $filtros, $software)
+    {
+        $qb = $this->createQueryBuilder('coleta')
+            ->select('DISTINCT IDENTITY(coleta.computador), comp.nmComputador, comp.teNodeAddress,
+             comp.teIpComputador, so.inMswindows, so.sgSo, rede.idRede, rede.nmRede,
+             rede.teIpRede, local.idLocal, local.nmLocal, max(coleta.dtHrInclusao) as dtHrInclusao, prop.dataExclusao')
+            ->innerJoin('coleta.classProperty', 'property')
+            ->innerJoin('coleta.computador', 'comp')
+            ->innerJoin('comp.idSo', 'so')
+            ->innerJoin('comp.idRede', 'rede')
+            ->innerJoin('rede.idLocal', 'local')
+            ->innerJoin(
+                'CacicCommonBundle:PropriedadeSoftware',
+                'prop',
+                'WITH',
+                'prop.classProperty = coleta.classProperty
+                 AND prop.ativo = FALSE
+                 AND comp.idComputador = prop.computador'
+            )
+            ->innerJoin('prop.software', 'soft')
+            ->andWhere('soft.nmSoftware = :software')
+            ->andWhere("comp.ativo IS NULL or comp.ativo = 't'")
+            ->groupBy('coleta.computador, comp.nmComputador, comp.teNodeAddress,
+             comp.teIpComputador, so.inMswindows, so.sgSo, rede.idRede, rede.nmRede,
+             rede.teIpRede, local.idLocal, local.nmLocal, prop.dataExclusao')
+            ->orderBy('coleta.computador, local.nmLocal, rede.teIpRede')
+            ->setParameter('software', $software);
+
+        /**
+         * Verifica os filtros
+         */
+
+        if ( array_key_exists('locais', $filtros) && !empty($filtros['locais']) )
+            $qb->andWhere('local.idLocal IN (:locais)')->setParameter('locais', $filtros['locais']);
+
+        if ( array_key_exists('redes', $filtros) && !empty($filtros['redes']) )
+            $qb->andWhere('rede.idRede IN (:redes)')->setParameter('redes', explode( ',', $filtros['redes'] ));
+
+        if ( array_key_exists('so', $filtros) && !empty($filtros['so']) )
+            $qb->andWhere('comp.idSo IN (:so)')->setParameter('so', explode( ',', $filtros['so'] ));
+
+        if ( array_key_exists('conf', $filtros) && !empty($filtros['conf']) )
+            $qb->andWhere('soft.idSoftware IN (:conf)')->setParameter('conf', explode( ',', $filtros['conf'] ));
+
+
+        return $qb->getQuery()->execute();
+    }
+
 }

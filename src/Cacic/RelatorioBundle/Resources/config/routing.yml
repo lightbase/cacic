@@ -109,6 +109,10 @@ cacic_relatorio_software_listar:
     requirements:
         idSoftware: \d+
 
+cacic_relatorio_software_lista:
+    path: /software/inventariados/{nmSoftware}/{nmLocal}/{idRede}
+    defaults: { _controller: CacicRelatorioBundle:Software:lista, nmSoftware:null, nmLocal:null, idRede:null }
+
 cacic_relatorio_software_licenciados:
     path: /software/licenciados
     defaults: { _controller: CacicRelatorioBundle:Software:licenciados }
@@ -192,6 +196,25 @@ cacic_relatorio_software_aquisicoes_det_csv:
     path: /software/aquisicoes/{idAquisicao}/{idTipoLicenca}/csv
     defaults: { _controller: CacicRelatorioBundle:Software:aquisicoesDetalhadoCsv }
 
+cacic_relatorio_software_desativados:
+    path: /software/desativados
+    defaults: { _controller: CacicRelatorioBundle:Software:desativados }
+    methods: ['GET']
+
+cacic_relatorio_software_desativados_rel:
+    path: /software/desativados
+    defaults: { _controller: CacicRelatorioBundle:Software:desativadosRelatorio }
+    methods: ['POST']
+
+cacic_relatorio_software_desativados_csv:
+    path: /software/desativados/csv
+    defaults: { _controller: CacicRelatorioBundle:Software:desativadosRelatorioCsv }
+    methods: ['POST']
+
+cacic_relatorio_software_desativados_lista:
+    path: /software/desativados/{nmSoftware}/{idLocal}/{idRede}
+    defaults: { _controller: CacicRelatorioBundle:Software:desativadosLista, nmSoftware:null, idLocal:null, idRede:null }
+
 ################################
 # HARDWARE
 ################################
@@ -247,10 +270,6 @@ cacic_relatorio_dinamico_detalhar:
 cacic_relatorio_csv_wmi_dinamico:
     path: /relWmiDinamico/csvRelWmiDinamico
     defaults: { _controller: CacicRelatorioBundle:Hardware:csvRelWmiDinamico }
-
-cacic_relatorio_software_lista:
-    path: /software/inventariados/{nmSoftware}/{nmLocal}/{idRede}
-    defaults: { _controller: CacicRelatorioBundle:Software:lista, nmSoftware:null, nmLocal:null, idRede:null }
 
 cacic_relatorio_hardware_wmi_detalhe:
     path: /hardware/{classe}/{propriedade}
