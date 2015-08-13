@@ -11,12 +11,13 @@ use Cacic\CommonBundle\Form\Type\SoftwareType;
 
 class SoftwareController extends Controller
 {
-	
-	/**
-	 * 
-	 * Tela de listagem de Softwares cadastrados
-	 * @param int $page
-	 */
+
+    /**
+     * Lista de softwares cadastrados
+     *
+     * @param $page
+     * @return Response
+     */
     public function indexAction( $page )
     {
         return $this->render(
@@ -26,11 +27,12 @@ class SoftwareController extends Controller
             )
         );
     }
-    
+
     /**
-     * 
-     * Tela de Cadastro de novo Software
-     * @param Symfony\Component\HttpFoundation\Request $request
+     * Tela de cadastro de novo software
+     *
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
     public function cadastrarAction(Request $request)
     {
@@ -53,11 +55,13 @@ class SoftwareController extends Controller
 
         return $this->render( 'CacicCommonBundle:Software:cadastrar.html.twig', array( 'form' => $form->createView() ) );
     }
-    
+
     /**
-     *  Tela de editar dados do Software
-     *  @param int $idSoftware
-     *  @param Symfony\Component\HttpFoundation\Request $request
+     * Tela de editar dados de software
+     *
+     * @param $idSoftware
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
     public function editarAction( $idSoftware, Request $request )
     {
@@ -86,9 +90,10 @@ class SoftwareController extends Controller
     }
 
     /**
-     *
      * [AJAX] Exclusão de Software já cadastrado
-     * @param Symfony\Component\HttpFoundation\Request $request
+     *
+     * @param Request $request
+     * @return Response
      */
     public function excluirAction( Request $request )
     {
@@ -108,11 +113,13 @@ class SoftwareController extends Controller
 
         return $response;
     }
-    
+
     /**
-     * 
      * Tela de classificação EM LOTE de Softwares
-     * @param Symfony\Component\HttpFoundation\Request $request
+     *
+     * @param $page
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
     public function naoClassificadosAction($page, Request $request )
     {
@@ -153,11 +160,13 @@ class SoftwareController extends Controller
         	) 
         );
     }
-    
+
     /**
-     * 
      * Tela de exclusão de Softwares não associados a nenhuma máquina
-     * @param Symfony\Component\HttpFoundation\Request $request
+     *
+     * @param Request $request
+     * @param $page
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
     public function naoUsadosAction( Request $request, $page )
     {

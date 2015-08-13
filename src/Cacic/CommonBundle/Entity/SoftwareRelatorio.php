@@ -153,4 +153,32 @@ class SoftwareRelatorio
     {
         return $this->nivelAcesso;
     }
+    /**
+     * @var boolean
+     */
+    private $habilitaNotificacao;
+
+
+    /**
+     * Set habilitaNotificacao
+     *
+     * @param boolean $habilitaNotificacao
+     * @return SoftwareRelatorio
+     */
+    public function setHabilitaNotificacao($habilitaNotificacao)
+    {
+        $this->habilitaNotificacao = $habilitaNotificacao;
+
+        return $this;
+    }
+
+    /**
+     * Get habilitaNotificacao
+     *
+     * @return boolean 
+     */
+    public function getHabilitaNotificacao()
+    {
+        return $this->habilitaNotificacao;
+    }
 }

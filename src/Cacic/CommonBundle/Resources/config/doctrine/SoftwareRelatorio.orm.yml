@@ -19,6 +19,10 @@ Cacic\CommonBundle\Entity\SoftwareRelatorio:
             type: text
             nullable: false
             column: nivel_acesso
+        habilitaNotificacao:
+            type: boolean
+            nullable: true
+            column: habilita_notificacao
     manyToMany:
         softwares:
             targetEntity: Software
