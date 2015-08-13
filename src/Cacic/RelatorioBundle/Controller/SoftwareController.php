@@ -1017,9 +1017,20 @@ class SoftwareController extends Controller
      */
     public function desativadosRelatorioCsvAction( Request $request )
     {
-        $rede = implode(',',$request->get('teIpRede'));
-        $software = implode(',',$request->get('idSoftware'));
-        $local = implode(',',$request->get('idLocal'));
+        $rede = $request->get('teIpRede');
+        if (is_array($rede)) {
+            $rede = implode(',', $rede);
+        }
+
+        $software = $request->get('idSoftware');
+        if (is_array($software)) {
+            $software = implode(',', $software);
+        }
+
+        $local = $request->get('idLocal');
+        if (is_array($local)) {
+            $local = implode(',', $local);
+        }
 
         // Adiciona rede à lista de filtros se for fornecido
         if (!empty($rede)) {
