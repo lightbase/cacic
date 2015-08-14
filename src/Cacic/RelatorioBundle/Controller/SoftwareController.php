@@ -1012,4 +1012,158 @@ class SoftwareController extends Controller
         return $response;
     }
 
+    /**
+     * Busca por softwares desativados
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function desativadosAction()
+    {
+        $locais = $this->getDoctrine()->getRepository('CacicCommonBundle:Local')->listar();
+        $so = $this->getDoctrine()->getRepository('CacicCommonBundle:So')->listar();
+        $redes = $this->getDoctrine()->getRepository('CacicCommonBundle:Rede')->listar();
+        $sw = $this->getDoctrine()->getRepository('CacicCommonBundle:PropriedadeSoftware')->desativados();
+
+        return $this->render(
+            'CacicRelatorioBundle:Software:desativados_filtro.html.twig',
+            array(
+                'softwares'	=> $sw,
+                'locais' 	=> $locais,
+                'redes'     => $redes,
+                'so'		=> $so
+            )
+        );
+    }
+
+    /**
+     * [RELATÓRIO] Relatório de Softwares desativados gerado à partir dos filtros informados
+     *
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function desativadosRelatorioAction( Request $request )
+    {
+        $locale = $request->getLocale();
+        $dados = $this->getDoctrine()
+            ->getRepository('CacicCommonBundle:ComputadorColeta')
+            ->gerarRelatorioSoftwaresDesativados( $request->get('rel_filtro_software') );
+
+        $TotalnumComp = 0;
+
+        foreach ($dados as $cont  ){
+            $TotalnumComp += $cont['numComp'];
+        }
+
+        return $this->render(
+            'CacicRelatorioBundle:Software:rel_desativados.html.twig',
+            array(
+                'idioma'=>$locale,
+                'dados' => $dados,
+                'totalnumcomp' => $TotalnumComp
+            )
+        );
+    }
+
+    /**
+     * [CSV] Relatório de Softwares Inventariados gerado à partir dos filtros informados
+     */
+    public function desativadosRelatorioCsvAction( Request $request )
+    {
+        $rede = $request->get('teIpRede');
+        if (is_array($rede)) {
+            $rede = implode(',', $rede);
+        }
+
+        $software = $request->get('idSoftware');
+        if (is_array($software)) {
+            $software = implode(',', $software);
+        }
+
+        $local = $request->get('idLocal');
+        if (is_array($local)) {
+            $local = implode(',', $local);
+        }
+
+        // Adiciona rede à lista de filtros se for fornecido
+        if (!empty($rede)) {
+            $filtros['redes'] = $rede;
+        }
+
+        // Adiciona local à lista de filtros se for fornecido
+        if (!empty($local)) {
+            $filtros['local'] = $local;
+        }
+
+        // Adiciona Software à lista de filtros se for fornecido
+        if (!empty($software)) {
+            $filtros['softwares'] =  $software;
+        }
+
+        $dados = $this->getDoctrine()
+            ->getRepository('CacicCommonBundle:ComputadorColeta')
+            ->gerarRelatorioSoftwaresDesativados( $filtros );
+
+        $locale = $request->getLocale();
+
+        // Gera cabeçalho
+        $cabecalho = array();
+        foreach($dados as $elm) {
+            array_push($cabecalho, array_keys($elm));
+            break;
+        }
+        // Gera CSV
+        $reader = new ArrayReader(array_merge($dados));
+
+        // Create the workflow from the reader
+        $workflow = new Workflow($reader);
+
+        // Add the writer to the workflow
+        $tmpfile = tempnam(sys_get_temp_dir(), "SoftwareDesativado.csv");
+        $file = new \SplFileObject($tmpfile, 'w');
+        $writer = new CsvWriter($file);
+        $workflow->addWriter($writer);
+
+        // Process the workflow
+        $workflow->process();
+
+        // Retorna o arquivo
+        $response = new BinaryFileResponse($tmpfile);
+        $response->headers->set('Content-Type', 'text/csv');
+        $response->headers->set('Content-Disposition', "attachment; filename=SoftwareDesativado.csv");
+        $response->headers->set('Content-Transfer-Encoding', 'binary');
+
+        return $response;
+    }
+
+    /**
+     * Lista de máquinas com o software desativado
+     *
+     * @param Request $request
+     * @param $nmSoftware
+     * @param $nmLocal
+     * @param $idRede
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function desativadosListaAction(Request $request, $nmSoftware, $idLocal, $idRede) {
+        $locale = $request->getLocale();
+
+        $filtros = array(
+            'locais' => $idLocal,
+            'redes' => $idRede
+        );
+
+        $dados = $this->getDoctrine()
+            ->getRepository('CacicCommonBundle:ComputadorColeta')
+            ->gerarRelatorioSoftwaresDesativadosLista($filtros, $nmSoftware);
+
+        return $this->render(
+            'CacicRelatorioBundle:Software:rel_software_desativados_lista.html.twig',
+            array(
+                'idioma'=> $locale,
+                'software' => $nmSoftware,
+                'dados' => $dados
+            )
+        );
+    }
+
 }
