@@ -54,9 +54,7 @@ Cacic\CommonBundle\Entity\SoftwareEstacao:
             mappedBy: null
             inversedBy: idSoftwareEstacao
             joinColumns:
-                id_tipo_licenca:
-                    referencedColumnName: id_tipo_licenca
-                id_aquisicao:
-                    referencedColumnName: id_aquisicao
+                id_aquisicao_item:
+                    referencedColumnName: id_aquisicao_item
             orphanRemoval: false
     lifecycleCallbacks: {  }

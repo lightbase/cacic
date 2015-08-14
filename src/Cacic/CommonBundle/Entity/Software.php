@@ -3,19 +3,12 @@
 namespace Cacic\CommonBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Software
  */
 class Software
 {
-    public function __construct()
-    {
-        $this->aquisicoes = new ArrayCollection();
-        $this->estacoes = new ArrayCollection();
-    }
-
     /**
      * @var integer
      */
@@ -52,14 +45,27 @@ class Software
     private $teObs;
 
     /**
+     * @var \Cacic\CommonBundle\Entity\ClassProperty
+     */
+    private $idClassProperty;
+
+    /**
      * @var \Cacic\CommonBundle\Entity\TipoSoftware
      */
     private $idTipoSoftware;
-    
+
     /**
      * @var \Doctrine\Common\Collections\Collection
      */
-    private $estacoes;
+    private $relatorios;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->relatorios = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
     /**
      * Get idSoftware
@@ -80,7 +86,7 @@ class Software
     public function setNmSoftware($nmSoftware)
     {
         $this->nmSoftware = $nmSoftware;
-    
+
         return $this;
     }
 
@@ -103,7 +109,7 @@ class Software
     public function setTeDescricaoSoftware($teDescricaoSoftware)
     {
         $this->teDescricaoSoftware = $teDescricaoSoftware;
-    
+
         return $this;
     }
 
@@ -126,7 +132,7 @@ class Software
     public function setQtLicenca($qtLicenca)
     {
         $this->qtLicenca = $qtLicenca;
-    
+
         return $this;
     }
 
@@ -149,7 +155,7 @@ class Software
     public function setNrMidia($nrMidia)
     {
         $this->nrMidia = $nrMidia;
-    
+
         return $this;
     }
 
@@ -172,7 +178,7 @@ class Software
     public function setTeLocalMidia($teLocalMidia)
     {
         $this->teLocalMidia = $teLocalMidia;
-    
+
         return $this;
     }
 
@@ -195,7 +201,7 @@ class Software
     public function setTeObs($teObs)
     {
         $this->teObs = $teObs;
-    
+
         return $this;
     }
 
@@ -210,6 +216,29 @@ class Software
     }
 
     /**
+     * Set idClassProperty
+     *
+     * @param \Cacic\CommonBundle\Entity\ClassProperty $idClassProperty
+     * @return Software
+     */
+    public function setIdClassProperty(\Cacic\CommonBundle\Entity\ClassProperty $idClassProperty = null)
+    {
+        $this->idClassProperty = $idClassProperty;
+
+        return $this;
+    }
+
+    /**
+     * Get idClassProperty
+     *
+     * @return \Cacic\CommonBundle\Entity\ClassProperty 
+     */
+    public function getIdClassProperty()
+    {
+        return $this->idClassProperty;
+    }
+
+    /**
      * Set idTipoSoftware
      *
      * @param \Cacic\CommonBundle\Entity\TipoSoftware $idTipoSoftware
@@ -218,7 +247,7 @@ class Software
     public function setIdTipoSoftware(\Cacic\CommonBundle\Entity\TipoSoftware $idTipoSoftware = null)
     {
         $this->idTipoSoftware = $idTipoSoftware;
-    
+
         return $this;
     }
 
@@ -231,241 +260,6 @@ class Software
     {
         return $this->idTipoSoftware;
     }
-    
-	/**
-     * Add SoftwareEstacao
-     *
-     * @param \Cacic\CommonBundle\Entity\SoftwareEstacao $estacao
-     * @return Software
-     */
-    public function addEstacoes(\Cacic\CommonBundle\Entity\SoftwareEstacao $estacao)
-    {
-        $this->estacoes[] = $estacao;
-    
-        return $this;
-    }
-
-    /**
-     * Remove SoftwareEstacao
-     *
-     * @param \Cacic\CommonBundle\Entity\SoftwareEstacao $estacao
-     */
-    public function removeEstacoes(\Cacic\CommonBundle\Entity\SoftwareEstacao $estacao)
-    {
-        $this->estacoes->removeElement($estacao);
-    }
-
-    /**
-     * Get estacoes
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getEstacoes()
-    {
-        return $this->estacoes;
-    }
-    
-    /**
-     * Add estacoes
-     *
-     * @param \Cacic\CommonBundle\Entity\SoftwareEstacao $estacoes
-     * @return Software
-     */
-    public function addEstacoe(\Cacic\CommonBundle\Entity\SoftwareEstacao $estacoes)
-    {
-        $this->estacoes[] = $estacoes;
-    
-        return $this;
-    }
-
-    /**
-     * Remove estacoes
-     *
-     * @param \Cacic\CommonBundle\Entity\SoftwareEstacao $estacoes
-     */
-    public function removeEstacoe(\Cacic\CommonBundle\Entity\SoftwareEstacao $estacoes)
-    {
-        $this->estacoes->removeElement($estacoes);
-    }
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
-    private $licencas;
-
-
-    /**
-     * Add licencas
-     *
-     * @param \Cacic\CommonBundle\Entity\AquisicaoItem $licencas
-     * @return Software
-     */
-    public function addLicenca(\Cacic\CommonBundle\Entity\AquisicaoItem $licencas)
-    {
-        $this->licencas[] = $licencas;
-    
-        return $this;
-    }
-
-    /**
-     * Remove licencas
-     *
-     * @param \Cacic\CommonBundle\Entity\AquisicaoItem $licencas
-     */
-    public function removeLicenca(\Cacic\CommonBundle\Entity\AquisicaoItem $licencas)
-    {
-        $this->licencas->removeElement($licencas);
-    }
-
-    /**
-     * Get licencas
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getLicencas()
-    {
-        return $this->licencas;
-    }
-
-    /**
-     * Add estacoes
-     *
-     * @param \Cacic\CommonBundle\Entity\SoftwareEstacao $estacoes
-     * @return Software
-     */
-    public function addEstaco(\Cacic\CommonBundle\Entity\SoftwareEstacao $estacoes)
-    {
-        $this->estacoes[] = $estacoes;
-
-        return $this;
-    }
-
-    /**
-     * Remove estacoes
-     *
-     * @param \Cacic\CommonBundle\Entity\SoftwareEstacao $estacoes
-     */
-    public function removeEstaco(\Cacic\CommonBundle\Entity\SoftwareEstacao $estacoes)
-    {
-        $this->estacoes->removeElement($estacoes);
-    }
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
-    private $coletados;
-
-
-    /**
-     * Add coletados
-     *
-     * @param \Cacic\CommonBundle\Entity\PropriedadeSoftware $coletados
-     * @return Software
-     */
-    public function addColetado(PropriedadeSoftware $coletados)
-    {
-        $coletados->setSoftware($this);
-        $this->coletados[] = $coletados;
-
-        return $this;
-    }
-
-    /**
-     * Remove coletados
-     *
-     * @param \Cacic\CommonBundle\Entity\PropriedadeSoftware $coletados
-     */
-    public function removeColetado(\Cacic\CommonBundle\Entity\PropriedadeSoftware $coletados)
-    {
-        $this->coletados->removeElement($coletados);
-    }
-
-    /**
-     * Get coletados
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getColetados()
-    {
-        return $this->coletados;
-    }
-    /**
-     * @var \Cacic\CommonBundle\Entity\AquisicaoItem
-     */
-    private $aquisicoes;
-
-
-    /**
-     * Set aquisicoes
-     *
-     * @param \Cacic\CommonBundle\Entity\AquisicaoItem $aquisicoes
-     * @return Software
-     */
-    public function setAquisicoes(\Cacic\CommonBundle\Entity\AquisicaoItem $aquisicoes = null)
-    {
-        $this->aquisicoes = $aquisicoes;
-
-        return $this;
-    }
-
-    /**
-     * Get aquisicoes
-     *
-     * @return \Cacic\CommonBundle\Entity\AquisicaoItem 
-     */
-    public function getAquisicoes()
-    {
-        return $this->aquisicoes;
-    }
-
-    /**
-     * Add aquisicoes
-     *
-     * @param \Cacic\CommonBundle\Entity\AquisicaoItem $aquisicoes
-     * @return Software
-     */
-    public function addAquisico(AquisicaoItem $aquisicoes)
-    {
-        $this->aquisicoes[] = $aquisicoes;
-
-        return $this;
-    }
-
-    /**
-     * Remove aquisicoes
-     *
-     * @param \Cacic\CommonBundle\Entity\AquisicaoItem $aquisicoes
-     */
-    public function removeAquisico(AquisicaoItem $aquisicoes)
-    {
-        $this->aquisicoes->removeElement($aquisicoes);
-    }
-
-    /**
-     * Add aquisicoes
-     *
-     * @param \Cacic\CommonBundle\Entity\AquisicaoItem $aquisicoes
-     * @return Software
-     */
-    public function addAquisicoe(\Cacic\CommonBundle\Entity\AquisicaoItem $aquisicoes)
-    {
-        $this->aquisicoes[] = $aquisicoes;
-    
-        return $this;
-    }
-
-    /**
-     * Remove aquisicoes
-     *
-     * @param \Cacic\CommonBundle\Entity\AquisicaoItem $aquisicoes
-     */
-    public function removeAquisicoe(\Cacic\CommonBundle\Entity\AquisicaoItem $aquisicoes)
-    {
-        $this->aquisicoes->removeElement($aquisicoes);
-    }
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
-    private $relatorios;
-
 
     /**
      * Add relatorios
@@ -498,33 +292,5 @@ class Software
     public function getRelatorios()
     {
         return $this->relatorios;
-    }
-    /**
-     * @var \Cacic\CommonBundle\Entity\ClassProperty
-     */
-    private $idClassProperty;
-
-
-    /**
-     * Set idClassProperty
-     *
-     * @param \Cacic\CommonBundle\Entity\ClassProperty $idClassProperty
-     * @return Software
-     */
-    public function setIdClassProperty(\Cacic\CommonBundle\Entity\ClassProperty $idClassProperty = null)
-    {
-        $this->idClassProperty = $idClassProperty;
-
-        return $this;
-    }
-
-    /**
-     * Get idClassProperty
-     *
-     * @return \Cacic\CommonBundle\Entity\ClassProperty 
-     */
-    public function getIdClassProperty()
-    {
-        return $this->idClassProperty;
     }
 }

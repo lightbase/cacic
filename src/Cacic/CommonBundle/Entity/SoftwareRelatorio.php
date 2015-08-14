@@ -20,6 +20,26 @@ class SoftwareRelatorio
     private $nomeRelatorio;
 
     /**
+     * @var string
+     */
+    private $nivelAcesso;
+
+    /**
+     * @var boolean
+     */
+    private $habilitaNotificacao;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $aquisicoes;
+
+    /**
+     * @var \Cacic\CommonBundle\Entity\Usuario
+     */
+    private $idUsuario;
+
+    /**
      * @var \Doctrine\Common\Collections\Collection
      */
     private $softwares;
@@ -29,6 +49,7 @@ class SoftwareRelatorio
      */
     public function __construct()
     {
+        $this->aquisicoes = new \Doctrine\Common\Collections\ArrayCollection();
         $this->softwares = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
@@ -66,6 +87,108 @@ class SoftwareRelatorio
     }
 
     /**
+     * Set nivelAcesso
+     *
+     * @param string $nivelAcesso
+     * @return SoftwareRelatorio
+     */
+    public function setNivelAcesso($nivelAcesso)
+    {
+        $this->nivelAcesso = $nivelAcesso;
+
+        return $this;
+    }
+
+    /**
+     * Get nivelAcesso
+     *
+     * @return string 
+     */
+    public function getNivelAcesso()
+    {
+        return $this->nivelAcesso;
+    }
+
+    /**
+     * Set habilitaNotificacao
+     *
+     * @param boolean $habilitaNotificacao
+     * @return SoftwareRelatorio
+     */
+    public function setHabilitaNotificacao($habilitaNotificacao)
+    {
+        $this->habilitaNotificacao = $habilitaNotificacao;
+
+        return $this;
+    }
+
+    /**
+     * Get habilitaNotificacao
+     *
+     * @return boolean 
+     */
+    public function getHabilitaNotificacao()
+    {
+        return $this->habilitaNotificacao;
+    }
+
+    /**
+     * Add aquisicoes
+     *
+     * @param \Cacic\CommonBundle\Entity\AquisicaoItem $aquisicoes
+     * @return SoftwareRelatorio
+     */
+    public function addAquisico(\Cacic\CommonBundle\Entity\AquisicaoItem $aquisicoes)
+    {
+        $this->aquisicoes[] = $aquisicoes;
+
+        return $this;
+    }
+
+    /**
+     * Remove aquisicoes
+     *
+     * @param \Cacic\CommonBundle\Entity\AquisicaoItem $aquisicoes
+     */
+    public function removeAquisico(\Cacic\CommonBundle\Entity\AquisicaoItem $aquisicoes)
+    {
+        $this->aquisicoes->removeElement($aquisicoes);
+    }
+
+    /**
+     * Get aquisicoes
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getAquisicoes()
+    {
+        return $this->aquisicoes;
+    }
+
+    /**
+     * Set idUsuario
+     *
+     * @param \Cacic\CommonBundle\Entity\Usuario $idUsuario
+     * @return SoftwareRelatorio
+     */
+    public function setIdUsuario(\Cacic\CommonBundle\Entity\Usuario $idUsuario)
+    {
+        $this->idUsuario = $idUsuario;
+
+        return $this;
+    }
+
+    /**
+     * Get idUsuario
+     *
+     * @return \Cacic\CommonBundle\Entity\Usuario 
+     */
+    public function getIdUsuario()
+    {
+        return $this->idUsuario;
+    }
+
+    /**
      * Add softwares
      *
      * @param \Cacic\CommonBundle\Entity\Software $softwares
@@ -96,89 +219,5 @@ class SoftwareRelatorio
     public function getSoftwares()
     {
         return $this->softwares;
-    }
-    /**
-     * @var \Cacic\CommonBundle\Entity\Usuario
-     */
-    private $idUsuario;
-
-
-    /**
-     * Set idUsuario
-     *
-     * @param \Cacic\CommonBundle\Entity\Usuario $idUsuario
-     * @return SoftwareRelatorio
-     */
-    public function setIdUsuario(\Cacic\CommonBundle\Entity\Usuario $idUsuario = null)
-    {
-        $this->idUsuario = $idUsuario;
-
-        return $this;
-    }
-
-    /**
-     * Get idUsuario
-     *
-     * @return \Cacic\CommonBundle\Entity\Usuario 
-     */
-    public function getIdUsuario()
-    {
-        return $this->idUsuario;
-    }
-    /**
-     * @var string
-     */
-    private $nivelAcesso;
-
-
-    /**
-     * Set nivelAcesso
-     *
-     * @param string $nivelAcesso
-     * @return SoftwareRelatorio
-     */
-    public function setNivelAcesso($nivelAcesso)
-    {
-        $this->nivelAcesso = $nivelAcesso;
-
-        return $this;
-    }
-
-    /**
-     * Get nivelAcesso
-     *
-     * @return string 
-     */
-    public function getNivelAcesso()
-    {
-        return $this->nivelAcesso;
-    }
-    /**
-     * @var boolean
-     */
-    private $habilitaNotificacao;
-
-
-    /**
-     * Set habilitaNotificacao
-     *
-     * @param boolean $habilitaNotificacao
-     * @return SoftwareRelatorio
-     */
-    public function setHabilitaNotificacao($habilitaNotificacao)
-    {
-        $this->habilitaNotificacao = $habilitaNotificacao;
-
-        return $this;
-    }
-
-    /**
-     * Get habilitaNotificacao
-     *
-     * @return boolean 
-     */
-    public function getHabilitaNotificacao()
-    {
-        return $this->habilitaNotificacao;
     }
 }

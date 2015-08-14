@@ -37,9 +37,6 @@ Cacic\CommonBundle\Entity\AquisicaoItem:
             orphanRemoval: false
         idTipoLicenca:
             targetEntity: TipoLicenca
-            cascade: {  }
-            mappedBy: null
-            inversedBy: null
             joinColumns:
                 id_tipo_licenca:
                     referencedColumnName: id_tipo_licenca
@@ -49,7 +46,7 @@ Cacic\CommonBundle\Entity\AquisicaoItem:
             inversedBy: aquisicoes
             joinColumns:
                 id_software_relatorio:
-                    referencedColumnName: id_software_relatorio
+                    referencedColumnName: id_relatorio
     oneToMany:
         idSoftwareEstacao:
             targetEntity: SoftwareEstacao

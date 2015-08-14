@@ -3,19 +3,16 @@
 namespace Cacic\CommonBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * AquisicaoItem
  */
 class AquisicaoItem
 {
-
-    public function __construct()
-    {
-        $this->idSoftware = new ArrayCollection();
-        $this->idSoftwareEstacao = new ArrayCollection();
-    }
+    /**
+     * @var integer
+     */
+    private $idAquisicaoItem;
 
     /**
      * @var integer
@@ -33,9 +30,9 @@ class AquisicaoItem
     private $teObs;
 
     /**
-     * @var \Cacic\CommonBundle\Entity\TipoLicenca
+     * @var \Doctrine\Common\Collections\Collection
      */
-    private $idTipoLicenca;
+    private $idSoftwareEstacao;
 
     /**
      * @var \Cacic\CommonBundle\Entity\Aquisicao
@@ -43,10 +40,32 @@ class AquisicaoItem
     private $idAquisicao;
 
     /**
-     * @var \Cacic\CommonBundle\Entity\Software
+     * @var \Cacic\CommonBundle\Entity\TipoLicenca
      */
-    private $idSoftware;
+    private $idTipoLicenca;
 
+    /**
+     * @var \Cacic\CommonBundle\Entity\SoftwareRelatorio
+     */
+    private $idSoftwareRelatorio;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->idSoftwareEstacao = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Get idAquisicaoItem
+     *
+     * @return integer 
+     */
+    public function getIdAquisicaoItem()
+    {
+        return $this->idAquisicaoItem;
+    }
 
     /**
      * Set qtLicenca
@@ -57,7 +76,7 @@ class AquisicaoItem
     public function setQtLicenca($qtLicenca)
     {
         $this->qtLicenca = $qtLicenca;
-    
+
         return $this;
     }
 
@@ -80,7 +99,7 @@ class AquisicaoItem
     public function setDtVencimentoLicenca($dtVencimentoLicenca)
     {
         $this->dtVencimentoLicenca = $dtVencimentoLicenca;
-    
+
         return $this;
     }
 
@@ -103,7 +122,7 @@ class AquisicaoItem
     public function setTeObs($teObs)
     {
         $this->teObs = $teObs;
-    
+
         return $this;
     }
 
@@ -118,15 +137,71 @@ class AquisicaoItem
     }
 
     /**
+     * Add idSoftwareEstacao
+     *
+     * @param \Cacic\CommonBundle\Entity\SoftwareEstacao $idSoftwareEstacao
+     * @return AquisicaoItem
+     */
+    public function addIdSoftwareEstacao(\Cacic\CommonBundle\Entity\SoftwareEstacao $idSoftwareEstacao)
+    {
+        $this->idSoftwareEstacao[] = $idSoftwareEstacao;
+
+        return $this;
+    }
+
+    /**
+     * Remove idSoftwareEstacao
+     *
+     * @param \Cacic\CommonBundle\Entity\SoftwareEstacao $idSoftwareEstacao
+     */
+    public function removeIdSoftwareEstacao(\Cacic\CommonBundle\Entity\SoftwareEstacao $idSoftwareEstacao)
+    {
+        $this->idSoftwareEstacao->removeElement($idSoftwareEstacao);
+    }
+
+    /**
+     * Get idSoftwareEstacao
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getIdSoftwareEstacao()
+    {
+        return $this->idSoftwareEstacao;
+    }
+
+    /**
+     * Set idAquisicao
+     *
+     * @param \Cacic\CommonBundle\Entity\Aquisicao $idAquisicao
+     * @return AquisicaoItem
+     */
+    public function setIdAquisicao(\Cacic\CommonBundle\Entity\Aquisicao $idAquisicao = null)
+    {
+        $this->idAquisicao = $idAquisicao;
+
+        return $this;
+    }
+
+    /**
+     * Get idAquisicao
+     *
+     * @return \Cacic\CommonBundle\Entity\Aquisicao 
+     */
+    public function getIdAquisicao()
+    {
+        return $this->idAquisicao;
+    }
+
+    /**
      * Set idTipoLicenca
      *
      * @param \Cacic\CommonBundle\Entity\TipoLicenca $idTipoLicenca
      * @return AquisicaoItem
      */
-    public function setIdTipoLicenca(TipoLicenca $idTipoLicenca = null)
+    public function setIdTipoLicenca(\Cacic\CommonBundle\Entity\TipoLicenca $idTipoLicenca = null)
     {
         $this->idTipoLicenca = $idTipoLicenca;
-    
+
         return $this;
     }
 
@@ -141,99 +216,25 @@ class AquisicaoItem
     }
 
     /**
-     * Set idAquisicao
+     * Set idSoftwareRelatorio
      *
-     * @param \Cacic\CommonBundle\Entity\Aquisicao $idAquisicao
+     * @param \Cacic\CommonBundle\Entity\SoftwareRelatorio $idSoftwareRelatorio
      * @return AquisicaoItem
      */
-    public function setIdAquisicao(Aquisicao $idAquisicao = null)
+    public function setIdSoftwareRelatorio(\Cacic\CommonBundle\Entity\SoftwareRelatorio $idSoftwareRelatorio = null)
     {
-        $this->idAquisicao = $idAquisicao;
-    
-        return $this;
-    }
-
-    /**
-     * Get idAquisicao
-     *
-     * @return \Cacic\CommonBundle\Entity\Aquisicao 
-     */
-    public function getIdAquisicao()
-    {
-        return $this->idAquisicao;
-    }
-
-
-
-    /**
-     * Add idSoftware
-     *
-     * @param \Cacic\CommonBundle\Entity\Software $idSoftware
-     * @return AquisicaoItem
-     */
-    public function addIdSoftware(Software $idSoftware)
-    {
-        $idSoftware->addAquisico($this);
-        $this->idSoftware[] = $idSoftware;
+        $this->idSoftwareRelatorio = $idSoftwareRelatorio;
 
         return $this;
     }
 
     /**
-     * Remove idSoftware
+     * Get idSoftwareRelatorio
      *
-     * @param \Cacic\CommonBundle\Entity\Software $idSoftware
+     * @return \Cacic\CommonBundle\Entity\SoftwareRelatorio 
      */
-    public function removeIdSoftware(Software $idSoftware)
+    public function getIdSoftwareRelatorio()
     {
-        $idSoftware->removeAquisico($this);
-        $this->idSoftware->removeElement($idSoftware);
-    }
-
-    /**
-     * Get idSoftware
-     *
-     */
-    public function getIdSoftware() {
-        return $this->idSoftware;
-    }
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
-    private $idSoftwareEstacao;
-
-
-    /**
-     * Add idSoftwareEstacao
-     *
-     * @param \Cacic\CommonBundle\Entity\SoftwareEstacao $idSoftwareEstacao
-     * @return AquisicaoItem
-     */
-    public function addIdSoftwareEstacao(SoftwareEstacao $idSoftwareEstacao)
-    {
-        $idSoftwareEstacao->setIdAquisicaoItem($this);
-        $this->idSoftwareEstacao[] = $idSoftwareEstacao;
-
-        return $this;
-    }
-
-    /**
-     * Remove idSoftwareEstacao
-     *
-     * @param \Cacic\CommonBundle\Entity\SoftwareEstacao $idSoftwareEstacao
-     */
-    public function removeIdSoftwareEstacao(SoftwareEstacao $idSoftwareEstacao)
-    {
-        $this->idSoftwareEstacao->removeElement($idSoftwareEstacao);
-    }
-
-    /**
-     * Get idSoftwareEstacao
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getIdSoftwareEstacao()
-    {
-        return $this->idSoftwareEstacao;
+        return $this->idSoftwareRelatorio;
     }
 }
