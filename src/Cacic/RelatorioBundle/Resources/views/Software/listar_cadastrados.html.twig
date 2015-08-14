@@ -12,6 +12,7 @@
 
                 <h3>{{ "Relatórios de software cadastrados"|trans }}</h3>
                 <p>{{ "Essa página mostra os relatórios de software cadastrados no sistema, agrupando componentes de software na mesma tela."|trans }}</p>
+                <p>{{ "Também é possível habilitar e desabilitar notificações clicando no ícone de notificação" }}</p>
                 <a class="btn btn-primary bt-adicionar" href="{{ path('cacic_relatorio_software_cadastrar') }}">
                     <i class="icon-plus-sign"></i>
                     {{ "Cadastrar relatório"|trans }}
@@ -24,8 +25,8 @@
                     <thead>
                     <tr>
                         <th width="30%">{{ "Nome do Relatório"|trans }}</th>
-                        <th width="60%">{{ "Softwares Cadastrados"|trans }}</th>
-                        <th width="10%"></th>
+                        <th width="55%">{{ "Softwares Cadastrados"|trans }}</th>
+                        <th width="15%"></th>
                     </tr>
                     </thead>
 
@@ -62,6 +63,17 @@
                                         </a>
                                         <a href="{{ path('cacic_relatorio_software_cadastrado_excluir') }}" class="btn btn-small btn-danger bt-excluir" title="{{ "Excluir Item"|trans }}">
                                             <i class="btn-icon-only icon-trash icon-large"></i>
+                                        </a>
+                                    {% endif %}
+                                {% endif %}
+                                {% if is_granted('ROLE_GESTAO') %}
+                                    {% if reg.getHabilitaNotificacao() %}
+                                        <a href="{{ path('cacic_relatorio_software_notificar_del', {'idRelatorio': reg.getIdRelatorio()}) }}" class="btn btn-small btn-warning bt-excluir" title="{{ "Excluir Notificação"|trans }}">
+                                            <i class="btn-icon-only icon-envelope icon-large"></i>
+                                        </a>
+                                    {% else %}
+                                        <a href="{{ path('cacic_relatorio_software_notificar', {'idRelatorio': reg.getIdRelatorio()}) }}" class="btn btn-small btn-info bt-ativar" title="{{ "Habilitar Notificação"|trans }}">
+                                            <i class="btn-icon-only icon-envelope icon-large"></i>
                                         </a>
                                     {% endif %}
                                 {% endif %}

@@ -1140,7 +1140,7 @@ class SoftwareController extends Controller
      *
      * @param Request $request
      * @param $nmSoftware
-     * @param $nmLocal
+     * @param $idLocal
      * @param $idRede
      * @return \Symfony\Component\HttpFoundation\Response
      */
@@ -1164,6 +1164,94 @@ class SoftwareController extends Controller
                 'dados' => $dados
             )
         );
+    }
+
+    /**
+     * [AJAX] Habilita notificação para o relatório
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function notificarAction(Request $request) {
+        $em = $this->getDoctrine()->getManager();
+        if ( ! $request->isXmlHttpRequest() ) {
+            throw $this->createNotFoundException( 'Página não encontrada' );
+        }
+
+        $relatorio = $em->getRepository('CacicCommonBundle:SoftwareRelatorio')->find( $request->get('id') );
+
+        if (empty($relatorio)) {
+            $this->get('session')->getFlashBag()->add('error', 'Relatório não encontrado!');
+            throw $this->createNotFoundException( 'Relatório não encontrado' );
+        }
+
+        // Usuário só pode editar seus próprios relatórios
+        if(!$this->get('security.context')->isGranted('ROLE_GESTAO')) {
+            if ($this->getUser()->getIdUsuario() != $relatorio->getIdUsuario()->getIdUsuario()) {
+                $this->get('session')->getFlashBag()->add('error', 'Usuário só pode editar seus próprios relatórios!');
+                throw $this->createAccessDeniedException("Usuário só pode editar seus próprios relatórios");
+            }
+        }
+
+        // Habilita notificação
+        $relatorio->setHabilitaNotificacao(true);
+
+        $em->persist( $relatorio );
+        $em->flush();
+
+        $this->get('session')->getFlashBag()->add('success', 'Notificação ativada com sucesso!');
+
+        $response = new JsonResponse();
+        $response->setContent(json_encode(array(
+            'status' => 'ok'
+        )));
+        $response->setStatusCode(200);
+
+        return $response;
+    }
+
+    /**
+     * [AJAX] Desativar notificações para o relatório
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function notificarDelAction(Request $request) {
+        $em = $this->getDoctrine()->getManager();
+        if ( ! $request->isXmlHttpRequest() ) {
+            throw $this->createNotFoundException( 'Página não encontrada' );
+        }
+
+        $relatorio = $em->getRepository('CacicCommonBundle:SoftwareRelatorio')->find( $request->get('id') );
+
+        if (empty($relatorio)) {
+            $this->get('session')->getFlashBag()->add('error', 'Relatório não encontrado!');
+            throw $this->createNotFoundException( 'Relatório não encontrado' );
+        }
+
+        // Usuário só pode editar seus próprios relatórios
+        if(!$this->get('security.context')->isGranted('ROLE_GESTAO')) {
+            if ($this->getUser()->getIdUsuario() != $relatorio->getIdUsuario()->getIdUsuario()) {
+                $this->get('session')->getFlashBag()->add('error', 'Usuário só pode editar seus próprios relatórios!');
+                throw $this->createAccessDeniedException("Usuário só pode editar seus próprios relatórios");
+            }
+        }
+
+        // Habilita notificação
+        $relatorio->setHabilitaNotificacao(false);
+
+        $em->persist( $relatorio );
+        $em->flush();
+
+        $this->get('session')->getFlashBag()->add('success', 'Notificação removida com sucesso!');
+
+        $response = new JsonResponse();
+        $response->setContent(json_encode(array(
+            'status' => 'ok'
+        )));
+        $response->setStatusCode(200);
+
+        return $response;
     }
 
 }

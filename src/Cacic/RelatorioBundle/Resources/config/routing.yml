@@ -215,6 +215,14 @@ cacic_relatorio_software_desativados_lista:
     path: /software/desativados/{nmSoftware}/{idLocal}/{idRede}
     defaults: { _controller: CacicRelatorioBundle:Software:desativadosLista, nmSoftware:null, idLocal:null, idRede:null }
 
+cacic_relatorio_software_notificar:
+    path: /software/notificar
+    defaults: { _controller: CacicRelatorioBundle:Software:notificar }
+
+cacic_relatorio_software_notificar_del:
+    path: /software/notificar/del
+    defaults: { _controller: CacicRelatorioBundle:Software:notificarDel }
+
 ################################
 # HARDWARE
 ################################
