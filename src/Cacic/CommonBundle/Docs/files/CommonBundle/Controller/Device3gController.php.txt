@@ -1,0 +1,68 @@
+<?php
+
+namespace Cacic\CommonBundle\Controller;
+
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Ddeboer\DataImport\Workflow;
+use Ddeboer\DataImport\Reader\ArrayReader;
+use Ddeboer\DataImport\Writer\CsvWriter;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
+
+
+
+
+class Device3gController extends Controller
+{
+    public function indexAction()
+    {
+        return $this->render(
+            'CacicCommonBundle:Device3g:index.html.twig',
+            array(
+                'UsbDevice' => $this->getDoctrine()->getRepository( 'CacicCommonBundle:ComputadorColeta' )->listar3g())
+        );
+    }
+
+    public function csvAction() {
+
+        $usb_device = $this->getDoctrine()->getRepository( 'CacicCommonBundle:ComputadorColeta' )->listar3g();
+
+        // Gera cabeçalho
+        $cabecalho = array(
+            'Identificador',
+            'Valor Coletado',
+            'Nome',
+            'Fabricante',
+            'Coletados'
+        );
+
+        $dados = array_merge(array($cabecalho), $usb_device);
+
+        // Gera CSV
+        $reader = new ArrayReader($dados);
+
+        // Create the workflow from the reader
+        $workflow = new Workflow($reader);
+
+        // Add the writer to the workflow
+        $tmpfile = tempnam(sys_get_temp_dir(), "Relatório-Dispositivos-3g.csv");
+        $file = new \SplFileObject($tmpfile, 'w');
+        $writer = new CsvWriter($file);
+        $workflow->addWriter($writer);
+
+        // Process the workflow
+        $workflow->process();
+
+        // Retorna o arquivo
+        $response = new BinaryFileResponse($tmpfile);
+        $response->headers->set('Content-Type', 'text/csv');
+        $filename = "Relatório-Dispositivos-3g.csv";
+
+        $response->headers->set('Content-Disposition', "attachment; filename=$filename");
+        $response->headers->set('Content-Transfer-Encoding', 'binary');
+
+        return $response;
+    }
+
+}

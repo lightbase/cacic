@@ -1,0 +1,90 @@
+<?php
+/**
+ * Created by JetBrains PhpStorm.
+ * User: eduardo
+ * Date: 13/07/13
+ * Time: 21:12
+ * To change this template use File | Settings | File Templates.
+ */
+
+namespace Cacic\CommonBundle\DataFixtures\ORM;
+
+use Cacic\CommonBundle\Entity\GrupoUsuario;
+use Doctrine\Common\DataFixtures\AbstractFixture;
+use Doctrine\Common\DataFixtures\FixtureInterface;
+use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
+use Doctrine\Common\Persistence\ObjectManager;
+use Symfony\Component\DependencyInjection\ContainerAwareInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+
+/*
+ * Carrega grupos de usuário
+ */
+
+class LoadGrupoUsuarioData extends AbstractFixture implements FixtureInterface, OrderedFixtureInterface
+{
+
+    /*
+     * Carrega grupo admin
+     */
+
+    public function load(ObjectManager $manager)
+    {
+        $grupoAdmin = new GrupoUsuario();
+        $grupoAdmin->setNmGrupoUsuarios('Admin');
+        $grupoAdmin->setTeGrupoUsuarios('Administradores');
+        $grupoAdmin->setTeMenuGrupo('menu_adm.txt');
+        $grupoAdmin->setTeDescricaoGrupo('Acesso ao menu de administração');
+        $grupoAdmin->setCsNivelAdministracao(true);
+        $grupoAdmin->setRole('ROLE_ADMIN');
+
+        // Adiciona referência ao Grupo que será usada depois
+        $this->addReference('grupo-admin', $grupoAdmin);
+
+        $manager->persist($grupoAdmin);
+
+        // Cria os outros grupos padrão do Cacic
+        $grupo = new GrupoUsuario();
+        $grupo->setNmGrupoUsuarios('comum');
+        $grupo->setTeGrupoUsuarios('Comum');
+        $grupo->setTeMenuGrupo('menu_adm.txt');
+        $grupo->setTeDescricaoGrupo('Acesso de leitura em todas as opções.');
+        $grupo->setCsNivelAdministracao(2);
+        $grupo->setRole('ROLE_USER');
+
+        $manager->persist($grupo);
+
+        // Cria os outros grupos padrão do Cacic
+        $grupo = new GrupoUsuario();
+        $grupo->setNmGrupoUsuarios('gestao');
+        $grupo->setTeGrupoUsuarios('Gestão Central');
+        $grupo->setTeMenuGrupo('menu_adm.txt');
+        $grupo->setTeDescricaoGrupo('Acesso ao menu de Manutenção.');
+        $grupo->setCsNivelAdministracao(3);
+        $grupo->setRole('ROLE_GESTAO');
+
+        $manager->persist($grupo);
+
+        // Grupo para desenvolvedores
+        $grupoDev = new GrupoUsuario();
+        $grupoDev->setNmGrupoUsuarios('devel');
+        $grupoDev->setTeGrupoUsuarios('Desenvolvedores');
+        $grupoDev->setTeMenuGrupo('menu_adm.txt');
+        $grupoDev->setTeDescricaoGrupo('Acesso às telas de log do sistema.');
+        $grupoDev->setCsNivelAdministracao(true);
+        $grupoDev->setRole('ROLE_DEVEL');
+
+        // Adiciona referência ao Grupo que será usada depois
+        $this->addReference('grupo-devel', $grupoDev);
+
+        $manager->persist($grupoDev);
+
+        $manager->flush();
+
+    }
+
+    public function getOrder()
+    {
+        return 2;
+    }
+}

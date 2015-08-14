@@ -1,0 +1,100 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: eduardo
+ * Date: 23/09/14
+ * Time: 23:43
+ */
+
+namespace Cacic\WSBundle\Security\User;
+
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\DependencyInjection\ContainerAwareInterface;
+use Symfony\Component\Security\Core\User\UserProviderInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
+use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
+use Cacic\CommonBundle\Entity\Usuario as WebserviceUser;
+use Doctrine\ORM\NonUniqueResultException;
+
+
+class WebserviceUserProvider implements UserProviderInterface {
+
+    private $container;
+
+
+    public function __construct(ContainerInterface $container)
+    {
+        $this->container = $container;
+
+        // Eduardo: 20151501
+        // Para funcionar no multisite e preciso forçar o ambiente aqui
+        $env = $container->getParameter('kernel.environment');
+        if ($env == 'multi') {
+            // O banco de dados cadastrado será o mesmo para todos os usuários
+            $dbname = $container->getParameter('database_name');
+            $dbuser = $container->getParameter('database_user');
+            $dbpass = $container->getParameter('database_password');
+
+            $container->get('doctrine.dbal.dynamic_connection')->forceSwitch($dbname, $dbuser, $dbpass);
+        }
+
+        $this->em = $container->get('doctrine')->getManager();
+    }
+
+
+    public function getUsernameForApiKey($apiKey)
+    {
+        // Look up the username based on the token in the database, via
+        // an API call, or do something entirely different
+        try {
+            $usuario = $this->em->getRepository('CacicCommonBundle:Usuario')->findOneBy(array('apiKey' => $apiKey));
+        } catch (NonUniqueResultException $e) {
+            throw new AuthenticationException(
+                sprintf("Null password not allowed: |$apiKey|")
+            );
+        }
+
+        if ($usuario) {
+            return $usuario->getUsername();
+        }
+
+        throw new UsernameNotFoundException(
+            sprintf('Username "%s" does not exist.', $apiKey)
+        );
+    }
+
+    public function loadUserByUsername($username)
+    {
+        // make a call to your webservice here
+        //$userData = '...';
+        // pretend it returns an array on success, false if there is no user
+        $usuario = $this->em->getRepository('CacicCommonBundle:Usuario')->findOneBy(array('nmUsuarioAcesso' => $username));
+
+        if ($usuario) {
+            return $usuario;
+        }
+
+        throw new UsernameNotFoundException(
+            sprintf('Username "%s" does not exist.', $username)
+        );
+    }
+
+    public function refreshUser(UserInterface $user)
+    {
+        if (!$user instanceof WebserviceUser) {
+            throw new UnsupportedUserException(
+                sprintf('Instances of "%s" are not supported.', get_class($user))
+            );
+        }
+
+        return $this->loadUserByUsername($user->getUsername());
+    }
+
+    public function supportsClass($class)
+    {
+        return $class === 'Cacic\CommonBundle\Entity\Usuario';
+    }
+
+} 
+
