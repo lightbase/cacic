@@ -81,7 +81,11 @@ class NeoLogController extends NeoController {
                     $log_erro->setNivelErro('info');
                     $log_erro->setMensagem($entry['message']);
 
-                    $em->persist($log_erro);
+                    // Eduardo: 2015-08-14
+                    // FIXME: Adicionar um parâmetro para habilitar isso.
+                    // Por enquanto desabilita gravação de logs de info
+
+                    //$em->persist($log_erro);
 
                 }
             }
