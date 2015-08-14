@@ -2,12 +2,15 @@ Cacic\CommonBundle\Entity\AquisicaoItem:
     type: entity
     table: aquisicao_item
     repositoryClass: Cacic\CommonBundle\Entity\AquisicaoItemRepository
-    id:
-        idTipoLicenca:
-            associationKey: true
-        idAquisicao:
-            associationKey: true
     fields:
+        idAquisicaoItem:
+            id: true
+            type: integer
+            unsigned: false
+            nullable: false
+            column: id_aquisicao_item
+            generator:
+                strategy: IDENTITY
         qtLicenca:
             type: integer
             unsigned: false
@@ -22,16 +25,6 @@ Cacic\CommonBundle\Entity\AquisicaoItem:
             fixed: false
             nullable: true
             column: te_obs
-    oneToOne:
-        idTipoLicenca:
-            targetEntity: TipoLicenca
-            cascade: {  }
-            mappedBy: null
-            inversedBy: null
-            joinColumns:
-                id_tipo_licenca:
-                    referencedColumnName: id_tipo_licenca
-            orphanRemoval: false
     manyToOne:
         idAquisicao:
             targetEntity: Aquisicao
@@ -42,12 +35,23 @@ Cacic\CommonBundle\Entity\AquisicaoItem:
                 id_aquisicao:
                     referencedColumnName: id_aquisicao
             orphanRemoval: false
+        idTipoLicenca:
+            targetEntity: TipoLicenca
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                id_tipo_licenca:
+                    referencedColumnName: id_tipo_licenca
+            orphanRemoval: false
+        idSoftwareRelatorio:
+            targetEntity: SoftwareRelatorio
+            inversedBy: aquisicoes
+            joinColumns:
+                id_software_relatorio:
+                    referencedColumnName: id_software_relatorio
     oneToMany:
         idSoftwareEstacao:
             targetEntity: SoftwareEstacao
             mappedBy: idAquisicaoItem
-    manyToMany:
-        idSoftware:
-            targetEntity: Software
-            mappedBy: aquisicoes
     lifecycleCallbacks: {  }

@@ -23,6 +23,10 @@ Cacic\CommonBundle\Entity\SoftwareRelatorio:
             type: boolean
             nullable: true
             column: habilita_notificacao
+    oneToMany:
+        aquisicoes:
+            targetEntity: AquisicaoItem
+            mappedBy: idSoftwareRelatorio
     manyToMany:
         softwares:
             targetEntity: Software
