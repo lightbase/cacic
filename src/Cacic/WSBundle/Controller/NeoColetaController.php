@@ -774,6 +774,16 @@ class NeoColetaController extends NeoController {
      */
     public function createNotification($computador, $coletasRetiradas, $object) {
         $em = $this->getDoctrine()->getManager();
+        $logger = $this->get('logger');
+
+        // Se for software, verifica se o software deve ser notificado
+        if ($object == 'Software') {
+            $coletasRetiradas = $this->softwareNotification($coletasRetiradas);
+
+            if (empty($coletasRetiradas)) {
+                return false;
+            }
+        }
 
         $body = "Nome do Computador: ". $computador->getNmComputador() ."
              IP do Computador: ". $computador->getTeIpComputador() ."
@@ -818,6 +828,32 @@ class NeoColetaController extends NeoController {
         }
 
         return true;
+    }
+
+    /**
+     * Verifica se os softwares retirados devem ser notificados
+     *
+     * @param $coletasRetiradas
+     * @return array Retorna o array como com os softwares que devem ser notificados ou vazio
+     */
+    public function softwareNotification($coletasRetiradas) {
+        $em = $this->getDoctrine()->getManager();
+        $logger = $this->get('logger');
+
+        // Só insere de volta os softwares que devem ser notificados
+        $saida = array();
+        foreach (array_keys($coletasRetiradas) as $software) {
+            $relatorio = $em->getRepository("CacicCommonBundle:SoftwareRelatorio")->findSoftware($software);
+
+            if (!empty($relatorio)) {
+                // Só notifica se o software estiver com a notificação habilitada explicitamente
+                if ($relatorio->getHabilitaNotificacao() == true) {
+                    $saida[$software] = $coletasRetiradas[$software];
+                }
+            }
+        }
+
+        return $saida;
     }
 
 }

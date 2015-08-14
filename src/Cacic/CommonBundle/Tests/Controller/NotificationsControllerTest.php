@@ -8,8 +8,9 @@
 
 namespace Cacic\CommonBundle\Tests\Controller;
 
-use Cacic\CommonBundle\Entity\Computador;
+use Cacic\CommonBundle\Entity\SoftwareRelatorio;
 use Cacic\CommonBundle\Tests\BaseTestCase;
+use Proxies\__CG__\Cacic\CommonBundle\Entity\So;
 
 class NotificationsControllerTest extends BaseTestCase
 {
@@ -64,6 +65,51 @@ class NotificationsControllerTest extends BaseTestCase
         // Verifica se o Software Coleta foi inserido
         $em = $this->container->get('doctrine')->getManager();
 
+        $software = $em->getRepository("CacicCommonBundle:Software")->getByName('Messaging account plugin for AIM');
+        $this->assertNotEmpty($software, "Software Messaging account plugin for AIM não encontrado após coleta");
+
+
+        // Só vai criar a notificação se existir um relatório cadastrado
+        $user = $em->getRepository("CacicCommonBundle:Usuario")->find(1);
+        $em->persist($user);
+        $relatorio = new SoftwareRelatorio();
+        $relatorio->setNivelAcesso('publico');
+        $relatorio->setNomeRelatorio('Software');
+        $relatorio->setHabilitaNotificacao(true);
+        $relatorio->setIdUsuario($user);
+        $relatorio->addSoftware($software);
+        $em->persist($relatorio);
+        $em->flush();
+
+        // Insere software no relatório
+        $idRelatorio = $relatorio->getIdRelatorio();
+        $idSoftware = $software->getIdSoftware();
+
+        $sql = "INSERT INTO relatorios_software (id_relatorio, id_software)
+                      VALUES ($idRelatorio, $idSoftware)";
+        $stmt = $em->getConnection()->prepare($sql);
+        $stmt->execute();
+
+        // Agora testa a busca pelo software
+        $classProperty = $em->getRepository("CacicCommonBundle:ClassProperty")->findOneBy(array(
+            'nmPropertyName' => 'account-plugin-aim'
+        ));
+        $this->assertNotEmpty($classProperty, "Propriedade não encontrada pelo nome account-plugin-aim");
+
+        $prop = $em->getRepository("CacicCommonBundle:PropriedadeSoftware")->findOneBy(array(
+            'classProperty' => $classProperty
+        ));
+        $this->assertNotEmpty($prop, "Propriedade de software não encontrada");
+
+        $prop = $em->getRepository("CacicCommonBundle:PropriedadeSoftware")->findOneBy(array(
+            'software' => $software
+        ));
+        $this->assertNotEmpty($prop, "Software não encontradao");
+
+        $softwareRelatorio = $em->getRepository("CacicCommonBundle:SoftwareRelatorio")->findSoftware('account-plugin-aim');
+        $this->assertNotEmpty($softwareRelatorio, "Relatório não encontrado para o software account-plugin-aim");
+
+
         // Agora envia a modificação
         $this->static_client->request(
             'POST',
@@ -110,6 +156,71 @@ class NotificationsControllerTest extends BaseTestCase
         $tmpfile = sys_get_temp_dir(). '/notifications.json';
         file_put_contents($tmpfile, $response->getContent());
         $this->logger->debug("NOTIFICATIONS: file temp = $tmpfile");
+
+        $notifications_json = $response->getContent();
+        $notifications = json_decode($notifications_json, true);
+        $this->assertCount(2, $notifications, "Não foram encontradas duas notificações");
+
+        // Testa o caso em que o software está desabilitado
+        $softwareRelatorio = $em->getRepository("CacicCommonBundle:SoftwareRelatorio")->findSoftware('account-plugin-aim');
+        $softwareRelatorio->setHabilitaNotificacao(false);
+        $em->persist($softwareRelatorio);
+        $sql = "DELETE FROM notifications";
+        $stmt = $em->getConnection()->prepare($sql);
+        $stmt->execute();
+        $em->flush();
+
+        // Agora envia a modificação
+        $this->static_client->request(
+            'POST',
+            '/ws/neo/modifications',
+            array(),
+            array(),
+            array(
+                'CONTENT_TYPE'  => 'application/json',
+                //'HTTPS'         => true
+            ),
+            $this->modifications
+        );
+
+        $response = $this->static_client->getResponse();
+        $status = $response->getStatusCode();
+        $this->logger->debug("Response status: $status");
+        $this->assertEquals($status, 200);
+
+        // Limpa o cache para garantir o resultado
+        $em->clear();
+
+        // Conecta à rota
+        $crawler = $this->client->request(
+            'GET',
+            '/notifications/get',
+            array(),
+            array(),
+            array(
+                'CONTENT_TYPE'  => 'application/json',
+                //'HTTPS'         => true
+            ),
+            '{}'
+        );
+
+        // Testa rota
+        $response = $this->client->getResponse();
+        $status = $response->getStatusCode();
+        $this->logger->debug("Response status: $status");
+        $this->assertEquals(200, $status);
+
+        $tmpfile = sys_get_temp_dir(). '/notifications2.json';
+        file_put_contents($tmpfile, $response->getContent());
+        $this->logger->debug("NOTIFICATIONS: file temp = $tmpfile");
+
+        $notifications_json = $response->getContent();
+        $notifications = json_decode($notifications_json, true);
+        foreach ($notifications as $elm) {
+            if ($elm['object'] == 'Software') {
+                $this->fail("A coleta de software foi encontrada nas notificações, e não deveria estar");
+            }
+        }
 
     }
 

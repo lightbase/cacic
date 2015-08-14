@@ -322,4 +322,22 @@ class SoftwareRelatorioRepository extends EntityRepository
 
         return $qb->getQuery()->getResult();
     }
+
+    /**
+     * Busca se o software está em algum relatório
+     *
+     * @param $software
+     * @return array Relatório de software encontrado
+     */
+    public function findSoftware($software) {
+        $qb = $this->createQueryBuilder('rel')
+            ->innerJoin("rel.softwares", "sw")
+            ->innerJoin("CacicCommonBundle:PropriedadeSoftware", "prop", "WITH", "sw.idSoftware = prop.software")
+            ->innerJoin("CacicCommonBundle:ClassProperty", 'cl', 'WITH', 'cl.idClassProperty = prop.classProperty')
+            ->orWhere('cl.nmPropertyName = :software')
+            ->orWhere('sw.nmSoftware = :software')
+            ->setParameter('software', $software);
+
+        return $qb->getQuery()->getOneOrNullResult();
+    }
 }
