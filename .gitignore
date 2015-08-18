@@ -43,3 +43,5 @@ src/Cacic/CommonBundle/Resources/data/importacao.zip
 # Ignore IDE Files
 .idea
 cacic.iml
+
+.mage
