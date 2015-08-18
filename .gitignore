@@ -35,7 +35,6 @@ web/app_dev.php
 
 # Ignora htaccess
 .htaccess
-.idea
 
 # Ignora arquivo do importador
 src/Cacic/CommonBundle/Resources/data/importacao.zip
