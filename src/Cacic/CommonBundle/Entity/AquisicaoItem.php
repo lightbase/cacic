@@ -45,7 +45,7 @@ class AquisicaoItem
     private $idTipoLicenca;
 
     /**
-     * @var \Cacic\CommonBundle\Entity\SoftwareRelatorio
+     * @var \Doctrine\Common\Collections\Collection
      */
     private $idSoftwareRelatorio;
 
@@ -55,6 +55,7 @@ class AquisicaoItem
     public function __construct()
     {
         $this->idSoftwareEstacao = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->idSoftwareRelatorio = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -216,22 +217,32 @@ class AquisicaoItem
     }
 
     /**
-     * Set idSoftwareRelatorio
+     * Add idSoftwareRelatorio
      *
      * @param \Cacic\CommonBundle\Entity\SoftwareRelatorio $idSoftwareRelatorio
      * @return AquisicaoItem
      */
-    public function setIdSoftwareRelatorio(\Cacic\CommonBundle\Entity\SoftwareRelatorio $idSoftwareRelatorio = null)
+    public function addIdSoftwareRelatorio(\Cacic\CommonBundle\Entity\SoftwareRelatorio $idSoftwareRelatorio)
     {
-        $this->idSoftwareRelatorio = $idSoftwareRelatorio;
+        $this->idSoftwareRelatorio[] = $idSoftwareRelatorio;
 
         return $this;
     }
 
     /**
+     * Remove idSoftwareRelatorio
+     *
+     * @param \Cacic\CommonBundle\Entity\SoftwareRelatorio $idSoftwareRelatorio
+     */
+    public function removeIdSoftwareRelatorio(\Cacic\CommonBundle\Entity\SoftwareRelatorio $idSoftwareRelatorio)
+    {
+        $this->idSoftwareRelatorio->removeElement($idSoftwareRelatorio);
+    }
+
+    /**
      * Get idSoftwareRelatorio
      *
-     * @return \Cacic\CommonBundle\Entity\SoftwareRelatorio 
+     * @return \Doctrine\Common\Collections\Collection 
      */
     public function getIdSoftwareRelatorio()
     {

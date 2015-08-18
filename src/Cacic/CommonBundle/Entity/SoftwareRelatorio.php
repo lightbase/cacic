@@ -30,11 +30,6 @@ class SoftwareRelatorio
     private $habilitaNotificacao;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
-    private $aquisicoes;
-
-    /**
      * @var \Cacic\CommonBundle\Entity\Usuario
      */
     private $idUsuario;
@@ -45,12 +40,17 @@ class SoftwareRelatorio
     private $softwares;
 
     /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $aquisicoes;
+
+    /**
      * Constructor
      */
     public function __construct()
     {
-        $this->aquisicoes = new \Doctrine\Common\Collections\ArrayCollection();
         $this->softwares = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->aquisicoes = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -133,39 +133,6 @@ class SoftwareRelatorio
     }
 
     /**
-     * Add aquisicoes
-     *
-     * @param \Cacic\CommonBundle\Entity\AquisicaoItem $aquisicoes
-     * @return SoftwareRelatorio
-     */
-    public function addAquisico(\Cacic\CommonBundle\Entity\AquisicaoItem $aquisicoes)
-    {
-        $this->aquisicoes[] = $aquisicoes;
-
-        return $this;
-    }
-
-    /**
-     * Remove aquisicoes
-     *
-     * @param \Cacic\CommonBundle\Entity\AquisicaoItem $aquisicoes
-     */
-    public function removeAquisico(\Cacic\CommonBundle\Entity\AquisicaoItem $aquisicoes)
-    {
-        $this->aquisicoes->removeElement($aquisicoes);
-    }
-
-    /**
-     * Get aquisicoes
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getAquisicoes()
-    {
-        return $this->aquisicoes;
-    }
-
-    /**
      * Set idUsuario
      *
      * @param \Cacic\CommonBundle\Entity\Usuario $idUsuario
@@ -219,5 +186,38 @@ class SoftwareRelatorio
     public function getSoftwares()
     {
         return $this->softwares;
+    }
+
+    /**
+     * Add aquisicoes
+     *
+     * @param \Cacic\CommonBundle\Entity\AquisicaoItem $aquisicoes
+     * @return SoftwareRelatorio
+     */
+    public function addAquisico(\Cacic\CommonBundle\Entity\AquisicaoItem $aquisicoes)
+    {
+        $this->aquisicoes[] = $aquisicoes;
+
+        return $this;
+    }
+
+    /**
+     * Remove aquisicoes
+     *
+     * @param \Cacic\CommonBundle\Entity\AquisicaoItem $aquisicoes
+     */
+    public function removeAquisico(\Cacic\CommonBundle\Entity\AquisicaoItem $aquisicoes)
+    {
+        $this->aquisicoes->removeElement($aquisicoes);
+    }
+
+    /**
+     * Get aquisicoes
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getAquisicoes()
+    {
+        return $this->aquisicoes;
     }
 }

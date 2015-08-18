@@ -23,14 +23,21 @@ Cacic\CommonBundle\Entity\SoftwareRelatorio:
             type: boolean
             nullable: true
             column: habilita_notificacao
-    oneToMany:
-        aquisicoes:
-            targetEntity: AquisicaoItem
-            mappedBy: idSoftwareRelatorio
     manyToMany:
         softwares:
             targetEntity: Software
             mappedBy: relatorios
+        aquisicoes:
+            targetEntity: AquisicaoItem
+            inversedBy: idSoftwareRelatorio
+            joinTable:
+                name: aquisicoes_software
+                joinColumns:
+                    id_relatorio:
+                        referencedColumnName: id_relatorio
+                inverseJoinColumns:
+                    id_aquisicao_item:
+                        referencedColumnName: id_aquisicao_item
     manyToOne:
         idUsuario:
             targetEntity: Usuario

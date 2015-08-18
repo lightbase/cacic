@@ -41,12 +41,10 @@ Cacic\CommonBundle\Entity\AquisicaoItem:
                 id_tipo_licenca:
                     referencedColumnName: id_tipo_licenca
             orphanRemoval: false
+    manyToMany:
         idSoftwareRelatorio:
             targetEntity: SoftwareRelatorio
-            inversedBy: aquisicoes
-            joinColumns:
-                id_software_relatorio:
-                    referencedColumnName: id_relatorio
+            mappedBy: aquisicoes
     oneToMany:
         idSoftwareEstacao:
             targetEntity: SoftwareEstacao
