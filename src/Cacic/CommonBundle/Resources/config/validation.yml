@@ -188,14 +188,9 @@ Cacic\CommonBundle\Entity\AquisicaoItem:
     properties:
         qtLicenca:
             - NotBlank: ~
-        idTipoLicenca:
-            - NotBlank: ~
         idAquisicao:
             - NotBlank: ~
-        idSoftware:
-            - NotBlank: ~
         dtVencimentoLicenca:
-            - NotBlank: ~
             - Date: ~
 
 Cacic\CommonBundle\Entity\SoftwareEstacao:

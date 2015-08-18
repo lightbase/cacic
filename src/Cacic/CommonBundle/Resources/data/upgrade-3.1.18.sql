@@ -51,11 +51,11 @@ BEGIN
   ALTER TABLE aquisicao_item
   ADD id_aquisicao_item INTEGER;
 
-  CREATE SEQUENCE aquisicao_item_id_seq;
+  CREATE SEQUENCE aquisicao_item_id_aquisicao_item_seq;
 
   ALTER TABLE aquisicao_item
   ALTER COLUMN id_aquisicao_item
-  SET DEFAULT nextval('aquisicao_item_id_seq');
+  SET DEFAULT nextval('aquisicao_item_id_aquisicao_item_seq');
 
   ALTER TABLE aquisicao_item
   ALTER id_tipo_licenca DROP NOT NULL;
@@ -73,7 +73,7 @@ BEGIN
               from aquisicao_item_bk
   LOOP
 
-    v_id_aquisicao_item = nextval('aquisicao_item_id_seq');
+    v_id_aquisicao_item = nextval('aquisicao_item_id_aquisicao_item_seq');
 
     RAISE NOTICE 'Criando chave primária para id_tipo_licenca = % e id_aquisicao = % | id_aquisicao_item = %', soft.id_tipo_licenca, soft.id_aquisicao, v_id_aquisicao_item;
 

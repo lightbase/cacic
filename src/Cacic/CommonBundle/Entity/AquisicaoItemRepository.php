@@ -17,7 +17,7 @@ class AquisicaoItemRepository extends EntityRepository
     {
         $_dql = "SELECT item, aquisicao, software, tipoLicenca
                     FROM CacicCommonBundle:AquisicaoItem item
-                    LEFT JOIN item.idSoftware software
+                    LEFT JOIN item.idSoftwareRelatorio software
                     LEFT JOIN item.idAquisicao aquisicao
                     LEFT JOIN item.idTipoLicenca tipoLicenca
 				";

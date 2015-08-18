@@ -28,8 +28,7 @@ Cacic\CommonBundle\Entity\AquisicaoItem:
     manyToOne:
         idAquisicao:
             targetEntity: Aquisicao
-            cascade: {  }
-            mappedBy: null
+            nullable: false
             inversedBy: itens
             joinColumns:
                 id_aquisicao:

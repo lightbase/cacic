@@ -24,7 +24,10 @@ class AquisicaoItemType extends AbstractType
                 'class' => 'CacicCommonBundle:Aquisicao',
                 'property' => 'nrProcesso',
                 'empty_value' => 'Selecione',
-                'label'=>'Processo de aquisicao:', 'max_length'=>100 )
+                'label'=>'Processo de aquisicao:',
+                'max_length' => 100,
+                'required' => true
+            )
         );
 
         $builder->add(
@@ -34,13 +37,20 @@ class AquisicaoItemType extends AbstractType
                 'class' => 'CacicCommonBundle:TipoLicenca',
                 'property' => 'teTipoLicenca',
                 'empty_value' => 'Selecione',
-                'label'=>'Tipo Licença:', 'max_length'=>100 )
+                'label'=>'Tipo Licença:',
+                'max_length'=>100,
+                'required' => false
+            )
         );
 
         $builder->add(
             'qtLicenca',
             null,
-            array( 'label'=>'Quantidade de Licencas:', 'max_length'=>100 )
+            array(
+                'label'=>'Quantidade de Licencas:',
+                'max_length'=>100,
+                'required' => true
+            )
         );
 
         $builder->add('dtVencimentoLicenca',
@@ -48,15 +58,33 @@ class AquisicaoItemType extends AbstractType
             array(
             	'widget' => 'single_text',
                 'format' => 'dd/MM/yyyy','label'=>'Data de Vencimento',
-            	'attr' => array('class'=>'datepicker_on' )
+            	'attr' => array(
+                    'class'=> 'datepicker_on'
+                ),
+                'required' => false
             )
         );
+
         $builder->add('teObs',
              'textarea',
             array(
                 'label'=>'Observação',
                 'required'=>false,
                 'max_length'=>200
+            )
+        );
+
+        $builder->add(
+            'idSoftwareRelatorio',
+            'entity',
+            array(
+                'class' => 'CacicCommonBundle:SoftwareRelatorio',
+                'property' => 'nomeRelatorio',
+                'empty_value' => 'Selecione o Relatório',
+                'placeholder' => 'Selecione o Relatório',
+                'label'=>'Nome do Relatório',
+                'expanded' => true,
+                'multiple' => true
             )
         );
     }

@@ -18,170 +18,112 @@ class AquisicaoItemController extends Controller
     {
         return $this->render(
         	'CacicCommonBundle:AquisicaoItem:index.html.twig',
-        	array( 'Aquisicao' => $this->getDoctrine()->getRepository( 'CacicCommonBundle:AquisicaoItem' )->paginar( $this->get( 'knp_paginator' ), $page ))
+        	array(
+                'Aquisicao' => $this->getDoctrine()
+                    ->getRepository( 'CacicCommonBundle:AquisicaoItem' )
+                    ->paginar(
+                        $this->get( 'knp_paginator' ),
+                        $page
+                    )
+            )
         );
     }
     
-    public function cadastrarAction(Request $request)
+    public function cadastrarAction(Request $request, $idAquisicaoItem = null)
     {
         $em = $this->getDoctrine()->getManager();
-        $Aquisicao = new AquisicaoItem();
+        $logger = $this->get('logger');
+
+        $logger->debug("000000000000000000000000000000 $idAquisicaoItem");
+
+        $Aquisicao = $em->getRepository("CacicCommonBundle:AquisicaoItem")->find($idAquisicaoItem);
+
+        if (empty($Aquisicao)) {
+            $Aquisicao = new AquisicaoItem();
+        }
+
         $form = $this->createForm( new AquisicaoItemType(), $Aquisicao );
 
         if ( $request->isMethod('POST') )
         {
-            $form->bind( $request );
+            $form->handleRequest( $request );
             if ( $form->isValid() )
             {
 
                 // Primeiro remove os softwares que estavam cadastrados
                 // Manually delete all entries
-                $idAquisicao = $Aquisicao->getIdAquisicao()->getIdAquisicao();
-                $idTipoLicenca = $Aquisicao->getIdTipoLicenca()->getIdTipoLicenca();
-                $this->get('logger')->debug("Removendo softwares para id_aquisicao = $idAquisicao e id_tipo_licenca = $idTipoLicenca");
-                $sql = "DELETE FROM aquisicoes_software
-                    WHERE id_aquisicao = $idAquisicao
-                    AND id_tipo_licenca = $idTipoLicenca";
-                $stmt = $em->getConnection()->prepare($sql);
-                $stmt->execute();
+                if (!empty($Aquisicao)) {
+                    $idAquisicaoItem = $Aquisicao->getIdAquisicaoItem();
+                    $logger->debug("Removendo softwares para id_aquisicao_item = $idAquisicaoItem");
 
-                $em->remove($Aquisicao);
-                $em->flush();
+                    foreach ($Aquisicao->getIdSoftwareRelatorio() as $software_relatorio) {
+                        $Aquisicao->removeIdSoftwareRelatorio($software_relatorio);
+                        $software_relatorio->removeAquisico($Aquisicao);
 
-                /*foreach ($Aquisicao->getIdSoftware() as $software) {
-                    $idSoftware = $software->getIdSoftware();
-                    $this->get('logger')->debug("Removendo software ".$idSoftware);
-                }*/
+                        $em->persist($software_relatorio);
+                        $em->persist($Aquisicao);
 
-                // Limpa objeto
-                $AquisicaoNew = new AquisicaoItem();
-                $AquisicaoNew->setDtVencimentoLicenca($Aquisicao->getDtVencimentoLicenca());
-                $AquisicaoNew->setIdAquisicao($Aquisicao->getIdAquisicao());
-                $AquisicaoNew->setIdTipoLicenca($Aquisicao->getIdTipoLicenca());
-                $AquisicaoNew->setQtLicenca($Aquisicao->getQtLicenca());
-                $AquisicaoNew->setTeObs($Aquisicao->getTeObs());
+                        $em->flush();
+                    }
 
-                $software_list = $request->get('idSoftware');
-
-                // Garante qus os elementos do array são únicos
-                $software_list = array_unique($software_list);
-
-                foreach ($software_list as $software) {
-                    $this->get('logger')->debug("Adicionando software ".$software);
-                    $software_obj = $this->getDoctrine()->getManager()->getRepository('CacicCommonBundle:Software')->find($software);
-                    $AquisicaoNew->addIdSoftware($software_obj);
-                    $em->persist( $software_obj );
                 }
 
-                $em->persist( $AquisicaoNew );
-                $em->flush();// Efetuar a edição do Aquisicao
+                $software_list = $form->get('idSoftwareRelatorio')->getData();
 
-                $Aquisicao = $AquisicaoNew;
+                foreach ($software_list as $software_relatorio) {
+                    $software = $software_relatorio->getIdRelatorio();
+                    $logger->debug("Adicionando software ".$software);
+
+                    $Aquisicao->addIdSoftwareRelatorio($software_relatorio);
+                    $software_relatorio->addAquisico($Aquisicao);
+                    $em->persist( $software_relatorio );
+                    $em->persist($Aquisicao);
+
+                    $em->flush();
+                }
+
+                //$em->persist( $Aquisicao );
+                //$em->flush();// Efetuar a edição do Aquisicao
+
                 $this->get('session')->getFlashBag()->add('success', 'Dados salvos com sucesso!');
                 return $this->redirect( $this->generateUrl( 'cacic_aquisicao_item_index') );
             }
         }
 
-        return $this->render( 'CacicCommonBundle:AquisicaoItem:cadastrar.html.twig', array(
-            'form' => $form->createView(),
-            'software_list' => $Aquisicao->getIdSoftware()
-        ));
+        return $this->render(
+            'CacicCommonBundle:AquisicaoItem:cadastrar.html.twig',
+            array(
+                'form' => $form->createView(),
+                'software_list' => $Aquisicao->getIdSoftwareRelatorio()
+            )
+        );
     }
 
     /**
-     *  Página de editar dados do Aquisicao
-     *  @param int $idAquisicao
-     */
-    public function editarAction( $idAquisicao, $idTipoLicenca, Request $request )
-    {
-        $em = $this->getDoctrine()->getManager();
-        $Aquisicao = $em->getRepository('CacicCommonBundle:AquisicaoItem')
-                                            ->find(
-                                                array(
-                                                    'idAquisicao' =>$idAquisicao,
-                                                    'idTipoLicenca' => $idTipoLicenca
-                                            )   );
-        if ( !$Aquisicao )
-            throw $this->createNotFoundException( 'Aquisicao não encontrado' );
-
-        $form = $this->createForm( new AquisicaoItemType(), $Aquisicao );
-
-        if ( $request->isMethod('POST') )
-        {
-            $form->bind( $request );
-
-            if ( $form->isValid() )
-            {
-                // Primeiro remove os softwares que estavam cadastrados
-                // Manually delete all entries
-                $idAquisicao = $Aquisicao->getIdAquisicao()->getIdAquisicao();
-                $idTipoLicenca = $Aquisicao->getIdTipoLicenca()->getIdTipoLicenca();
-                $this->get('logger')->debug("Removendo softwares para id_aquisicao = $idAquisicao e id_tipo_licenca = $idTipoLicenca");
-                $sql = "DELETE FROM aquisicoes_software
-                    WHERE id_aquisicao = $idAquisicao
-                    AND id_tipo_licenca = $idTipoLicenca";
-                $stmt = $em->getConnection()->prepare($sql);
-                $stmt->execute();
-
-                $em->remove($Aquisicao);
-                $em->flush();
-
-                /*foreach ($Aquisicao->getIdSoftware() as $software) {
-                    $idSoftware = $software->getIdSoftware();
-                    $this->get('logger')->debug("Removendo software ".$idSoftware);
-                }*/
-
-                // Limpa objeto
-                $AquisicaoNew = new AquisicaoItem();
-                $AquisicaoNew->setDtVencimentoLicenca($Aquisicao->getDtVencimentoLicenca());
-                $AquisicaoNew->setIdAquisicao($Aquisicao->getIdAquisicao());
-                $AquisicaoNew->setIdTipoLicenca($Aquisicao->getIdTipoLicenca());
-                $AquisicaoNew->setQtLicenca($Aquisicao->getQtLicenca());
-                $AquisicaoNew->setTeObs($Aquisicao->getTeObs());
-
-                $software_list = $request->get('idSoftware');
-
-                // Garante qus os elementos do array são únicos
-                $software_list = array_unique($software_list);
-
-                foreach ($software_list as $software) {
-                    $this->get('logger')->debug("Adicionando software ".$software);
-                    $software_obj = $this->getDoctrine()->getManager()->getRepository('CacicCommonBundle:Software')->find($software);
-                    $AquisicaoNew->addIdSoftware($software_obj);
-                    $em->persist( $software_obj );
-                }
-
-                $em->persist( $AquisicaoNew );
-                $em->flush();// Efetuar a edição do Aquisicao
-
-                $Aquisicao = $AquisicaoNew;
-                $this->get('session')->getFlashBag()->add('success', 'Dados salvos com sucesso!');
-            }
-        }
-
-        return $this->render( 'CacicCommonBundle:AquisicaoItem:cadastrar.html.twig', array(
-            'form' => $form->createView(),
-            'software_list' => $Aquisicao->getIdSoftware()
-        ));
-    }
-
-    /**
-     *
      * [AJAX] Exclusão de Aquisicao já cadastrado
-     * @param integer $id
+     *
+     * @param Request $request id obrigatório
+     * @return Response
      */
     public function excluirAction( Request $request )
     {
-        if ( ! $request->isXmlHttpRequest() ) // Verifica se se trata de uma requisição AJAX
+        if ( ! $request->isXmlHttpRequest() ) {
+            // Verifica se se trata de uma requisição AJAX
+            $this->get('session')->getFlashBag()->add('error', 'Página não encontrada!');
             throw $this->createNotFoundException( 'Página não encontrada' );
+        }
 
-        $itemAquisicao = $this->getDoctrine()->getRepository('CacicCommonBundle:AquisicaoItem')->find( $request->get('compositeKeys') );
-        if ( ! $itemAquisicao )
+        $itemAquisicao = $this->getDoctrine()->getRepository('CacicCommonBundle:AquisicaoItem')->find( $request->get('id') );
+        if ( ! $itemAquisicao ) {
+            $this->get('session')->getFlashBag()->add('error', 'Item de aquisicção não encontrado!');
             throw $this->createNotFoundException( 'Item de Aquisição não encontrado' );
+        }
 
         $em = $this->getDoctrine()->getManager();
         $em->remove( $itemAquisicao );
         $em->flush();
+
+        $this->get('session')->getFlashBag()->add('success', 'Item removido com sucesso!');
 
         $response = new Response( json_encode( array('status' => 'ok') ) );
         $response->headers->set('Content-Type', 'application/json');

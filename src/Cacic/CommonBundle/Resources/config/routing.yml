@@ -588,12 +588,10 @@ cacic_aquisicao_item_cadastrar:
     defaults: { _controller: CacicCommonBundle:AquisicaoItem:cadastrar}
 
 cacic_aquisicao_item_editar:
-    path:  /manutencao/aquisicaoitem/editar/{idAquisicao}/{idTipoLicenca}
-    defaults: { _controller: CacicCommonBundle:AquisicaoItem:editar}
+    path:  /manutencao/aquisicaoitem/editar/{idAquisicaoItem}
+    defaults: { _controller: CacicCommonBundle:AquisicaoItem:cadastrar }
     requirements:
-        idSoftware: \d+
-        idTipoLicenca: \d+
-        idAquisicao: \d+
+        idAquisicaoItem: \d+
 
 cacic_aquisicao_item_excluir:
     path:  /manutencao/aquisicaoitem/excluir

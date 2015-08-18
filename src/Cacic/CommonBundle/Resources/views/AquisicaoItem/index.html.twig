@@ -15,9 +15,17 @@
 
       <div class="block box_content round_bottom padding_10">
 
-            <h3>{{ "Lista de Aquisições de Itens cadastrados"|trans }}</h3>
-            <p>{{ "Neste módulo deverão ser cadastrados Itens Adquiridos"|trans }}</p>
-            <br />
+        <h3>{{ "Lista de Aquisições de Itens cadastrados"|trans }}</h3>
+        <p>{{ "Neste módulo deverão ser cadastrados Itens Adquiridos"|trans }}</p>
+        <br />
+
+        <a class="btn btn-primary bt-adicionar" href="{{ path('cacic_aquisicao_item_cadastrar') }}">
+          <i class="icon-plus-sign"></i>
+          {{ "Adicionar Item Adquirido"|trans }}
+        </a>
+        <br>
+        <br>
+
         <table class="table table-striped table-bordered">
             <thead>
                 <tr>
@@ -35,17 +43,17 @@
 
                 {% for aquisicao in Aquisicao %}
 
-                    <tr id="item_tp{{ aquisicao['id_tipo_licenca'] }}_aq{{ aquisicao['id_aquisicao'] }}}}">
+                    <tr id="item_{{ aquisicao['idAquisicaoItem'] }}">
                         <td>
                             {{ aquisicao['idAquisicao']['nrProcesso'] }}
                             {{ aquisicao['idAquisicao'].dtAquisicao|date('d/m/Y') }}
                             {{ aquisicao['idAquisicao']['nmEmpresa'] }}
                         </td>
-                        {%  if aquisicao['idSoftware'] is defined %}
+                        {%  if aquisicao['idSoftwareRelatorio'] is defined %}
                             <td>
                                 {% set break = 0 %}
-                                {% for software in aquisicao['idSoftware'] if break == 0 %}
-                                    {{ software.nmSoftware }}<br>
+                                {% for software in aquisicao['idSoftwareRelatorio'] if break == 0 %}
+                                    {{ software.nomeRelatorio }}<br>
                                     {% if loop.index > 5 %}
                                         (...)
                                         {% set break = 1 %}
@@ -55,20 +63,21 @@
                         {% else %}
                             <td>{{ 'Não há softwares cadastrados'|trans }}</td>
                         {% endif %}
+                        <td style="text-align: center">
+                            {% if aquisicao['idTipoLicenca'] is not empty %}
+                                {{ aquisicao['idTipoLicenca']['teTipoLicenca'] }}
+                            {% endif %}
+                        </td>
 
-                        <td style="text-align: center">{{ aquisicao['idTipoLicenca']['teTipoLicenca'] }}</td>
                         <td style="text-align: center">{{ aquisicao['qtLicenca'] }}</td>
                         <td style="text-align: center">{{ aquisicao.dtVencimentoLicenca|date('d/m/Y') }}</td>
                         <td style="text-align: center" class="td-actions">
-                            <a href="{{ path('cacic_aquisicao_item_editar', {'idAquisicao': aquisicao['id_aquisicao'],
-                                                                            'idTipoLicenca': aquisicao['id_tipo_licenca']
-                                                                }) }}"
+                            <a href="{{ path('cacic_aquisicao_item_editar', {'idAquisicaoItem': aquisicao['idAquisicaoItem']}) }}"
                                class="btn btn-small" title="{{ "Editar Item"|trans }}">
                                 <i class="btn-icon-only icon-edit icon-large"></i>
                             </a>
                             <a href="{{ path('cacic_aquisicao_item_excluir') }}" 
-                                class="btn btn-small btn-danger bt-excluir-compositekey" 
-                                data-composite-keys='{"idAquisicao":{{ aquisicao['id_aquisicao'] }},"idTipoLicenca":{{ aquisicao['id_tipo_licenca'] }} }}}'
+                                class="btn btn-small btn-danger bt-excluir"
                                 title="{{ 'Excluir Item'|trans }}">
                                 <i class="btn-icon-only icon-trash icon-large"></i>
                             </a>
@@ -87,13 +96,6 @@
           <div class="navigation">
               {{ knp_pagination_render(Aquisicao) }}
           </div>
-
-        <div align="right">
-            <a class="btn btn-primary bt-adicionar" href="{{ path('cacic_aquisicao_item_cadastrar') }}">
-                <i class="icon-plus-sign"></i>
-                {{ "Adicionar Item Adquirido"|trans }}
-            </a>
-        </div>
       </div> <!-- /block -->
     </div><!-- /box -->
 
