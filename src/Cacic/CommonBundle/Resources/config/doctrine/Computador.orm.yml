@@ -17,7 +17,7 @@ Cacic\CommonBundle\Entity\Computador:
             nullable: true
             column: nm_computador
         teNodeAddress:
-            type: text
+            type: string
             fixed: true
             nullable: false
             column: te_node_address

@@ -5,7 +5,7 @@ Cacic\CommonBundle\Entity\Session:
     fields:
         sessionId:
             id: true
-            type: text
+            type: string
             nullable: false
             column: session_id
         sessionValue:

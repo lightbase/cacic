@@ -8,7 +8,7 @@ Cacic\CommonBundle\Entity\AcaoExcecao:
         rede:
             associationKey: true
         teNodeAddress:
-            type: text
+            type: string
             fixed: true
             column: te_node_address
     manyToOne:

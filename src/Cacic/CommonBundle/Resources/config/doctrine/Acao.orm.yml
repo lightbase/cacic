@@ -5,8 +5,7 @@ Cacic\CommonBundle\Entity\Acao:
     fields:
         idAcao:
             id: true
-            type: text
-            fixed: false
+            type: string
             nullable: false
             column: id_acao
         teDescricaoBreve:

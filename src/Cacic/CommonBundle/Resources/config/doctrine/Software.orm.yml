@@ -12,7 +12,7 @@ Cacic\CommonBundle\Entity\Software:
             generator:
                 strategy: IDENTITY
         nmSoftware:
-            type: text
+            type: string
             fixed: false
             column: nm_software
         teDescricaoSoftware:

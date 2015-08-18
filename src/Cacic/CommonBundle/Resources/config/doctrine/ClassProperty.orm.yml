@@ -12,7 +12,7 @@ Cacic\CommonBundle\Entity\ClassProperty:
             generator:
                 strategy: IDENTITY
         nmPropertyName:
-            type: text
+            type: string
             fixed: false
             nullable: false
             column: nm_property_name

@@ -4,7 +4,7 @@ Cacic\CommonBundle\Entity\UsbVendor:
     fields:
         idUsbVendor:
             id: true
-            type: text
+            type: string
             fixed: true
             nullable: false
             column: id_usb_vendor

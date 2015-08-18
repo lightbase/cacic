@@ -4,13 +4,13 @@ Cacic\CommonBundle\Entity\DescricaoColunaComputador:
     fields:
         teSource:
             id: true
-            type: text
+            type: string
             fixed: false
             nullable: false
             column: te_source
         teTarget:
             id: true
-            type: text
+            type: string
             fixed: false
             nullable: false
             column: te_target

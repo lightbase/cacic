@@ -5,7 +5,7 @@ Cacic\CommonBundle\Entity\ConfiguracaoPadrao:
     fields:
         idConfiguracao:
             id: true
-            type: text
+            type: string
             fixed: false
             nullable: false
             column: id_configuracao
