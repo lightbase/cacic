@@ -32,6 +32,7 @@ web/js/
 web/assetic/
 web/app.php
 web/app_dev.php
+web/app_dev_multi.php.php
 
 # Ignora htaccess
 .htaccess
