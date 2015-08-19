@@ -34,13 +34,15 @@ class AquisicaoItemController extends Controller
         $em = $this->getDoctrine()->getManager();
         $logger = $this->get('logger');
 
-        $logger->debug("000000000000000000000000000000 $idAquisicaoItem");
-
-        $Aquisicao = $em->getRepository("CacicCommonBundle:AquisicaoItem")->find($idAquisicaoItem);
-
-        if (empty($Aquisicao)) {
+        if (!empty($idAquisicaoItem)) {
+            $Aquisicao = $em->getRepository("CacicCommonBundle:AquisicaoItem")->find($idAquisicaoItem);
+            if (empty($Aquisicao)) {
+                $Aquisicao = new AquisicaoItem();
+            }
+        } else {
             $Aquisicao = new AquisicaoItem();
         }
+
 
         $form = $this->createForm( new AquisicaoItemType(), $Aquisicao );
 
@@ -49,12 +51,15 @@ class AquisicaoItemController extends Controller
             $form->handleRequest( $request );
             if ( $form->isValid() )
             {
+                // Ajusta o valor para evitar executar consulta
+                $licenca = $Aquisicao->getIdTipoLicenca();
+                if (empty($licenca)) {
+                    $Aquisicao->setIdTipoLicenca(null);
+                }
 
                 // Primeiro remove os softwares que estavam cadastrados
-                // Manually delete all entries
-
-                if (!empty($Aquisicao)) {
-                    $idAquisicaoItem = $Aquisicao->getIdAquisicaoItem();
+                $idAquisicaoItem = $Aquisicao->getIdAquisicaoItem();
+                if (!empty($idAquisicaoItem)) {
                     $logger->debug("Removendo softwares para id_aquisicao_item = $idAquisicaoItem");
 
                     $sql = "DELETE FROM aquisicoes_software

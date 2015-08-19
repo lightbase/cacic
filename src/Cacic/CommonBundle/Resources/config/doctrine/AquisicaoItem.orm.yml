@@ -36,6 +36,7 @@ Cacic\CommonBundle\Entity\AquisicaoItem:
             orphanRemoval: false
         idTipoLicenca:
             targetEntity: TipoLicenca
+            nullable: true
             joinColumns:
                 id_tipo_licenca:
                     referencedColumnName: id_tipo_licenca

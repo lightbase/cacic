@@ -37,9 +37,8 @@ class AquisicaoItemType extends AbstractType
                 'class' => 'CacicCommonBundle:TipoLicenca',
                 'property' => 'teTipoLicenca',
                 'empty_value' => 'Selecione',
-                'label'=>'Tipo Licença:',
-                'max_length'=>100,
-                'required' => false
+                'label' => 'Tipo Licença:',
+                'max_length' => 100
             )
         );
 
