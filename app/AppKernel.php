@@ -50,6 +50,13 @@ class AppKernel extends Kernel
             $bundles[] = new Cacic\MultiBundle\CacicMultiBundle();
         }
 
+        if (in_array($this->getEnvironment(), array('dev_multi'))) {
+            $bundles[] = new Symfony\Bundle\WebProfilerBundle\WebProfilerBundle();
+            $bundles[] = new Sensio\Bundle\DistributionBundle\SensioDistributionBundle();
+            $bundles[] = new Sensio\Bundle\GeneratorBundle\SensioGeneratorBundle();
+            $bundles[] = new Cacic\MultiBundle\CacicMultiBundle();
+        }
+
         return $bundles;
     }
 

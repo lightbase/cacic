@@ -42,7 +42,7 @@ class ConnectionWrapper extends Connection {
         $this->session = $sess;
     }
 
-    public function forceSwitch($dbName, $dbUser, $dbPassword)
+    public function forceSwitch($dbName, $dbUser, $dbPassword, $dbHost)
     {
         if ($this->session->has(self::SESSION_ACTIVE_DYNAMIC_CONN)) {
             $current = $this->session->get(self::SESSION_ACTIVE_DYNAMIC_CONN);
@@ -54,7 +54,8 @@ class ConnectionWrapper extends Connection {
         $this->session->set(self::SESSION_ACTIVE_DYNAMIC_CONN, [
             $dbName,
             $dbUser,
-            $dbPassword
+            $dbPassword,
+            $dbHost
         ]);
 
         if ($this->isConnected()) {
@@ -81,6 +82,7 @@ class ConnectionWrapper extends Connection {
         $params['dbname'] = $realParams[0];
         $params['user'] = $realParams[1];
         $params['password'] = $realParams[2];
+        $params['host'] = $realParams[3];
 
         $this->_conn = $this->_driver->connect($params, $params['user'], $params['password'], $driverOptions);
 

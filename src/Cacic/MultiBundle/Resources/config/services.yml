@@ -4,7 +4,7 @@ services:
 
     current_site_listener:
             class: Cacic\MultiBundle\EventListener\CurrentSiteListener
-            arguments: ["@site_manager", "@service_container"]
+            arguments: ["@site_manager", "@service_container", "@doctrine.orm.entity_manager"]
             tags:
                 -
                     name: kernel.event_listener

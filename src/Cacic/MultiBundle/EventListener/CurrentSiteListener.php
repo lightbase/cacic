@@ -23,11 +23,8 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  */
 class CurrentSiteListener {
     private $siteManager;
-
     private $container;
-
     //private $em;
-
     //private $baseHost;
 
     public function __construct(SiteManager $siteManager, ContainerInterface $container)
@@ -41,49 +38,60 @@ class CurrentSiteListener {
     public function onKernelRequest(GetResponseEvent $event)
     {
         $request = $event->getRequest();
-
-        /*
-        $currentHost = $request->getHttpHost();
-        $subdomain = str_replace('.'.$this->baseHost, '', $currentHost);
-
-
-        $site = $this->em
-            ->getRepository('QADayBundle:Site')
-            ->findOneBy(array('subdomain' => $subdomain))
-        ;
-        if (!$site) {
-            throw new NotFoundHttpException(sprintf(
-                'No site for host "%s", subdomain "%s"',
-                $this->baseHost,
-                $subdomain
-            ));
-        }
-
-
-        $this->siteManager->setCurrentSite($subdomain);
-        */
-
-        $domain = $request->getBasePath();
-        $this->siteManager->setCurrentSite($domain);
-
-        // Load the database for this website
-        $dbname = trim($domain, "/");
         $container = $this->container;
 
-        $logger = $container->get('logger');
+        $em = $container->get('doctrine.orm.entity_manager');
+        $baseHost = $container->getParameter('base_host');
+        $hostMethod = $container->getParameter('host_method');
 
-        $logger->debug("MULTI-SITE DEBUG: detected domain $dbname");
 
-        // Se for nulo, pega o valor que está no parâmetro
-        if (empty($dbname)) {
-            $dbname = $container->getParameter('database_name');
+        if ($hostMethod == 'subdomain') {
+            $currentHost = $request->getHttpHost();
+            $subdomain = str_replace('.'.$baseHost, '', $currentHost);
+
+            $site = $em
+                ->getRepository('CacicMultiBundle:Sites')
+                ->findOneBy(
+                    array(
+                        'subdomain' => $subdomain
+                    )
+                );
+
+        } else {
+            $domain = $request->getBasePath();
+
+            // Load the database for this website
+            $dbname = trim($domain, "/");
+
+            $site = $em
+                ->getRepository('CacicMultiBundle:Sites')
+                ->findOneBy(
+                    array(
+                        'subdir' => $dbname
+                    )
+                );
         }
 
-        // TODO: allow $dbuser and $dbpass for each website
-        $dbuser = $container->getParameter('database_user');
-        $dbpass = $container->getParameter('database_password');
+        $this->siteManager->setCurrentSite($site->getUsername());
 
-        $container->get('doctrine.dbal.dynamic_connection')->forceSwitch($dbname, $dbuser, $dbpass);
+        // Debug
+        $logger = $container->get('logger');
+        $logger->debug("MULTI-SITE DEBUG: detected domain $dbname");
+
+        if (empty($dbname)) {
+            // Se for nulo, pega o valor que está no parâmetro
+            $dbname = $container->getParameter('database_name');
+            $dbuser = $container->getParameter('database_user');
+            $dbpass = $container->getParameter('database_password');
+            $dbhost = $container->getParameter('database_host');
+        } else {
+            $dbname = $site->getUsername();
+            $dbuser = $site->getDbUser();
+            $dbpass = $site->getDbPassword();
+            $dbhost = $site->getDbHost();
+        }
+
+        $container->get('doctrine.dbal.dynamic_connection')->forceSwitch($dbname, $dbuser, $dbpass, $dbhost);
     }
 
 } 

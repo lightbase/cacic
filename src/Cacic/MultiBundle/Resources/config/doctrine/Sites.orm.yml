@@ -1,0 +1,51 @@
+Cacic\MultiBundle\Entity\Sites:
+  type: entity
+  repositoryClass: Cacic\MultiBundle\Entity\SitesRepository
+  table: cacic_sites
+  fields:
+    idSite:
+      id: true
+      type: integer
+      nullable: false
+      column: id_site
+      generator:
+        strategy: IDENTITY
+    username:
+      type: text
+      nullable: false
+      column: username
+    subdomain:
+      type: text
+      nullable: true
+      column: subdomain
+    subdir:
+      type: text
+      nullable: true
+      column: subdir
+    dbHost:
+      type: text
+      nullable: false
+      column: db_host
+    dbUser:
+      type: text
+      nullable: false
+      column: db_user
+    dbUrl:
+      type: text
+      nullable: false
+      column: db_url
+    dbPassword:
+      type: text
+      nullable: false
+      column: db_password
+    dbPort:
+      type: integer
+      nullable: true
+      column: db_port
+  uniqueConstraints:
+    cacic_sites_username_idx:
+      columns: [ username ]
+    cacic_sites_subdomain_idx:
+      columns: [ subdomain ]
+    cacic_sites_subdir_idx:
+      columns: [ subdir ]
