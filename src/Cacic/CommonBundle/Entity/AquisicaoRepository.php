@@ -57,13 +57,15 @@ class AquisicaoRepository extends EntityRepository
                         'aq.idAquisicao',
                         'tpl.teTipoLicenca',
                         'tpl.idTipoLicenca',
+                        'aqit.nmAquisicao',
                         'aqit.qtLicenca',
                         'aqit.dtVencimentoLicenca',
                         'count(DISTINCT c.idComputador) as nComp'
                     )
         			->innerJoin('aq.itens', 'aqit')
         			->innerJoin('aqit.idTipoLicenca', 'tpl')
-                    ->innerJoin('aqit.idSoftware', 'sw')
+                    ->innerJoin('aqit.idSoftwareRelatorio', 'rel')
+                    ->innerJoin('rel.softwares', 'sw')
                     ->innerJoin('CacicCommonBundle:PropriedadeSoftware', 'prop', 'WITH', 'sw.idSoftware = prop.software')
                     ->groupBy('aq.nrProcesso',
                         'aq.dtAquisicao',
@@ -73,6 +75,7 @@ class AquisicaoRepository extends EntityRepository
                         'aq.idAquisicao',
                         'tpl.teTipoLicenca',
                         'tpl.idTipoLicenca',
+                        'aqit.nmAquisicao',
                         'aqit.qtLicenca',
                         'aqit.dtVencimentoLicenca'
                     )

@@ -133,7 +133,12 @@ class SoftwareRepository extends EntityRepository
     {
         // Monta a Consulta básica...
         $qb = $this->createQueryBuilder('sw')
-            ->select('sw.nmSoftware', 'aqit.qtLicenca', 'aqit.dtVencimentoLicenca', 'aq.nrProcesso', 'tpl.teTipoLicenca')
+            ->select('sw.nmSoftware',
+                'aqit.qtLicenca',
+                'aqit.dtVencimentoLicenca',
+                'aq.nrProcesso',
+                'tpl.teTipoLicenca'
+            )
             ->innerJoin('CacicCommonBundle:AquisicaoItem','aqit','WITH','sw.idSoftware = aqit.idSoftware')
             ->innerJoin('CacicCommonBundle:Aquisicao','aq','WITH','aq.idAquisicao = aqit.idAquisicao')
             ->innerJoin('CacicCommonBundle:TipoLicenca','tpl','WITH','tpl.idTipoLicenca = aqit.idTipoLicenca')

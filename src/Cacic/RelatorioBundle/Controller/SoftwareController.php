@@ -572,7 +572,7 @@ class SoftwareController extends Controller
                     foreach ($software_list as $software) {
                         $this->get('logger')->debug("Adicionando software ".$software);
                         $sql = "INSERT INTO relatorios_software (id_relatorio, id_software)
-                      VALUES ($idRelatorio, $software)";
+                        VALUES ($idRelatorio, $software)";
                         $stmt = $em->getConnection()->prepare($sql);
                         $stmt->execute();
                     }
