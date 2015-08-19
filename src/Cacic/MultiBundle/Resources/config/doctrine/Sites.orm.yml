@@ -11,31 +11,31 @@ Cacic\MultiBundle\Entity\Sites:
       generator:
         strategy: IDENTITY
     username:
-      type: text
+      type: string
       nullable: false
       column: username
     subdomain:
-      type: text
+      type: string
       nullable: true
       column: subdomain
     subdir:
-      type: text
+      type: string
       nullable: true
       column: subdir
     dbHost:
-      type: text
+      type: string
       nullable: false
       column: db_host
     dbUser:
-      type: text
+      type: string
       nullable: false
       column: db_user
     dbUrl:
-      type: text
+      type: string
       nullable: false
       column: db_url
     dbPassword:
-      type: text
+      type: string
       nullable: false
       column: db_password
     dbPort:
