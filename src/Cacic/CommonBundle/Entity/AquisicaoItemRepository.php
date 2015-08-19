@@ -20,6 +20,7 @@ class AquisicaoItemRepository extends EntityRepository
                     LEFT JOIN item.idSoftwareRelatorio software
                     LEFT JOIN item.idAquisicao aquisicao
                     LEFT JOIN item.idTipoLicenca tipoLicenca
+                    ORDER BY aquisicao.nrProcesso
 				";
 
         return $paginator->paginate(

@@ -51,14 +51,16 @@
                         </td>
                         {%  if aquisicao['idSoftwareRelatorio'] is defined %}
                             <td>
-                                {% set break = 0 %}
-                                {% for software in aquisicao['idSoftwareRelatorio'] if break == 0 %}
-                                    {{ software.nomeRelatorio }}<br>
-                                    {% if loop.index > 5 %}
-                                        (...)
-                                        {% set break = 1 %}
-                                    {% endif %}
-                                {% endfor %}
+                                <ul>
+                                    {% set break = 0 %}
+                                    {% for software in aquisicao['idSoftwareRelatorio'] if break == 0 %}
+                                        <li>{{ software.nomeRelatorio }}</li>
+                                        {% if loop.index > 5 %}
+                                            (...)
+                                            {% set break = 1 %}
+                                        {% endif %}
+                                    {% endfor %}
+                                </ul>
                             </td>
                         {% else %}
                             <td>{{ 'Não há softwares cadastrados'|trans }}</td>

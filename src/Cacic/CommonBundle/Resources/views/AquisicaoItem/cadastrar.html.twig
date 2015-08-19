@@ -1,7 +1,7 @@
 {% extends 'CacicCommonBundle::base.html.twig' %}
 
 {% block breadcrumb %}
-    <li><a href="{{ path('cacic_aquisicao_item_index') }}">{{ "Aquisição de Item"|trans }}</a></li> /
+    <li><a href="{{ path('cacic_aquisicao_item_index') }}">{{ "Aquisição de Item"|trans }}</a></li>
     <li class="active">{{ "Cadastro"|trans }}</li>
 {% endblock %}
 
@@ -39,6 +39,10 @@
                                     <i class="icon-ok-sign"></i>
                                     {{ "Salvar Dados"|trans }}
                                 </button>
+                                <a class="btn btn-success"  href="{{ path('cacic_relatorio_software_cadastrar') }}" target="_blank">
+                                    <i class="icon-plus-sign"></i>
+                                    {{ "Adicionar relatório"|trans }}
+                                </a>
                             </div>
                         </div>
 

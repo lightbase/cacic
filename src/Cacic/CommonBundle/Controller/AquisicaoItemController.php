@@ -52,20 +52,18 @@ class AquisicaoItemController extends Controller
 
                 // Primeiro remove os softwares que estavam cadastrados
                 // Manually delete all entries
+
                 if (!empty($Aquisicao)) {
                     $idAquisicaoItem = $Aquisicao->getIdAquisicaoItem();
                     $logger->debug("Removendo softwares para id_aquisicao_item = $idAquisicaoItem");
 
-                    foreach ($Aquisicao->getIdSoftwareRelatorio() as $software_relatorio) {
-                        $Aquisicao->removeIdSoftwareRelatorio($software_relatorio);
-                        $software_relatorio->removeAquisico($Aquisicao);
+                    $sql = "DELETE FROM aquisicoes_software
+                    WHERE id_aquisicao_item = $idAquisicaoItem";
 
-                        $em->persist($software_relatorio);
-                        $em->persist($Aquisicao);
+                    $stmt = $em->getConnection()->prepare($sql);
+                    $stmt->execute();
 
-                        $em->flush();
-                    }
-
+                    $em->flush();
                 }
 
                 $software_list = $form->get('idSoftwareRelatorio')->getData();
@@ -82,8 +80,8 @@ class AquisicaoItemController extends Controller
                     $em->flush();
                 }
 
-                //$em->persist( $Aquisicao );
-                //$em->flush();// Efetuar a edição do Aquisicao
+                $em->persist( $Aquisicao );
+                $em->flush();// Efetuar a edição do Aquisicao
 
                 $this->get('session')->getFlashBag()->add('success', 'Dados salvos com sucesso!');
                 return $this->redirect( $this->generateUrl( 'cacic_aquisicao_item_index') );

@@ -41,7 +41,7 @@ Cacic\CommonBundle\Entity\SoftwareRelatorio:
     manyToOne:
         idUsuario:
             targetEntity: Usuario
-            cascade: {}
+            cascade: ["merge"]
             inversedBy: relatorios
             joinColumns:
                 id_usuario:
