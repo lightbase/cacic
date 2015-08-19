@@ -248,4 +248,32 @@ class AquisicaoItem
     {
         return $this->idSoftwareRelatorio;
     }
+    /**
+     * @var string
+     */
+    private $nmAquisicao;
+
+
+    /**
+     * Set nmAquisicao
+     *
+     * @param string $nmAquisicao
+     * @return AquisicaoItem
+     */
+    public function setNmAquisicao($nmAquisicao)
+    {
+        $this->nmAquisicao = $nmAquisicao;
+
+        return $this;
+    }
+
+    /**
+     * Get nmAquisicao
+     *
+     * @return string 
+     */
+    public function getNmAquisicao()
+    {
+        return $this->nmAquisicao;
+    }
 }

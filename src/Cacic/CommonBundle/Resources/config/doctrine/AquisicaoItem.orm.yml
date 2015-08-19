@@ -11,6 +11,10 @@ Cacic\CommonBundle\Entity\AquisicaoItem:
             column: id_aquisicao_item
             generator:
                 strategy: IDENTITY
+        nmAquisicao:
+            type: string
+            nullable: true
+            column: nm_aquisicao
         qtLicenca:
             type: integer
             unsigned: false

@@ -29,10 +29,11 @@
         <table class="table table-striped table-bordered">
             <thead>
                 <tr>
-                    <th width="20%">{{ "Processo de aquisicao"|trans }}</th>
-                    <th width="25%">{{ "Software"|trans }}</th>
+                    <th width="17%">{{ "Processo de aquisicao"|trans }}</th>
+                    <th width="18%">{{ "Nome da aquisição"|trans }}</th>
+                    <th width="15%">{{ "Software"|trans }}</th>
                     <th width="15%" style="text-align: center">{{ "Tipo de Licença"|trans }}</th>
-                    <th width="15%" style="text-align: center">{{ "Qtde. de Licenças"|trans }}</th>
+                    <th width="10%" style="text-align: center">{{ "Licenças"|trans }}</th>
                     <th width="15%" style="text-align: center">{{ "Data de Vencimento"|trans }}</th>
                     <th style="text-align: center">{{ "Ações"|trans }}</th>
                 </tr>
@@ -44,10 +45,15 @@
                 {% for aquisicao in Aquisicao %}
 
                     <tr id="item_{{ aquisicao['idAquisicaoItem'] }}">
+                        <td>{{ aquisicao['idAquisicao']['nrProcesso'] }}</td>
                         <td>
-                            {{ aquisicao['idAquisicao']['nrProcesso'] }}
-                            {{ aquisicao['idAquisicao'].dtAquisicao|date('d/m/Y') }}
-                            {{ aquisicao['idAquisicao']['nmEmpresa'] }}
+                            {% if aquisicao['nmAquisicao'] is empty %}
+                                {{ aquisicao['idAquisicao']['nrProcesso'] }}
+                                {{ aquisicao['idAquisicao'].dtAquisicao|date('d/m/Y') }}
+                                {{ aquisicao['idAquisicao']['nmEmpresa'] }}
+                            {% else %}
+                                {{ aquisicao['nmAquisicao'] }}
+                            {% endif %}
                         </td>
                         {%  if aquisicao['idSoftwareRelatorio'] is defined %}
                             <td>

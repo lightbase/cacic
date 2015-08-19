@@ -18,6 +18,15 @@ class AquisicaoItemType extends AbstractType
     public function buildForm( FormBuilderInterface $builder, array $options )
     {
         $builder->add(
+            'nmAquisicao',
+            'text',
+            array(
+                'label' => 'Nome da Aquisição',
+                'required' => false
+            )
+        );
+
+        $builder->add(
             'idAquisicao',
             'entity',
             array(
