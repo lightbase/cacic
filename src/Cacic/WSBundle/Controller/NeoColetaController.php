@@ -362,9 +362,6 @@ class NeoColetaController extends NeoController {
                 $propSoftware->setComputador($computador);
                 $propSoftware->setSoftware($softwareObject);
                 $propSoftware->setClassProperty($classProperty);
-
-                // Adiciona software na coleta
-                $softwareObject->addColetado($propSoftware);
             }
 
             // Garante que o software deve estar ativo
