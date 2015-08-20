@@ -54,7 +54,7 @@ class AquisicaoItemRepository extends EntityRepository
      * @param $idTipoLicenca
      * @return array
      */
-    public function aquisicoesDetalhado($idAquisicao, $idTipoLicenca) {
+    public function aquisicoesDetalhado($idAquisicaoItem) {
 
         $qb = $this->createQueryBuilder('aqit')
             ->select('DISTINCT comp', 'aqit')
@@ -63,17 +63,15 @@ class AquisicaoItemRepository extends EntityRepository
             ->innerJoin('CacicCommonBundle:ComputadorColeta', 'c', 'WITH', "(prop.computador = c.computador AND prop.classProperty = c.classProperty)")
             ->innerJoin('CacicCommonBundle:Computador', 'comp', 'WITH', 'c.computador = comp.idComputador')
             ->innerJoin('CacicCommonBundle:So', 'so', 'WITH', 'comp.idSo = so.idSo')
-            ->andWhere('aqit.idAquisicao = :idAquisicao')
-            ->andWhere('aqit.idTipoLicenca = :idTipoLicenca')
+            ->andWhere('aqit.idAquisicaoItem = :idAquisicaoItem')
             ->andWhere("comp.ativo IS NULL or comp.ativo = 't'")
-            ->setParameter('idAquisicao', $idAquisicao)
-            ->setParameter('idTipoLicenca', $idTipoLicenca);
+            ->setParameter('idAquisicaoItem', $idAquisicaoItem);
 
         return $qb->getQuery()->getResult();
 
     }
 
-    public function aquisicoesDetalhadoCsv($idAquisicao, $idTipoLicenca) {
+    public function aquisicoesDetalhadoCsv($idAquisicaoItem) {
 
         $qb = $this->createQueryBuilder('aqit')
             ->select('DISTINCT comp.idComputador', 'comp.nmComputador', 'comp.teIpComputador', 'comp.teNodeAddress', 'so.teDescSo', 'l.nmLocal', 'rede.nmRede', 'comp.dtHrUltAcesso')
@@ -84,11 +82,9 @@ class AquisicaoItemRepository extends EntityRepository
             ->innerJoin('CacicCommonBundle:So', 'so', 'WITH', 'comp.idSo = so.idSo')
             ->innerJoin('CacicCommonBundle:Rede', 'rede', 'WITH', 'comp.idRede = rede.idRede')
             ->innerJoin('CacicCommonBundle:Local', 'l', 'WITH', 'rede.idLocal = l.idLocal')
-            ->andWhere('aqit.idAquisicao = :idAquisicao')
-            ->andWhere('aqit.idTipoLicenca = :idTipoLicenca')
+            ->andWhere('aqit.idAquisicaoItem = :idAquisicaoItem')
             ->andWhere("comp.ativo IS NULL or comp.ativo = 't'")
-            ->setParameter('idAquisicao', $idAquisicao)
-            ->setParameter('idTipoLicenca', $idTipoLicenca);
+            ->setParameter('idAquisicaoItem', $idAquisicaoItem);
 
         return $qb->getQuery()->execute();
 

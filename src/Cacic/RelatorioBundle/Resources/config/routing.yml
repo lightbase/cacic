@@ -138,7 +138,7 @@ cacic_relatorio_software_aquisicoes:
     defaults: { _controller: CacicRelatorioBundle:Software:aquisicoesRelatorio }
 
 cacic_relatorio_software_aquisicoes_det:
-    path: /software/aquisicoes/{idAquisicao}/{idTipoLicenca}
+    path: /software/aquisicoes/{idAquisicaoItem}
     defaults: { _controller: CacicRelatorioBundle:Software:aquisicoesDetalhado }
 
 cacic_relatorio_software_tipo:

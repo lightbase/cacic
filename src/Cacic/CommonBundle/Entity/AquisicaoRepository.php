@@ -60,6 +60,8 @@ class AquisicaoRepository extends EntityRepository
                         'aqit.nmAquisicao',
                         'aqit.qtLicenca',
                         'aqit.dtVencimentoLicenca',
+                        'aqit.idAquisicaoItem',
+                        'aqit.nmAquisicao',
                         'count(DISTINCT c.idComputador) as nComp'
                     )
         			->innerJoin('aq.itens', 'aqit')
@@ -77,7 +79,9 @@ class AquisicaoRepository extends EntityRepository
                         'tpl.idTipoLicenca',
                         'aqit.nmAquisicao',
                         'aqit.qtLicenca',
-                        'aqit.dtVencimentoLicenca'
+                        'aqit.dtVencimentoLicenca',
+                        'aqit.idAquisicaoItem',
+                        'aqit.nmAquisicao'
                     )
         			->orderBy('aq.dtAquisicao DESC, aqit.dtVencimentoLicenca');
 
@@ -115,7 +119,9 @@ class AquisicaoRepository extends EntityRepository
                     'teTipoLicenca' => $row['teTipoLicenca'],
                     'qtLicenca' => $row['qtLicenca'],
                     'dtVencimentoLicenca' => $row['dtVencimentoLicenca'],
-                    'nComp' => $row['nComp']
+                    'idAquisicaoItem' => $row['idAquisicaoItem'],
+                    'nmAquisicao' => $row['nmAquisicao'],
+                    'nComp' => $row['nComp'],
                 ));
             } else {
                 // Cria um novo array de itens multidimensional
@@ -124,6 +130,8 @@ class AquisicaoRepository extends EntityRepository
                     'teTipoLicenca' => $row['teTipoLicenca'],
                     'qtLicenca' => $row['qtLicenca'],
                     'dtVencimentoLicenca' => $row['dtVencimentoLicenca'],
+                    'idAquisicaoItem' => $row['idAquisicaoItem'],
+                    'nmAquisicao' => $row['nmAquisicao'],
                     'nComp' => $row['nComp']
                 ));
             }
