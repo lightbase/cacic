@@ -6,6 +6,7 @@ DECLARE
   v_id_usuario integer;
   v_id_aquisicao_item integer;
   v_nome VARCHAR;
+  v_exists BOOLEAN;
 BEGIN
   -- Cria modelo de dados esperado
   RAISE NOTICE 'Alterando modelo de dados...';
@@ -14,16 +15,28 @@ BEGIN
   DROP CONSTRAINT aquisicoes_software_pkey;
 
   ALTER TABLE aquisicoes_software
-  DROP CONSTRAINT fk_6bcde8b1270b845a;
+  DROP CONSTRAINT IF EXISTS fk_6bcde8b1270b845a;
 
   ALTER TABLE aquisicoes_software
-  DROP CONSTRAINT fk_6bcde8b1cf537cbe2aff7683;
+  DROP CONSTRAINT IF EXISTS  fk_6bcde8b1cf537cbe2aff7683;
 
-  ALTER TABLE aquisicoes_software
-  ADD id_relatorio INT;
+  BEGIN
+    ALTER TABLE aquisicoes_software
+    ADD id_relatorio INT;
 
-  ALTER TABLE aquisicoes_software
-  ADD id_aquisicao_item INT;
+    EXCEPTION
+      WHEN DUPLICATE_COLUMN THEN
+        RAISE NOTICE 'Coluna id_relatorio já existe em aquisicoes_software';
+  END;
+
+  BEGIN
+    ALTER TABLE aquisicoes_software
+    ADD id_aquisicao_item INT;
+
+    EXCEPTION
+      WHEN DUPLICATE_COLUMN THEN
+        RAISE NOTICE 'Coluna id_aquisicao_item já existe em aquisicoes_software';
+  END;
 
   ALTER TABLE aquisicoes_software
   ALTER COLUMN id_software
@@ -37,21 +50,40 @@ BEGIN
   ALTER COLUMN id_aquisicao
   DROP NOT NULL;
 
-  --ALTER TABLE software_estacao
-  --DROP CONSTRAINT fk_9bbdd0f82aff7683cf537cbe;
+  ALTER TABLE software_estacao
+  DROP CONSTRAINT IF EXISTS  fk_9bbdd0f82aff7683cf537cbe;
 
-  --DROP INDEX idx_9bbdd0f82aff7683cf537cbe;
+  DROP INDEX IF EXISTS  idx_9bbdd0f82aff7683cf537cbe;
 
-  --ALTER TABLE software_estacao
-  --ADD id_aquisicao_item INT;
+  BEGIN
+    ALTER TABLE software_estacao
+    ADD id_aquisicao_item INT;
+
+    EXCEPTION
+      WHEN DUPLICATE_COLUMN THEN
+        RAISE NOTICE 'Coluna id_aquisicao_item já existe em software_estacao';
+  END;
 
   ALTER TABLE aquisicao_item
-  DROP CONSTRAINT aquisicao_item_pkey;
+  DROP CONSTRAINT IF EXISTS  aquisicao_item_pkey;
 
-  ALTER TABLE aquisicao_item
-  ADD id_aquisicao_item INTEGER;
+  BEGIN
+    ALTER TABLE aquisicao_item
+    ADD id_aquisicao_item INTEGER;
 
-  CREATE SEQUENCE aquisicao_item_id_aquisicao_item_seq;
+    EXCEPTION
+      WHEN DUPLICATE_COLUMN THEN
+        RAISE NOTICE 'Coluna id_aquisicao_item já existe em aquisicao_item';
+  END;
+
+  IF NOT EXISTS (
+      SELECT 1
+      FROM   pg_class c
+        JOIN   pg_namespace n ON n.oid = c.relnamespace
+      WHERE  c.relname = 'aquisicao_item_id_aquisicao_item_seq'
+  ) THEN
+    CREATE SEQUENCE aquisicao_item_id_aquisicao_item_seq;
+  END IF;
 
   ALTER TABLE aquisicao_item
   ALTER COLUMN id_aquisicao_item
@@ -99,8 +131,15 @@ BEGIN
   DELETE FROM aquisicao_item
   WHERE id_aquisicao_item IS NULL;
 
-  --ALTER TABLE aquisicao_item
-  --ADD PRIMARY KEY (id_aquisicao_item);
+  select 1 INTO v_exists
+  from information_schema.table_constraints
+  where table_name='aquisicao_item'
+        AND constraint_name = lower('aquisicao_item_pkey');
+
+  IF v_exists IS NULL THEN
+    ALTER TABLE aquisicao_item
+    ADD PRIMARY KEY (id_aquisicao_item);
+  END IF;
 
   RAISE NOTICE 'Criando relatórios cadastrados';
 
@@ -191,38 +230,62 @@ BEGIN
   CREATE INDEX IDX_9BBDD0F8EEB8A73C
   ON software_estacao (id_aquisicao_item);
 
-  --ALTER TABLE software_estacao
-  --DROP id_tipo_licenca;
-
-  --ALTER TABLE software_estacao
-  --DROP id_aquisicao;
-
-  ALTER TABLE aquisicao_item
-  ADD PRIMARY KEY (id_aquisicao_item);
+  ALTER TABLE software_estacao
+  DROP  IF EXISTS  id_tipo_licenca;
 
   ALTER TABLE software_estacao
-  ADD CONSTRAINT FK_9BBDD0F8EEB8A73C
-  FOREIGN KEY (id_aquisicao_item)
-  REFERENCES aquisicao_item (id_aquisicao_item);
+  DROP IF EXISTS  id_aquisicao;
+
+  --ALTER TABLE aquisicao_item
+  --ADD PRIMARY KEY (id_aquisicao_item);
+
+  select 1 INTO v_exists
+  from information_schema.table_constraints
+  where table_name='software_estacao'
+        AND constraint_name = lower('FK_9BBDD0F8EEB8A73C');
+
+  IF v_exists is NULL THEN
+    ALTER TABLE software_estacao
+    ADD CONSTRAINT FK_9BBDD0F8EEB8A73C
+    FOREIGN KEY (id_aquisicao_item)
+    REFERENCES aquisicao_item (id_aquisicao_item);
+  END IF;
 
   ALTER TABLE aquisicoes_software
-  DROP id_software;
+  DROP IF EXISTS  id_software;
 
   ALTER TABLE aquisicoes_software
-  DROP id_aquisicao;
+  DROP IF EXISTS  id_aquisicao;
 
   ALTER TABLE aquisicoes_software
-  DROP id_tipo_licenca;
+  DROP IF EXISTS  id_tipo_licenca;
 
-  ALTER TABLE aquisicoes_software
-  ADD CONSTRAINT FK_6BCDE8B1FE8CA628
-  FOREIGN KEY (id_relatorio)
-  REFERENCES software_relatorio (id_relatorio);
+  select 1 INTO v_exists
+  from information_schema.table_constraints
+  where table_name='aquisicoes_software'
+        AND constraint_name = lower('FK_6BCDE8B1FE8CA628');
 
-  ALTER TABLE aquisicoes_software
-  ADD CONSTRAINT FK_6BCDE8B1F050FB48
-  FOREIGN KEY (id_aquisicao_item)
-  REFERENCES aquisicao_item (id_aquisicao_item);
+
+  IF v_exists IS NULL THEN
+    RAISE NOTICE 'Adicionando constraint FK_6BCDE8B1FE8CA628 | %', v_exists;
+
+    ALTER TABLE aquisicoes_software
+    ADD CONSTRAINT FK_6BCDE8B1FE8CA628
+    FOREIGN KEY (id_relatorio)
+    REFERENCES software_relatorio (id_relatorio);
+  END IF;
+
+  select 1 INTO v_exists
+  from information_schema.table_constraints
+  where table_name='aquisicoes_software'
+        AND constraint_name = lower('FK_6BCDE8B1F050FB48');
+
+  IF v_exists IS NULL THEN
+    ALTER TABLE aquisicoes_software
+    ADD CONSTRAINT FK_6BCDE8B1F050FB48
+    FOREIGN KEY (id_aquisicao_item)
+    REFERENCES aquisicao_item (id_aquisicao_item);
+  END IF;
 
   CREATE INDEX IDX_6BCDE8B1FE8CA628
   ON aquisicoes_software (id_relatorio);
