@@ -3,11 +3,15 @@
 {% block body %}
 
     <h2 class="">{{ 'Relatório de Softwares Adquiridos'|trans }}</h2>
-    <h4>{{ 'Processo número: '|trans }}{{ dados[0].idAquisicao.nrProcesso }}</h4>
-    <h4>{{ 'Tipo de licença: '|trans }}{{ dados[0].idTipoLicenca.teTipoLicenca }}</h4>
+    {% if dados[0].nmAquisicao is empty %}
+        <h4>{{ 'Processo: '|trans }}{{ dados[0].idAquisicao.nrProcesso }}</h4>
+        <h4>{{ 'Tipo de licença: '|trans }}{{ dados[0].idTipoLicenca.teTipoLicenca }}</h4>
+    {% else %}
+        <h4>{{ 'Aquisição: '|trans }}{{ dados[0].nmAquisicao }}</h4>
+    {% endif %}
     <h5>{{ 'Relatório gerado em'|trans }} {% if idioma == 'pt_BR' %}{{ "now"|date("d/m/Y H\\hi") }}{% else %}{{ "now"|date("m/d/Y H\\hi") }}{% endif %}</h5>
     <br>
-    <a href="{{ path('cacic_relatorio_software_aquisicoes_det_csv',  { 'idAquisicao': dados[0].idAquisicao.idAquisicao, 'idTipoLicenca': dados[0].idTipoLicenca.idTipoLicenca }) }}" class="btn btn-primary" target="_blank">
+    <a href="{{ path('cacic_relatorio_software_aquisicoes_det_csv',  { 'idAquisicaoItem': dados[0].idAquisicaoItem }) }}" class="btn btn-primary" target="_blank">
         <i class="icon-bar-chart"></i>
         Gerar CSV
     </a>

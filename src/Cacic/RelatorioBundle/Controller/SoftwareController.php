@@ -404,12 +404,12 @@ class SoftwareController extends Controller
      * @param $idTipoLicenca
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function aquisicoesDetalhadoAction( Request $request, $idAquisicao, $idTipoLicenca )
+    public function aquisicoesDetalhadoAction( Request $request, $idAquisicaoItem)
     {
         $locale = $request->getLocale();
         $dados = $this->getDoctrine()
             ->getRepository('CacicCommonBundle:AquisicaoItem')
-            ->aquisicoesDetalhado($idAquisicao, $idTipoLicenca);
+            ->aquisicoesDetalhado($idAquisicaoItem);
 
         return $this->render(
             'CacicRelatorioBundle:Software:rel_aquisicoes_det.html.twig',
@@ -430,12 +430,12 @@ class SoftwareController extends Controller
      * @throws \Ddeboer\DataImport\Exception\ExceptionInterface
      * @throws \Exception
      */
-    public function aquisicoesDetalhadoCsvAction( Request $request, $idAquisicao, $idTipoLicenca )
+    public function aquisicoesDetalhadoCsvAction( Request $request, $idAquisicaoItem)
     {
         $locale = $request->getLocale();
         $dados = $this->getDoctrine()
             ->getRepository('CacicCommonBundle:AquisicaoItem')
-            ->aquisicoesDetalhadoCsv($idAquisicao, $idTipoLicenca);
+            ->aquisicoesDetalhadoCsv($idAquisicaoItem);
 
         $cabecalho = array(array(
             'ID',

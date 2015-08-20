@@ -193,7 +193,7 @@ cacic_software_search:
   methods: ['GET']
 
 cacic_relatorio_software_aquisicoes_det_csv:
-    path: /software/aquisicoes/{idAquisicao}/{idTipoLicenca}/csv
+    path: /software/aquisicoes/{idAquisicaoItem}/csv
     defaults: { _controller: CacicRelatorioBundle:Software:aquisicoesDetalhadoCsv }
 
 cacic_relatorio_software_desativados:

@@ -58,7 +58,8 @@ class AquisicaoItemRepository extends EntityRepository
 
         $qb = $this->createQueryBuilder('aqit')
             ->select('DISTINCT comp', 'aqit')
-            ->innerJoin('aqit.idSoftware', 'sw')
+            ->innerJoin('aqit.idSoftwareRelatorio', 'rel')
+            ->innerJoin('rel.softwares', 'sw')
             ->innerJoin('CacicCommonBundle:PropriedadeSoftware', 'prop', 'WITH', 'sw.idSoftware = prop.software')
             ->innerJoin('CacicCommonBundle:ComputadorColeta', 'c', 'WITH', "(prop.computador = c.computador AND prop.classProperty = c.classProperty)")
             ->innerJoin('CacicCommonBundle:Computador', 'comp', 'WITH', 'c.computador = comp.idComputador')
@@ -75,7 +76,8 @@ class AquisicaoItemRepository extends EntityRepository
 
         $qb = $this->createQueryBuilder('aqit')
             ->select('DISTINCT comp.idComputador', 'comp.nmComputador', 'comp.teIpComputador', 'comp.teNodeAddress', 'so.teDescSo', 'l.nmLocal', 'rede.nmRede', 'comp.dtHrUltAcesso')
-            ->innerJoin('aqit.idSoftware', 'sw')
+            ->innerJoin('aqit.idSoftwareRelatorio', 'rel')
+            ->innerJoin('rel.softwares', 'sw')
             ->innerJoin('CacicCommonBundle:PropriedadeSoftware', 'prop', 'WITH', 'sw.idSoftware = prop.software')
             ->innerJoin('CacicCommonBundle:ComputadorColeta', 'c', 'WITH', "(prop.computador = c.computador AND prop.classProperty = c.classProperty)")
             ->innerJoin('CacicCommonBundle:Computador', 'comp', 'WITH', 'c.computador = comp.idComputador')
