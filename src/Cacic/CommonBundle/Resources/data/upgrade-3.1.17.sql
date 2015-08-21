@@ -7,27 +7,60 @@ BEGIN
   -- Cria tabela de backup
   DROP TABLE IF EXISTS computador_coleta_historico_bak;
   CREATE TABLE computador_coleta_historico_bak AS
-    SELECT DISTINCT id_computador_coleta_historico,
+    select id_computador,
+      id_computador_coleta,
+      id_class_property,
+      te_class_property_value,
+      max(dt_hr_inclusao) as dt_hr_inclusao
+    from computador_coleta_historico
+    WHERE dt_hr_inclusao is NOT NULL
+    group by id_computador,
+      id_computador_coleta,
+      id_class_property,
+      te_class_property_value;
+
+
+  -- Apaga todos os registros da tabela anterior
+  DROP TABLE computador_coleta_historico;
+
+  -- Prepara para inserir de volta na tabela
+  PERFORM setval('computador_coleta_historico_id_computador_coleta_historico_seq', 1);
+
+  ALTER TABLE computador_coleta_historico_bak
+  ADD COLUMN id_computador_coleta_historico INTEGER
+  DEFAULT nextval('computador_coleta_historico_id_computador_coleta_historico_seq');
+
+  CREATE  INDEX computador_coleta_historico_bak_value_idx ON
+    computador_coleta_historico_bak (
       id_computador_coleta,
       id_computador,
       id_class_property,
-      te_class_property_value,
-      dt_hr_inclusao
-    FROM computador_coleta_historico;
+      te_class_property_value
+    );
 
-  ALTER TABLE computador_coleta_historico_bak
-    ADD CONSTRAINT computador_coleta_historico_bak_pkey
-    PRIMARY KEY (id_computador_coleta_historico);
+  RAISE NOTICE 'Criação do índice concluída! Continuando...';
 
-  CREATE  INDEX computador_coleta_historico_bak_value_idx ON
-    computador_coleta_historico_bak (id_computador_coleta, id_computador, id_class_property, te_class_property_value);
+  -- Primeiro descobre os nomes de propriedades repetidos
+  FOR prop IN select *
+              from computador_coleta_historico_bak LOOP
 
-  -- Apaga todos os registros da tabela anterior
-  DELETE FROM computador_coleta_historico;
-  PERFORM setval('computador_coleta_historico_id_computador_coleta_historico_seq', 1);
+    RAISE NOTICE 'Coletas repetidas encontradas para id_computador_coleta = % e te_class_property_value = %',
+      prop.id_computador_coleta,
+      prop.te_class_property_value;
 
-  -- Cria índice para os campos se não existir
-  RAISE NOTICE 'Criando índice...';
+    UPDATE computador_coleta_historico_bak
+    SET id_computador_coleta_historico = nextval('computador_coleta_historico_id_computador_coleta_historico_seq')
+    WHERE id_computador_coleta = prop.id_computador_coleta
+          AND id_class_property = prop.id_class_property
+          AND id_computador = prop.id_computador
+          AND te_class_property_value = prop.te_class_property_value;
+
+  END LOOP;
+
+  -- Finaliza e consolida alterações
+  RAISE NOTICE 'Atualização finalizada! Alterando nome da tabela de volta!';
+
+  ALTER TABLE computador_coleta_historico_bak RENAME TO computador_coleta_historico;
 
   IF NOT EXISTS (
       SELECT 1
@@ -36,57 +69,15 @@ BEGIN
       WHERE  c.relname = 'computador_coleta_historico_value_idx'
   ) THEN
     create UNIQUE INDEX computador_coleta_historico_value_idx
-    on computador_coleta_historico (id_computador_coleta, id_computador, id_class_property, te_class_property_value);
-  END IF;
-
-  RAISE NOTICE 'Criação do índice concluída! Continuando...';
-
-  -- Primeiro descobre os nomes de propriedades repetidos
-  FOR prop IN select count(id_computador_coleta_historico) as n_coletas,
-                id_computador,
-                id_computador_coleta,
-                id_class_property,
-                te_class_property_value
-              from computador_coleta_historico_bak
-                WHERE dt_hr_inclusao is NOT NULL
-              group by id_computador,
-                id_computador_coleta,
-                id_class_property,
-                te_class_property_value
-              ORDER BY count(id_computador_coleta_historico) DESC LOOP
-
-    RAISE NOTICE '% coletas repetidas encontradas para id_computador_coleta = % e te_class_property_value = %',
-      prop.n_coletas,
-      prop.id_computador_coleta,
-      prop.te_class_property_value;
-
-    -- Utiliza somente o maior valor e apaga o resto
-    SELECT max(dt_hr_inclusao) INTO v_data_coleta
-    FROM computador_coleta_historico_bak
-    WHERE id_computador_coleta = prop.id_computador_coleta
-          AND te_class_property_value = prop.te_class_property_value
-          AND  id_computador = prop.id_computador;
-
-    RAISE NOTICE 'Inserindo de volta id_computador_coleta = %', prop.id_computador_coleta;
-
-    INSERT INTO computador_coleta_historico (
+    on computador_coleta_historico (
       id_computador_coleta,
       id_computador,
       id_class_property,
-      te_class_property_value,
-      dt_hr_inclusao
-    ) VALUES (
-      prop.id_computador_coleta,
-      prop.id_computador,
-      prop.id_class_property,
-      prop.te_class_property_value,
-      v_data_coleta
+      te_class_property_value
     );
+  END IF;
 
-  END LOOP;
 
-  -- Agora apaga tabela temporária
-  DROP TABLE computador_coleta_historico_bak;
 
   RETURN;
 END;
