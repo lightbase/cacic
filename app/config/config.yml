@@ -171,9 +171,11 @@ fm_elfinder:
     instances:
         default:
             locale: %locale% # defaults to current request locale
-            editor: simple # other choices are tinymce or simple, and form
-            compression: false # enable if you configured the uglifycss and uglifyjs2 assetic filters and want compression
+            editor: ckeditor # other options are tinymce, tinymce4, form, custom and simple
+            fullscreen: true # defaults true, applies to simple and ckeditor editors
+            include_assets: true # disable if you want to handle loading of the javascript and css assets yourself
             connector:
+                debug: false # defaults to false
                 roots:       # at least one root must be defined
                     uploads:
                         showhidden: false # defaults to false
@@ -183,9 +185,11 @@ fm_elfinder:
                         upload_allow: ['all']
         form:
             locale: %locale% # defaults to current request locale
-            editor: form # other choices are tinymce or simple, and form
-            compression: false # enable if you configured the uglifycss and uglifyjs2 assetic filters and want compression
+            editor: simple # other options are tinymce, tinymce4, form, custom and simple
+            fullscreen: true # defaults true, applies to simple and ckeditor editors
+            include_assets: true # disable if you want to handle loading of the javascript and css assets yourself
             connector:
+                debug: false # defaults to false
                 roots:       # at least one root must be defined
                     cacic:
                         showhidden: false # defaults to false
