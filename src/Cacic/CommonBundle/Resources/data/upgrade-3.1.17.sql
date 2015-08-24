@@ -24,7 +24,16 @@ BEGIN
   DROP TABLE computador_coleta_historico;
 
   -- Prepara para inserir de volta na tabela
-  PERFORM setval('computador_coleta_historico_id_computador_coleta_historico_seq', 1);
+  IF NOT EXISTS (
+      SELECT 1
+      FROM   pg_class c
+        JOIN   pg_namespace n ON n.oid = c.relnamespace
+      WHERE  c.relname = 'computador_coleta_historico_id_computador_coleta_historico_seq'
+  ) THEN
+    CREATE SEQUENCE computador_coleta_historico_id_computador_coleta_historico_seq;
+  ELSE  
+    PERFORM setval('computador_coleta_historico_id_computador_coleta_historico_seq', 1);
+  END IF;
 
   ALTER TABLE computador_coleta_historico_bak
   ADD COLUMN id_computador_coleta_historico INTEGER
@@ -76,8 +85,6 @@ BEGIN
       te_class_property_value
     );
   END IF;
-
-
 
   RETURN;
 END;
