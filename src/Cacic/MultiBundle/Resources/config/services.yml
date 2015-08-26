@@ -1,12 +1,11 @@
 services:
-    site_manager:
-        class: Cacic\MultiBundle\Site\SiteManager
-
-    current_site_listener:
-            class: Cacic\MultiBundle\EventListener\CurrentSiteListener
-            arguments: ["@site_manager", "@service_container", "@doctrine.orm.entity_manager"]
-            tags:
-                -
-                    name: kernel.event_listener
-                    method: onKernelRequest
-                    event: kernel.request
+  site_manager:
+    class: Cacic\MultiBundle\Site\SiteManager
+  current_site_listener:
+    class: Cacic\MultiBundle\EventListener\CurrentSiteListener
+    arguments: ["@site_manager", "@service_container", "@doctrine.orm.entity_manager"]
+    tags:
+      -
+        name: kernel.event_listener
+        method: onKernelRequest
+        event: kernel.request

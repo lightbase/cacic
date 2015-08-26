@@ -8,9 +8,7 @@
 
 namespace Cacic\MultiBundle\EventListener;
 
-use Cacic\MultiBundle\Connection\ConnectionWrapper;
 use Cacic\MultiBundle\Site\SiteManager;
-use Doctrine\ORM\EntityManager;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -39,12 +37,21 @@ class CurrentSiteListener {
     {
         $request = $event->getRequest();
         $container = $this->container;
+        $logger = $container->get('logger');
 
         $em = $container->get('doctrine.orm.entity_manager');
         $baseHost = $container->getParameter('base_host');
         $hostMethod = $container->getParameter('host_method');
 
+        // Primeiro pega o repositório padrão
+        $dbname = $container->getParameter('database_name');
+        $dbuser = $container->getParameter('database_user');
+        $dbpass = $container->getParameter('database_password');
+        $dbhost = $container->getParameter('database_host');
 
+        $container->get('doctrine.dbal.dynamic_connection')->forceSwitch($dbname, $dbuser, $dbpass, $dbhost);
+
+        // Agora verifica o método de login
         if ($hostMethod == 'subdomain') {
             $currentHost = $request->getHttpHost();
             $subdomain = str_replace('.'.$baseHost, '', $currentHost);
@@ -72,19 +79,19 @@ class CurrentSiteListener {
                 );
         }
 
-        $this->siteManager->setCurrentSite($site->getUsername());
-
         // Debug
-        $logger = $container->get('logger');
         $logger->debug("MULTI-SITE DEBUG: detected domain $dbname");
 
-        if (empty($dbname)) {
+        if (empty($site)) {
             // Se for nulo, pega o valor que está no parâmetro
             $dbname = $container->getParameter('database_name');
             $dbuser = $container->getParameter('database_user');
             $dbpass = $container->getParameter('database_password');
             $dbhost = $container->getParameter('database_host');
         } else {
+            // Ajusta o site para o nome do usuário encontrado
+            $this->siteManager->setCurrentSite($site->getUsername());
+
             $dbname = $site->getUsername();
             $dbuser = $site->getDbUser();
             $dbpass = $site->getDbPassword();
