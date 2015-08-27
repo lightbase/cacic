@@ -14,9 +14,6 @@ class CommandControllerTest extends DefaultTestCase
 {
     public function setUp() {
         parent::setup();
-
-        $this->client = static::createClient();
-        $this->container = $this->client->getContainer();
     }
 
     /**
@@ -65,6 +62,37 @@ class CommandControllerTest extends DefaultTestCase
             }'
         );
 
+        $response = $this->client->getResponse();
+        $content = $response->getContent();
+        $this->assertEquals(200, $response->getStatusCode());
+    }
+
+    /**
+     * Testa criação de site para o usuário fornecido
+     */
+    public function testCreateSite() {
+        $logger = $this->container->get('logger');
+
+        // Cria o array contendo o objeto do site e a cahve de API do usuário
+        $dados = array(
+            "password" => "cacic123",
+            "site" => json_decode($this->site, true)
+        );
+
+        // Tenta criar o site
+        $this->client->request(
+            'POST',
+            '/multi/command/site',
+            array(),
+            array(),
+            array(
+                'CONTENT_TYPE'  => 'application/json',
+                'HTTPS'         => true
+            ),
+            json_encode($dados, true)
+        );
+
+        // Testa status da resposta
         $response = $this->client->getResponse();
         $content = $response->getContent();
         $this->assertEquals(200, $response->getStatusCode());

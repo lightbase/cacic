@@ -30,6 +30,14 @@ class BaseTestCase extends WebTestCase
 
     public function setup() {
         parent::setUp();
+
+        $this->client = static::createClient();
+        $this->container = $this->client->getContainer();
+        $kernel = $this->container->get('kernel');
+        $this->data_dir = $kernel->locateResource("@CacicMultiBundle/Resources/data/fixtures/");
+
+        $this->site = file_get_contents($this->data_dir."site.json");
+
         // Load Fixtures
         $this->loadFixtures($this->classes);
     }

@@ -1,3 +1,7 @@
-cacic_multi_command:
+cacic_multi_command_fixtures:
   path: /command/fixtures
   defaults: { _controller: CacicMultiBundle:Command:fixturesLoad }
+
+cacic_multi_command_site:
+  path: /command/site
+  defaults: { _controller: CacicMultiBundle:Command:createSite }

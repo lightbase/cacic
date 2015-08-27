@@ -1,0 +1,9 @@
+{
+  "username": "test2",
+  "subdir": "test2",
+  "db_host": "localhost",
+  "db_user": "test2",
+  "db_url": null,
+  "db_password": null,
+  "db_port": null
+}
