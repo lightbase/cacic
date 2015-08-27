@@ -11,12 +11,12 @@ Cacic\CommonBundle\Entity\SoftwareRelatorio:
             generator:
                 strategy: IDENTITY
         nomeRelatorio:
-            type: text
+            type: string
             fixed: false
             nullable: false
             column: nome_relatorio
         nivelAcesso:
-            type: text
+            type: string
             nullable: false
             column: nivel_acesso
         habilitaNotificacao:
