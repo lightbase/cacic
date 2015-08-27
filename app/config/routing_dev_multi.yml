@@ -1,0 +1,6 @@
+cacic_multi:
+    resource: "@CacicMultiBundle/Resources/config/routing.yml"
+    prefix:   /multi
+
+_main:
+    resource: routing_dev.yml

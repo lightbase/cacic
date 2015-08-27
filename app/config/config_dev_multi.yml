@@ -3,7 +3,7 @@ imports:
     - { resource: "@CacicMultiBundle/Resources/config/services.yml" }
 
 framework:
-    router: { resource: "%kernel.root_dir%/config/routing_multi.yml" }
+    router: { resource: "%kernel.root_dir%/config/routing_dev_multi.yml" }
 
 doctrine:
     dbal:
