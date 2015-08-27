@@ -5,3 +5,7 @@ cacic_multi_command_fixtures:
 cacic_multi_command_site:
   path: /command/site
   defaults: { _controller: CacicMultiBundle:Command:createSite }
+
+cacic_multi_command_schema:
+  path: /command/schema
+  defaults: { _controller: CacicMultiBundle:Command:schemaUpdate }

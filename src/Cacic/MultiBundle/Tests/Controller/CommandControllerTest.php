@@ -73,7 +73,7 @@ class CommandControllerTest extends DefaultTestCase
     public function testCreateSite() {
         $logger = $this->container->get('logger');
 
-        // Cria o array contendo o objeto do site e a cahve de API do usuário
+        // Cria o array contendo o objeto do site e a chave de API do usuário
         $dados = array(
             "password" => "cacic123",
             "site" => json_decode($this->site, true)
@@ -90,6 +90,33 @@ class CommandControllerTest extends DefaultTestCase
                 'HTTPS'         => true
             ),
             json_encode($dados, true)
+        );
+
+        // Testa status da resposta
+        $response = $this->client->getResponse();
+        $content = $response->getContent();
+        $this->assertEquals(200, $response->getStatusCode());
+    }
+
+    /**
+     * Testa execução do schema:update pelo Controller
+     */
+    public function testSchemaUpdate() {
+        $logger = $this->container->get('logger');
+
+        $this->client->request(
+            'POST',
+            '/multi/command/schema',
+            array(),
+            array(),
+            array(
+                'CONTENT_TYPE'  => 'application/json',
+                'HTTPS'         => true
+            ),
+            '{
+                "username": "test",
+                "password": "cacic123"
+            }'
         );
 
         // Testa status da resposta

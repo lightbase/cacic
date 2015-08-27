@@ -8,7 +8,6 @@
 
 namespace Cacic\MultiBundle\Controller;
 
-use Cacic\MultiBundle\Entity\Sites;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\BufferedOutput;
@@ -18,6 +17,8 @@ use Cacic\MultiBundle\Helper\FixturesHelper;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
+use Symfony\Component\Console\Output\NullOutput;
+use Doctrine\ORM\Tools\SchemaTool;
 
 /**
  * Class CommandController
@@ -57,25 +58,14 @@ class CommandController extends Controller
 
         $this->get('doctrine.dbal.dynamic_connection')->forceSwitch($dbname, $dbuser, $dbpass, $dbhost);
 
-        // Agora verifica o método de login
-        if ($hostMethod == 'subdomain') {
-            $site = $em
-                ->getRepository('CacicMultiBundle:Sites')
-                ->findOneBy(
-                    array(
-                        'subdomain' => $username
-                    )
-                );
 
-        } else {
-            $site = $em
-                ->getRepository('CacicMultiBundle:Sites')
-                ->findOneBy(
-                    array(
-                        'subdir' => $username
-                    )
-                );
-        }
+        $site = $em
+            ->getRepository('CacicMultiBundle:Sites')
+            ->findOneBy(
+                array(
+                    'username' => $username
+                )
+            );
 
         // Debug
         $logger->debug("MULTI-SITE DEBUG: detected domain $dbname");
@@ -83,11 +73,9 @@ class CommandController extends Controller
         $siteManager = $this->container->get('site_manager');
 
         if (empty($site)) {
-            // Se for nulo, pega o valor que está no parâmetro
-            $dbname = $this->getParameter('database_name');
-            $dbuser = $this->getParameter('database_user');
-            $dbpass = $this->getParameter('database_password');
-            $dbhost = $this->getParameter('database_host');
+            // Se for nulo retorna false
+
+            return false;
         } else {
             // Ajusta o site para o nome do usuário encontrado
             $siteManager->setCurrentSite($site->getUsername());
@@ -136,9 +124,39 @@ class CommandController extends Controller
         $type = 'ORM';
         $fixturesHelper->loadFixtures($type, $om, $container);
 
+        // Altera chave de API e Senha do usuário padrão
+        $usuario = $om->getRepository("CacicCommonBundle:Usuario")->findOneBy(array(
+            'nmUsuarioAcesso' => 'cacic-adm'
+        ));
+
+        // Gera uma senha aleatória
+        $senha = $usuario->randomPassword();
+        $encoder = $this->container
+            ->get('security.encoder_factory')
+            ->getEncoder($usuario);
+        $usuario->setTeSenha($encoder->encodePassword($senha, $usuario->getSalt()));
+
+        // A chave de API é um UUID
+        $usuario->setApiKey(uniqid());
+
+        // O nome do usuário é o nome do site
+        $siteManager = $this->container->get('site_manager');
+        $site = $siteManager->getCurrentSite();
+        $usuario->setNmUsuarioAcesso($site);
+
+        // Grava e devolve os valores no JSON
+        $om->persist($usuario);
+        $om->flush();
+
+        $saida = array(
+            'password' => $senha,
+            'api_key' => $usuario->getApiKey()
+        );
+
         // Finaliza retornando o resultado
         $response = new JsonResponse();
         $response->setStatusCode(200);
+        $response->setContent(json_encode($saida, true));
         return $response;
     }
 
@@ -196,9 +214,84 @@ class CommandController extends Controller
             'json'
         );
 
+        // Garante que o site ainda não existe
+        $site2 = $em
+            ->getRepository('CacicMultiBundle:Sites')
+            ->findOneBy(
+                array(
+                    'username' => $site->getUsername()
+                )
+            );
+
+        if (!empty($site2)) {
+            $logger->error("O site solicitado já existe! username = ".$site->getUsername());
+
+            // Retorna erro com a mensagem
+            $error_msg = '{
+                "message": "O site solicitado já existe! username = '.$site->getUsername().'",
+                "codigo": 3
+            }';
+
+            $response = new JsonResponse();
+            $response->setStatusCode(500);
+            $response->setContent($error_msg);
+            return $response;
+        }
+
         // Agora salva o objeto
         $em->persist($site);
         $em->flush();
+
+        // Agora retorna a resposta
+        $response = new JsonResponse();
+        $response->setStatusCode(200);
+        return $response;
+    }
+
+    public function schemaUpdateAction(Request $request) {
+        $logger = $this->get('logger');
+        $container = $this->get('kernel')->getContainer();
+        $status = $request->getContent();
+        $dados = json_decode($status, true);
+
+        if (empty($dados)) {
+            $logger->error("JSON INVÁLIDO!!!!!!!!!!!!!!!!!!! Erro no createSite");
+            // Retorna erro se o JSON for inválido
+            $error_msg = '{
+                "message": "JSON Inválido",
+                "codigo": 1
+            }';
+
+            $response = new JsonResponse();
+            $response->setStatusCode(500);
+            $response->setContent($error_msg);
+            return $response;
+        }
+
+        // Ajusta o EntityManager específico com base na URL
+        $result = $this->getSite($request);
+
+        if (!$result) {
+            $logger->error("Objeto do site não encontrado");
+            // Retorna erro se o JSON for inválido
+            $error_msg = '{
+                "message": "Site não encontrado",
+                "codigo": 2
+            }';
+
+            $response = new JsonResponse();
+            $response->setStatusCode(500);
+            $response->setContent($error_msg);
+            return $response;
+        }
+
+        // Aqui executa o comando de atualizar o schema
+        $em = $this->getDoctrine()->getManager();
+        $metadatas = $em->getMetadataFactory()->getAllMetadata();
+
+        // A opção true manda consolidar as alterações no banco
+        $tool = new SchemaTool($em, true);
+        $tool->updateSchema($metadatas);
 
         // Agora retorna a resposta
         $response = new JsonResponse();
