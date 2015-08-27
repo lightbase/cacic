@@ -1,5 +1,5 @@
 imports:
-    - { resource: config_dev.yml }
+    - { resource: config_dev_multi.yml }
 
 framework:
     test: ~
@@ -18,8 +18,8 @@ doctrine:
 liip_functional_test:
     cache_sqlite_db: true
     authentication:
-            username: "admin"
-            password: "123456"
+        username: "admin"
+        password: "123456"
 
 web_profiler:
     toolbar: false

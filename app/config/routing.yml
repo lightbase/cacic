@@ -1,6 +1,7 @@
 CocarBundle_cocar_annotation:
-            resource: "@CocarBundle/Resources/config/routing.yml"
-            prefix:   /cocar/
+    resource: "@CocarBundle/Resources/config/routing.yml"
+    prefix:   /cocar/
+
 cacic_ws:
     resource: "@CacicWSBundle/Resources/config/routing.yml"
     prefix:   /ws/
@@ -14,11 +15,7 @@ cacic_common:
     prefix:   /
 
 elfinder:
-     resource: "@FMElfinderBundle/Resources/config/routing.yml"
-
-CocarBundle_cocar_annotation:
-            resource: "@CocarBundle/Resources/config/routing.yml"
-            prefix:   /cocar
+    resource: "@FMElfinderBundle/Resources/config/routing.yml"
 
 lexik_monolog_browser:
     resource: "@LexikMonologBrowserBundle/Resources/config/routing.xml"

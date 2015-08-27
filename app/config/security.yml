@@ -24,9 +24,13 @@ security:
         dev:
             pattern:  ^/(_(profiler|wdt)|css|images|js|assets|assetic)/
             security: false
-
         ws_neo:
             pattern: ^/ws/neo/getLogin
+            stateless: false
+            simple_preauth:
+                authenticator: apikey_authenticator
+        multi:
+            pattern: ^/multi
             stateless: false
             simple_preauth:
                 authenticator: apikey_authenticator

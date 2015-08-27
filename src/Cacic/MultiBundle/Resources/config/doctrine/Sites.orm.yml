@@ -32,11 +32,11 @@ Cacic\MultiBundle\Entity\Sites:
       column: db_user
     dbUrl:
       type: string
-      nullable: false
+      nullable: true
       column: db_url
     dbPassword:
       type: string
-      nullable: false
+      nullable: true
       column: db_password
     dbPort:
       type: integer

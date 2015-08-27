@@ -2,6 +2,9 @@ imports:
     - { resource: config_prod.yml }
     - { resource: "@CacicMultiBundle/Resources/config/services.yml" }
 
+framework:
+    router: { resource: "%kernel.root_dir%/config/routing_multi.yml" }
+
 doctrine:
     dbal:
       default_connection: dynamic

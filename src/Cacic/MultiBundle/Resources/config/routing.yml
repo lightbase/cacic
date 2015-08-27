@@ -1,0 +1,3 @@
+cacic_multi_command:
+  path: /command/fixtures
+  defaults: { _controller: CacicMultiBundle:Command:fixturesLoad }

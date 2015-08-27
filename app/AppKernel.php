@@ -44,6 +44,7 @@ class AppKernel extends Kernel
 
         if (in_array($this->getEnvironment(), array('test'))) {
             $bundles[] = new Liip\FunctionalTestBundle\LiipFunctionalTestBundle();
+            $bundles[] = new Cacic\MultiBundle\CacicMultiBundle();
         }
 
         if (in_array($this->getEnvironment(), array('multi'))) {
