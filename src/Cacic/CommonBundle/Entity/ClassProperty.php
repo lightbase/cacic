@@ -200,4 +200,32 @@ class ClassProperty
     {
         return $this->prettyName;
     }
+    /**
+     * @var boolean
+     */
+    private $ativo;
+
+
+    /**
+     * Set ativo
+     *
+     * @param boolean $ativo
+     * @return ClassProperty
+     */
+    public function setAtivo($ativo)
+    {
+        $this->ativo = $ativo;
+
+        return $this;
+    }
+
+    /**
+     * Get ativo
+     *
+     * @return boolean 
+     */
+    public function getAtivo()
+    {
+        return $this->ativo;
+    }
 }

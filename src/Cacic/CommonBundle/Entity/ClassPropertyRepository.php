@@ -41,6 +41,41 @@ class ClassPropertyRepository extends EntityRepository {
 
         return $saida;
     }
+
+    /**
+     * Lista propriedades que estão ativas ou inativas
+     *
+     * @param bool|true $ativos Retorna somente os ativos
+     * @return array
+     */
+    public function listarAtivos($ativos = true) {
+
+        $qb = $this->createQueryBuilder('p')
+            ->innerJoin("CacicCommonBundle:Classe", "cl", "WITH", "p.idClass = cl.idClass")
+            ->andWhere("cl.nmClassName != 'SoftwareList'")
+            ->addOrderBy("cl.nmClassName")
+            ->addOrderBy("p.nmPropertyName");
+
+        if ($ativos) {
+            $qb->andWhere("p.ativo = TRUE or p.ativo IS NULL");
+        } else {
+            $qb->andWhere("p.ativo = FALSE");
+        }
+
+        $result = $qb->getQuery()->getResult();
+
+        $saida = array();
+        foreach ($result as $elm) {
+            if (empty($saida[$elm->getIdClass()->getNmClassName()])) {
+                $saida[$elm->getIdClass()->getNmClassName()] = array();
+            }
+
+            array_push($saida[$elm->getIdClass()->getNmClassName()], $elm);
+        }
+
+        return $saida;
+    }
+
     /**
      *
      * Relatório de Configurações das Classes WMI Dinâmico Detalhes

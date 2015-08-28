@@ -379,6 +379,18 @@ cacic_atualizacao_subredes:
     path: /admin/subrede/manutencaoneo
     defaults: { _controller: CacicCommonBundle:Rede:manutencaoNeo }
 
+cacic_wmi_listar:
+    path: /admin/wmi/listar
+    defaults: { _controller: CacicCommonBundle:Wmi:listar }
+
+cacic_wmi_ativar:
+    path: /admin/wmi/ativar
+    defaults: { _controller: CacicCommonBundle:Wmi:ativar }
+
+cacic_wmi_desativar:
+    path: /admin/wmi/desativar
+    defaults: { _controller: CacicCommonBundle:Wmi:desativar }
+
 ############################
 # FIM: Páginas administrativas
 #############################

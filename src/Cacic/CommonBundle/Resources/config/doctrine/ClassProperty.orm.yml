@@ -36,6 +36,10 @@ Cacic\CommonBundle\Entity\ClassProperty:
             fixed: false
             nullable: true
             column: nm_function_pos_db
+        ativo:
+            type: boolean
+            nullable: true
+            column: ativo
     manyToOne:
         idClass:
             targetEntity: Classe
