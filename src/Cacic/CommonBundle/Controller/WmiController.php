@@ -11,6 +11,8 @@ namespace Cacic\CommonBundle\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Cacic\CommonBundle\Entity\Classe;
+use Cacic\CommonBundle\Form\Type\ClasseType;
 
 /**
  * Controllers para configuração de coleta
@@ -20,6 +22,11 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
  */
 class WmiController extends Controller
 {
+    /**
+     * Lista propriedades já coletadas
+     *
+     * @return Response
+     */
     public function listarAction()
     {
         $em = $this->getDoctrine()->getManager();
@@ -35,6 +42,12 @@ class WmiController extends Controller
         );
     }
 
+    /**
+     * Ativa propriedades selecionadas
+     *
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
     public function ativarAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
@@ -60,6 +73,12 @@ class WmiController extends Controller
 
     }
 
+    /**
+     * Desativa propriedades selecionadas
+     *
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
     public function desativarAction(Request $request)
     {
         $logger = $this->get('logger');
@@ -83,6 +102,51 @@ class WmiController extends Controller
         $this->get('session')->getFlashBag()->add('success', 'Elementos desativados com sucesso!');
 
         return $this->redirectToRoute('cacic_wmi_listar');
+    }
+
+    public function listarClasseAction() {
+        $em = $this->getDoctrine()->getManager();
+
+        $classes = $em->getRepository("CacicCommonBundle:Classe")->findAll();
+
+        return $this->render('CacicCommonBundle:Wmi:listarClasse.html.twig', array(
+            'classes' => $classes
+        ));
+    }
+
+    public function classeAction(Request $request, $idClass) {
+        $em = $this->getDoctrine()->getManager();
+
+        if (empty($idClass)) {
+            $classe = new Classe();
+        } else {
+            $classe = $em->getRepository("CacicCommonBundle:Classe")->find($idClass);
+
+            if (empty($classe)) {
+                throw $this->createNotFoundException("Classe não encontrada");
+            }
+        }
+
+        $form = $this->createForm( new ClasseType(), $classe);
+
+        if ($request->getMethod() == 'POST')
+        {
+            $form->handleRequest($request);
+            if ($form->isValid()) {
+                // Cadastra classe
+                $em->persist($classe);
+                $em->flush();
+
+                $this->get('session')->getFlashBag()->add('success', 'Classe cadastrada com sucesso!');
+            } else {
+                $this->get('session')->getFlashBag()->add('error', 'Erro no cadastro da classe!');
+            }
+            return $this->redirectToRoute('cacic_wmi_classe_listar');
+        }
+
+        return $this->render('CacicCommonBundle:Wmi:classe.html.twig', array(
+            'form' => $form->createView()
+        ));
     }
 
 }

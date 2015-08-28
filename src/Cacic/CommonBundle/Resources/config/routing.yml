@@ -391,6 +391,14 @@ cacic_wmi_desativar:
     path: /admin/wmi/desativar
     defaults: { _controller: CacicCommonBundle:Wmi:desativar }
 
+cacic_wmi_classe:
+    path: /admin/wmi/classe/{idClass}
+    defaults: { _controller: CacicCommonBundle:Wmi:classe, idClass: null }
+
+cacic_wmi_classe_listar:
+    path: /admin/wmi/listar/classe
+    defaults: { _controller: CacicCommonBundle:Wmi:listarClasse }
+
 ############################
 # FIM: Páginas administrativas
 #############################

@@ -286,3 +286,7 @@ Cacic\CommonBundle\Entity\SoftwareRelatorio:
             - Choice:
                 choices: [publico, restrito, pessoal]
                 message: "As opçoes validas sao publico, restrito ou pessoal"
+
+Cacic\CommonBundle\Entity\Classe:
+    constraints:
+        - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity: nmClassName

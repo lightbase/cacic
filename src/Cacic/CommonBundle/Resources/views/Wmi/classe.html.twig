@@ -1,0 +1,59 @@
+{% extends 'CacicCommonBundle::base.html.twig' %}
+
+{% block breadcrumb %}
+    <li><a href="{{ path('cacic_wmi_classe_listar') }}">{{ "Classes WMI"|trans }}</a></li>
+    <li class="active">{{ 'Cadastrar Classe'|trans }}</li>
+{% endblock %}
+
+{% block body %}
+
+    <div class="row-fluid">
+
+        <div class="span8">
+            <div class="box grad_colour_black">
+
+                <h2 class="box_head round_top"><i class="icon-book"></i> {{'Cadastrar classe WMI'|trans }}</h2>
+
+                <div class="block box_content round_bottom padding_10">
+
+                    <h4>{{ "Classe WMI"|trans }}</h4><br />
+                    <form id={{ 'formClasse'|trans }} class="form-horizontal" action="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}" method="post" >
+
+                        {{ form_widget( form, {'form_type': 'horizontal'} ) }}
+                        {{ form_rest(form) }}
+
+                        <div class="control-group">
+                            <div class="controls">
+                                <button type="reset" class="btn">
+                                    <i class="icon-refresh"></i>
+                                    {{ "Resetar Valores"|trans }}
+                                </button>
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="icon-ok-sign"></i>
+                                    {{ "Salvar Dados"|trans }}
+                                </button>
+                            </div>
+                        </div>
+
+                    </form>
+
+                </div> <!-- /block -->
+            </div> <!-- /box -->
+        </div> <!-- /span8 -->
+
+        <div class="span4">
+            <div class="box grad_colour_black">
+
+                <h2 class="box_head round_top"><i class="icon-info-sign"></i> {{ "Informações Adicionais"|trans }}</h2>
+
+                <div class="block box_content round_bottom padding_10">
+                    <p>
+                        {{ "Cadastre uma classe WMI para que os dados sejam coletados pelo Agente."|trans }}.
+                    </p>
+                </div> <!-- /block -->
+            </div> <!-- /box -->
+        </div> <!-- span4 -->
+
+    </div> <!-- /row -->
+
+{% endblock %}
