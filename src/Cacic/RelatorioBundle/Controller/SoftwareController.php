@@ -1069,6 +1069,8 @@ class SoftwareController extends Controller
      */
     public function desativadosRelatorioCsvAction( Request $request )
     {
+        $logger = $this->get('logger');
+
         $rede = $request->get('teIpRede');
         if (is_array($rede)) {
             $rede = implode(',', $rede);
@@ -1112,7 +1114,7 @@ class SoftwareController extends Controller
             break;
         }
         // Gera CSV
-        $reader = new ArrayReader(array_merge($dados));
+        $reader = new ArrayReader(array_merge($cabecalho, $dados));
 
         // Create the workflow from the reader
         $workflow = new Workflow($reader);
