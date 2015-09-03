@@ -130,9 +130,24 @@ class Rede
     private $dtDebug;
 
     /**
+     * @var string
+     */
+    private $downloadMethod;
+
+    /**
      * @var \Doctrine\Common\Collections\Collection
      */
     private $acoes;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $uorgs;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $modulos;
 
     /**
      * @var \Cacic\CommonBundle\Entity\Local
@@ -155,9 +170,11 @@ class Rede
     public function __construct()
     {
         $this->acoes = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->uorgs = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->modulos = new \Doctrine\Common\Collections\ArrayCollection();
         $this->idAplicativo = new \Doctrine\Common\Collections\ArrayCollection();
     }
-    
+
     /**
      * Get idRede
      *
@@ -177,7 +194,7 @@ class Rede
     public function setTeIpRede($teIpRede)
     {
         $this->teIpRede = $teIpRede;
-    
+
         return $this;
     }
 
@@ -200,7 +217,7 @@ class Rede
     public function setNmRede($nmRede)
     {
         $this->nmRede = $nmRede;
-    
+
         return $this;
     }
 
@@ -223,7 +240,7 @@ class Rede
     public function setTeObservacao($teObservacao)
     {
         $this->teObservacao = $teObservacao;
-    
+
         return $this;
     }
 
@@ -246,7 +263,7 @@ class Rede
     public function setNmPessoaContato1($nmPessoaContato1)
     {
         $this->nmPessoaContato1 = $nmPessoaContato1;
-    
+
         return $this;
     }
 
@@ -269,7 +286,7 @@ class Rede
     public function setNmPessoaContato2($nmPessoaContato2)
     {
         $this->nmPessoaContato2 = $nmPessoaContato2;
-    
+
         return $this;
     }
 
@@ -292,7 +309,7 @@ class Rede
     public function setNuTelefone1($nuTelefone1)
     {
         $this->nuTelefone1 = $nuTelefone1;
-    
+
         return $this;
     }
 
@@ -315,7 +332,7 @@ class Rede
     public function setTeEmailContato2($teEmailContato2)
     {
         $this->teEmailContato2 = $teEmailContato2;
-    
+
         return $this;
     }
 
@@ -338,7 +355,7 @@ class Rede
     public function setNuTelefone2($nuTelefone2)
     {
         $this->nuTelefone2 = $nuTelefone2;
-    
+
         return $this;
     }
 
@@ -361,7 +378,7 @@ class Rede
     public function setTeEmailContato1($teEmailContato1)
     {
         $this->teEmailContato1 = $teEmailContato1;
-    
+
         return $this;
     }
 
@@ -384,7 +401,7 @@ class Rede
     public function setTeServCacic($teServCacic)
     {
         $this->teServCacic = $teServCacic;
-    
+
         return $this;
     }
 
@@ -407,7 +424,7 @@ class Rede
     public function setTeServUpdates($teServUpdates)
     {
         $this->teServUpdates = $teServUpdates;
-    
+
         return $this;
     }
 
@@ -430,7 +447,7 @@ class Rede
     public function setTePathServUpdates($tePathServUpdates)
     {
         $this->tePathServUpdates = $tePathServUpdates;
-    
+
         return $this;
     }
 
@@ -453,7 +470,7 @@ class Rede
     public function setNmUsuarioLoginServUpdates($nmUsuarioLoginServUpdates)
     {
         $this->nmUsuarioLoginServUpdates = $nmUsuarioLoginServUpdates;
-    
+
         return $this;
     }
 
@@ -476,7 +493,7 @@ class Rede
     public function setTeSenhaLoginServUpdates($teSenhaLoginServUpdates)
     {
         $this->teSenhaLoginServUpdates = $teSenhaLoginServUpdates;
-    
+
         return $this;
     }
 
@@ -499,7 +516,7 @@ class Rede
     public function setNuPortaServUpdates($nuPortaServUpdates)
     {
         $this->nuPortaServUpdates = $nuPortaServUpdates;
-    
+
         return $this;
     }
 
@@ -522,7 +539,7 @@ class Rede
     public function setTeMascaraRede($teMascaraRede)
     {
         $this->teMascaraRede = $teMascaraRede;
-    
+
         return $this;
     }
 
@@ -545,7 +562,7 @@ class Rede
     public function setDtVerificaUpdates($dtVerificaUpdates)
     {
         $this->dtVerificaUpdates = $dtVerificaUpdates;
-    
+
         return $this;
     }
 
@@ -568,7 +585,7 @@ class Rede
     public function setNmUsuarioLoginServUpdatesGerente($nmUsuarioLoginServUpdatesGerente)
     {
         $this->nmUsuarioLoginServUpdatesGerente = $nmUsuarioLoginServUpdatesGerente;
-    
+
         return $this;
     }
 
@@ -591,7 +608,7 @@ class Rede
     public function setTeSenhaLoginServUpdatesGerente($teSenhaLoginServUpdatesGerente)
     {
         $this->teSenhaLoginServUpdatesGerente = $teSenhaLoginServUpdatesGerente;
-    
+
         return $this;
     }
 
@@ -614,7 +631,7 @@ class Rede
     public function setNuLimiteFtp($nuLimiteFtp)
     {
         $this->nuLimiteFtp = $nuLimiteFtp;
-    
+
         return $this;
     }
 
@@ -637,7 +654,7 @@ class Rede
     public function setCsPermitirDesativarSrcacic($csPermitirDesativarSrcacic)
     {
         $this->csPermitirDesativarSrcacic = $csPermitirDesativarSrcacic;
-    
+
         return $this;
     }
 
@@ -660,7 +677,7 @@ class Rede
     public function setTeDebugging($teDebugging)
     {
         $this->teDebugging = $teDebugging;
-    
+
         return $this;
     }
 
@@ -683,7 +700,7 @@ class Rede
     public function setDtDebug($dtDebug)
     {
         $this->dtDebug = $dtDebug;
-    
+
         return $this;
     }
 
@@ -696,161 +713,6 @@ class Rede
     {
         return $this->dtDebug;
     }
-
-    /**
-     * Add acoes
-     *
-     * @param \Cacic\CommonBundle\Entity\AcaoRede $acoes
-     * @return Rede
-     */
-    public function addAcoe(\Cacic\CommonBundle\Entity\AcaoRede $acoes)
-    {
-        $this->acoes[] = $acoes;
-    
-        return $this;
-    }
-
-    /**
-     * Remove acoes
-     *
-     * @param \Cacic\CommonBundle\Entity\AcaoRede $acoes
-     */
-    public function removeAcoe(\Cacic\CommonBundle\Entity\AcaoRede $acoes)
-    {
-        $this->acoes->removeElement($acoes);
-    }
-
-    /**
-     * Get acoes
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getAcoes()
-    {
-        return $this->acoes;
-    }
-
-    /**
-     * Set idLocal
-     *
-     * @param \Cacic\CommonBundle\Entity\Local $idLocal
-     * @return Rede
-     */
-    public function setIdLocal(\Cacic\CommonBundle\Entity\Local $idLocal = null)
-    {
-        $this->idLocal = $idLocal;
-    
-        return $this;
-    }
-
-    /**
-     * Get idLocal
-     *
-     * @return \Cacic\CommonBundle\Entity\Local 
-     */
-    public function getIdLocal()
-    {
-        return $this->idLocal;
-    }
-
-    /**
-     * Set idServidorAutenticacao
-     *
-     * @param \Cacic\CommonBundle\Entity\ServidorAutenticacao $idServidorAutenticacao
-     * @return Rede
-     */
-    public function setIdServidorAutenticacao(\Cacic\CommonBundle\Entity\ServidorAutenticacao $idServidorAutenticacao = null)
-    {
-        $this->idServidorAutenticacao = $idServidorAutenticacao;
-    
-        return $this;
-    }
-
-    /**
-     * Get idServidorAutenticacao
-     *
-     * @return \Cacic\CommonBundle\Entity\ServidorAutenticacao 
-     */
-    public function getIdServidorAutenticacao()
-    {
-        return $this->idServidorAutenticacao;
-    }
-
-    /**
-     * Add idAplicativo
-     *
-     * @param \Cacic\CommonBundle\Entity\Aplicativo $idAplicativo
-     * @return Rede
-     */
-    public function addIdAplicativo(\Cacic\CommonBundle\Entity\Aplicativo $idAplicativo)
-    {
-        $this->idAplicativo[] = $idAplicativo;
-    
-        return $this;
-    }
-
-    /**
-     * Remove idAplicativo
-     *
-     * @param \Cacic\CommonBundle\Entity\Aplicativo $idAplicativo
-     */
-    public function removeIdAplicativo(\Cacic\CommonBundle\Entity\Aplicativo $idAplicativo)
-    {
-        $this->idAplicativo->removeElement($idAplicativo);
-    }
-
-    /**
-     * Get idAplicativo
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getIdAplicativo()
-    {
-        return $this->idAplicativo;
-    }
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
-    private $uorgs;
-
-
-    /**
-     * Add uorgs
-     *
-     * @param \Cacic\CommonBundle\Entity\Uorg $uorgs
-     * @return Rede
-     */
-    public function addUorg(\Cacic\CommonBundle\Entity\Uorg $uorgs)
-    {
-        $this->uorgs[] = $uorgs;
-    
-        return $this;
-    }
-
-    /**
-     * Remove uorgs
-     *
-     * @param \Cacic\CommonBundle\Entity\Uorg $uorgs
-     */
-    public function removeUorg(\Cacic\CommonBundle\Entity\Uorg $uorgs)
-    {
-        $this->uorgs->removeElement($uorgs);
-    }
-
-    /**
-     * Get uorgs
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getUorgs()
-    {
-        return $this->uorgs;
-    }
-    /**
-     * @var string
-     */
-    private $downloadMethod;
-
 
     /**
      * Set downloadMethod
@@ -869,15 +731,10 @@ class Rede
      * Get downloadMethod
      *
      * @return string 
-     * Caso não esteja cadastrado retorna FTP por padrão
      */
     public function getDownloadMethod()
     {
-        if (empty($this->downloadMethod)) {
-            return "ftp";
-        } else {
-            return $this->downloadMethod;
-        }
+        return $this->downloadMethod;
     }
 
     /**
@@ -901,5 +758,160 @@ class Rede
     public function removeAco(\Cacic\CommonBundle\Entity\AcaoRede $acoes)
     {
         $this->acoes->removeElement($acoes);
+    }
+
+    /**
+     * Get acoes
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getAcoes()
+    {
+        return $this->acoes;
+    }
+
+    /**
+     * Add uorgs
+     *
+     * @param \Cacic\CommonBundle\Entity\Uorg $uorgs
+     * @return Rede
+     */
+    public function addUorg(\Cacic\CommonBundle\Entity\Uorg $uorgs)
+    {
+        $this->uorgs[] = $uorgs;
+
+        return $this;
+    }
+
+    /**
+     * Remove uorgs
+     *
+     * @param \Cacic\CommonBundle\Entity\Uorg $uorgs
+     */
+    public function removeUorg(\Cacic\CommonBundle\Entity\Uorg $uorgs)
+    {
+        $this->uorgs->removeElement($uorgs);
+    }
+
+    /**
+     * Get uorgs
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getUorgs()
+    {
+        return $this->uorgs;
+    }
+
+    /**
+     * Add modulos
+     *
+     * @param \Cacic\CommonBundle\Entity\RedeVersaoModulo $modulos
+     * @return Rede
+     */
+    public function addModulo(\Cacic\CommonBundle\Entity\RedeVersaoModulo $modulos)
+    {
+        $this->modulos[] = $modulos;
+
+        return $this;
+    }
+
+    /**
+     * Remove modulos
+     *
+     * @param \Cacic\CommonBundle\Entity\RedeVersaoModulo $modulos
+     */
+    public function removeModulo(\Cacic\CommonBundle\Entity\RedeVersaoModulo $modulos)
+    {
+        $this->modulos->removeElement($modulos);
+    }
+
+    /**
+     * Get modulos
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getModulos()
+    {
+        return $this->modulos;
+    }
+
+    /**
+     * Set idLocal
+     *
+     * @param \Cacic\CommonBundle\Entity\Local $idLocal
+     * @return Rede
+     */
+    public function setIdLocal(\Cacic\CommonBundle\Entity\Local $idLocal = null)
+    {
+        $this->idLocal = $idLocal;
+
+        return $this;
+    }
+
+    /**
+     * Get idLocal
+     *
+     * @return \Cacic\CommonBundle\Entity\Local 
+     */
+    public function getIdLocal()
+    {
+        return $this->idLocal;
+    }
+
+    /**
+     * Set idServidorAutenticacao
+     *
+     * @param \Cacic\CommonBundle\Entity\ServidorAutenticacao $idServidorAutenticacao
+     * @return Rede
+     */
+    public function setIdServidorAutenticacao(\Cacic\CommonBundle\Entity\ServidorAutenticacao $idServidorAutenticacao = null)
+    {
+        $this->idServidorAutenticacao = $idServidorAutenticacao;
+
+        return $this;
+    }
+
+    /**
+     * Get idServidorAutenticacao
+     *
+     * @return \Cacic\CommonBundle\Entity\ServidorAutenticacao 
+     */
+    public function getIdServidorAutenticacao()
+    {
+        return $this->idServidorAutenticacao;
+    }
+
+    /**
+     * Add idAplicativo
+     *
+     * @param \Cacic\CommonBundle\Entity\Aplicativo $idAplicativo
+     * @return Rede
+     */
+    public function addIdAplicativo(\Cacic\CommonBundle\Entity\Aplicativo $idAplicativo)
+    {
+        $this->idAplicativo[] = $idAplicativo;
+
+        return $this;
+    }
+
+    /**
+     * Remove idAplicativo
+     *
+     * @param \Cacic\CommonBundle\Entity\Aplicativo $idAplicativo
+     */
+    public function removeIdAplicativo(\Cacic\CommonBundle\Entity\Aplicativo $idAplicativo)
+    {
+        $this->idAplicativo->removeElement($idAplicativo);
+    }
+
+    /**
+     * Get idAplicativo
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getIdAplicativo()
+    {
+        return $this->idAplicativo;
     }
 }

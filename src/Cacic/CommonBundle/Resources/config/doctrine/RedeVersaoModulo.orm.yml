@@ -49,7 +49,7 @@ Cacic\CommonBundle\Entity\RedeVersaoModulo:
             targetEntity: Rede
             cascade: {  }
             mappedBy: null
-            inversedBy: null
+            inversedBy: modulos
             joinColumns:
                 id_rede:
                     referencedColumnName: id_rede

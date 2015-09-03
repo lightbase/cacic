@@ -171,4 +171,7 @@ Cacic\CommonBundle\Entity\Rede:
         uorgs:
             targetEntity: Uorg
             mappedBy: rede
+        modulos:
+            targetEntity: RedeVersaoModulo
+            mappedBy: idRede
     lifecycleCallbacks: {  }

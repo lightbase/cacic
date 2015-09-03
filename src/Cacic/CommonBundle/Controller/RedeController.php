@@ -1029,8 +1029,11 @@ class RedeController extends Controller
                     $redeVersaoModulo->setTipoSo($tipo_so);
                     $redeVersaoModulo->setFilepath($value['filename']);
                     $redeVersaoModulo->setTipo('cacic');
+                    $redeVersaoModulo->setIdRede($rede);
 
+                    $rede->addModulo($redeVersaoModulo);
                     $em->persist($redeVersaoModulo);
+                    $em->persist($rede);
                     $em->flush();
                 } else {
                     $logger->error("Erro no envio dos módulos!\n".$arrResult[1]);
