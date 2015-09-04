@@ -176,9 +176,18 @@ class NeoColetaController extends NeoController {
                     $classProperty->setIdClass($classObject);
                     $classProperty->setNmPropertyName($propriedade);
                     $classProperty->setTePropertyDescription("Propriedade criada automaticamente: $propriedade");
+                    $classProperty->setAtivo(true);
 
                     $em->persist($classProperty);
                     $em->flush();
+                } else {
+                    $ativo = $classProperty->getAtivo();
+                    //$logger->debug("11111111111111111111111111111111111111111: |$ativo| |$propriedade|");
+                    if ($ativo === false) {
+                        // Só vou gravar a coleta se a propriedade estiver ativa
+                        $logger->debug("COLETA: Pulando propriedade inativa: $propriedade");
+                        continue;
+                    }
                 }
 
                 // Garante unicidade das informações de coleta
@@ -844,7 +853,9 @@ class NeoColetaController extends NeoController {
 
             if (!empty($relatorio)) {
                 // Só notifica se o software estiver com a notificação habilitada explicitamente
-                if ($relatorio->getHabilitaNotificacao() == true) {
+                $habilita = $relatorio->getHabilitaNotificacao();
+                if ($habilita === true) {
+                    //$logger->debug("NOTIFICATIONS: Notificando retirada do software $software");
                     $saida[$software] = $coletasRetiradas[$software];
                 }
             }

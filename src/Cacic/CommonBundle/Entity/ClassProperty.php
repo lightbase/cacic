@@ -226,6 +226,7 @@ class ClassProperty
      */
     public function getAtivo()
     {
-        return $this->ativo;
+        // Gato para resolver o problema de tipo do PHP
+        return (bool)$this->ativo;
     }
 }

@@ -7,8 +7,10 @@
  */
 
 namespace Cacic\WSBundle\Tests\Controller;
+
 use Cacic\CommonBundle\Entity\Computador;
 use Cacic\WSBundle\Tests\BaseTestCase;
+use Cacic\CommonBundle\Entity\SoftwareRelatorio;
 
 
 class NeoColetaControllerTest extends BaseTestCase {
@@ -642,6 +644,49 @@ class NeoColetaControllerTest extends BaseTestCase {
         // Verifica se o Software Coleta foi inserido
         $em = $this->container->get('doctrine')->getManager();
 
+        // Eduardo: 2015-04-08
+        // Agora é preciso ativar a notificação de software para recever o resultado
+        $classe = $em->getRepository("CacicCommonBundle:Classe")->findOneBy(array(
+            'nmClassName' => 'SoftwareList'
+        ));
+        $this->assertNotEmpty($classe, "Classe SoftwareList não encontrada");
+
+        $classProperty = $em->getRepository("CacicCommonBundle:ClassProperty")->findOneBy(array(
+            'idClass' => $classe,
+            'nmPropertyName' => 'account-plugin-aim'
+        ));
+        $this->assertNotEmpty($classProperty);
+
+        $software = $em->getRepository("CacicCommonBundle:Software")->findOneBy(array(
+            'idClassProperty' => $classProperty
+        ));
+        $this->assertNotEmpty(
+            $software,
+            "Software não encontrado para o class_property = ".$classProperty->getNmPropertyName()
+        );
+
+        // Cria um relatório com esse software
+        $user = $em->getRepository("CacicCommonBundle:Usuario")->find(1);
+        $this->assertNotEmpty($user, "Usuário com ID = 1 não encontrado");
+
+        $relatorio = new SoftwareRelatorio();
+        $relatorio->setNivelAcesso('publico');
+        $relatorio->setNomeRelatorio('Software');
+        $relatorio->setHabilitaNotificacao(true);
+        $relatorio->setIdUsuario($user);
+        $relatorio->addSoftware($software);
+        $software->addRelatorio($relatorio);
+        $em->persist($software);
+        $em->persist($relatorio);
+        $em->flush();
+
+        // Vamos ver se o software esta realmente no relatorio
+        $softwareRelatorio = $em->getRepository("CacicCommonBundle:SoftwareRelatorio")->findSoftware('account-plugin-aim');
+        $this->assertNotEmpty($softwareRelatorio, "Software account-plugin-aim não encontrado em nenhum relatório");
+        $softwareRelatorio->setHabilitaNotificacao(true);
+        $em->persist($softwareRelatorio);
+        $em->flush();
+
         // Agora envia a modificação
         $this->client->request(
             'POST',
@@ -705,6 +750,110 @@ class NeoColetaControllerTest extends BaseTestCase {
         $this->assertNotEmpty($notifications[0]->getSubject(), "O campo subject está vazio");
         $this->assertEquals('DEL', $notifications[0]->getNotificationAcao(), "A ação não está mapeada como exclusão (DEL)");
         $this->assertEquals('Hardware', $notifications[0]->getObject(), "A ação não está mapeada como objeto Hardware");
+    }
+
+    /**
+     * Testa propriedade inativa
+     */
+    public function testProriedadeInativa()
+    {
+        $logger = $this->container->get('logger');
+        $em = $this->container->get('doctrine')->getManager();
+
+        $this->client->request(
+            'POST',
+            '/ws/neo/coleta',
+            array(),
+            array(),
+            array(
+                'CONTENT_TYPE'  => 'application/json',
+                //'HTTPS'         => true
+            ),
+            $this->coleta_modifications
+        );
+
+        $response = $this->client->getResponse();
+        $status = $response->getStatusCode();
+        $logger->debug("Response status: $status");
+        //$logger->debug("JSON da coleta: \n".$response->getContent());
+
+        $this->assertEquals($status, 200);
+
+        // Vê se a propriedade foi coletada
+        $so = $em->getRepository("CacicCommonBundle:So")->findOneBy(array(
+            'teSo' => 'Ubuntu 14.04.1 LTS-x86_64'
+        ));
+        $this->assertNotEmpty($so);
+
+        $computador = $em->getRepository("CacicCommonBundle:Computador")->findOneBy(array(
+            'teNodeAddress' => '9C:D2:1E:EA:E0:89',
+            'idSo' => $so
+        ));
+        $this->assertNotEmpty($computador);
+
+        $classe = $em->getRepository("CacicCommonBundle:Classe")->findOneBy(array(
+            'nmClassName' => 'Win32_Processor'
+        ));
+        $this->assertNotEmpty($classe);
+
+        $propriedade = $em->getRepository("CacicCommonBundle:ClassProperty")->findOneBy(array(
+            'idClass' => $classe,
+            'nmPropertyName' => 'clock'
+        ));
+        $this->assertNotEmpty($propriedade);
+
+        $computadorColeta = $em->getRepository("CacicCommonBundle:ComputadorColeta")->findOneBy(array(
+            'computador' => $computador,
+            'classProperty' => $propriedade
+        ));
+        $this->assertNotEmpty($computadorColeta);
+
+        $computadorColetaHistorico = $em->getRepository("CacicCommonBundle:ComputadorColetaHistorico")->findOneBy(array(
+            'computador' => $computador,
+            'computadorColeta' => $computadorColeta,
+            'classProperty' => $propriedade
+        ));
+        $this->assertNotEmpty($computadorColetaHistorico);
+
+        // Agora apaga a coleta, desativa e envia de novo
+        $em->remove($computadorColetaHistorico);
+        $em->remove($computadorColeta);
+        $propriedade->setAtivo(false);
+        $em->persist($propriedade);
+        $em->flush();
+
+        $computadorColeta = $em->getRepository("CacicCommonBundle:ComputadorColeta")->findOneBy(array(
+            'computador' => $computador,
+            'classProperty' => $propriedade
+        ));
+        $this->assertEmpty($computadorColeta);
+
+        $this->client->request(
+            'POST',
+            '/ws/neo/coleta',
+            array(),
+            array(),
+            array(
+                'CONTENT_TYPE'  => 'application/json',
+                //'HTTPS'         => true
+            ),
+            $this->coleta_modifications
+        );
+
+        $response = $this->client->getResponse();
+        $status = $response->getStatusCode();
+        $logger->debug("Response status: $status");
+        //$logger->debug("JSON da coleta: \n".$response->getContent());
+
+        $this->assertEquals($status, 200);
+
+        // Se isso aqui for vazio, a coleta funcionou
+        $computadorColeta = $em->getRepository("CacicCommonBundle:ComputadorColeta")->findOneBy(array(
+            'computador' => $computador,
+            'classProperty' => $propriedade
+        ));
+        $this->assertEmpty($computadorColeta, "Coletou a propriedade clock mas nao deveria ter coletado");
+
     }
 
     public function tearDown() {
