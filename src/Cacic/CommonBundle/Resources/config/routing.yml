@@ -739,6 +739,14 @@ cacic_notifications_unread_id:
     path: /notifications/unread
     defaults: { _controller: CacicCommonBundle:Notifications:unread }
 
+cacic_ajax_rede:
+    path: /ajax/rede
+    defaults: { _controller: CacicCommonBundle:Rede:ajaxRede }
+
+cacic_ajax_so:
+    path: /ajax/so
+    defaults: { _controller: CacicCommonBundle:So:ajaxSo }
+
 ############################################
 # FIM: Páginas para usuários normais
 ############################################

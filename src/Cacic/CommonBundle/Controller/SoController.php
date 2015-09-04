@@ -7,6 +7,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Cacic\CommonBundle\Entity\So;
 use Cacic\CommonBundle\Form\Type\SoType;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 
 class SoController extends Controller
@@ -152,5 +153,31 @@ class SoController extends Controller
         	array( 'form' => $form->createView() )
         );
 	}
+
+    /**
+     * Lista de SO no formato JSON
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function ajaxSoAction(Request $request)
+    {
+        $logger = $this->get('logger');
+        $em = $this->getDoctrine()->getManager();
+
+        $content = $request->getContent();
+        $dados = json_decode($content, true);
+
+        $so = $em->getRepository("CacicCommonBundle:So")->ajaxSo($dados);
+
+        // Retorna JSON das redes
+        $json_so = json_encode($so, true);
+        $response = new JsonResponse();
+        $response->setStatusCode(200);
+        $response->setContent($json_so);
+
+        return $response;
+
+    }
 
 }

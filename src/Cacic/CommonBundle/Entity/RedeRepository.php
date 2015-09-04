@@ -309,6 +309,11 @@ class RedeRepository extends EntityRepository
         return $qb->getQuery()->getOneOrNullResult();
     }
 
+    /**
+     * Lista de ações para a rede
+     *
+     * @return array
+     */
     public function acoesPorRede() {
         $qb = $this->createQueryBuilder('r')
             ->select('COUNT(a.acao) as acoes',
@@ -316,6 +321,32 @@ class RedeRepository extends EntityRepository
             ->leftJoin("CacicCommonBundle:AcaoRede", 'a', "WITH", "a.rede = r.idRede")
             ->groupBy('r.idRede')
             ->having('count(a.acao) = 0');
+
+        return $qb->getQuery()->getArrayResult();
+    }
+
+    /**
+     * Lista de redes para o formato JSON
+     *
+     * @param $dados
+     * @return array
+     */
+    public function ajaxRede($dados)
+    {
+        $qb = $this->createQueryBuilder('r')
+            ->select(
+                'DISTINCT r.idRede',
+                'r.nmRede',
+                'r.teIpRede'
+            );
+
+        if (!empty($dados)) {
+            if (array_key_exists('locais', $dados)) {
+                $qb->innerJoin("CacicCommonBundle:Local", 'l', 'WITH', 'l.idLocal = r.idLocal')
+                    ->setParameter('idLocal', $dados['locais'])
+                    ->andWhere('l.idLocal IN (:idLocal)');
+            }
+        }
 
         return $qb->getQuery()->getArrayResult();
     }

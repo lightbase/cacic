@@ -14,6 +14,7 @@ use Cacic\CommonBundle\Helper as CacicHelper;
 use Ijanki\Bundle\FtpBundle\Exception\FtpException;
 use Symfony\Component\Validator\Constraints\Null;
 use Symfony\Component\Finder\Finder;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
  *
@@ -1043,6 +1044,32 @@ class RedeController extends Controller
         }
 
         return true;
+    }
+
+    /**
+     * Pega lista de redes no formato JSON
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function ajaxRedeAction(Request $request)
+    {
+        $logger = $this->get('logger');
+        $em = $this->getDoctrine()->getManager();
+
+        $content = $request->getContent();
+        $dados = json_decode($content, true);
+
+        $redes = $em->getRepository("CacicCommonBundle:Rede")->ajaxRede($dados);
+
+        // Retorna JSON das redes
+        $json_redes = json_encode($redes, true);
+        $response = new JsonResponse();
+        $response->setStatusCode(200);
+        $response->setContent($json_redes);
+
+        return $response;
+
     }
 
 }
