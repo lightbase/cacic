@@ -1,0 +1,86 @@
+{% extends 'CacicCommonBundle::base.html.twig' %}
+
+{% block breadcrumb %}
+   <li class="active">{{ "Ativar/Desativar Elementos da Coleta"|trans }}</li>
+{% endblock %}
+
+
+{% block body %}
+
+    <div class="row-fluid">
+
+        <div class="span12">
+            <div class="box grad_colour_black">
+                <h2 class="box_head round_top"><i class="icon-list"></i> {{'Propriedades'|trans }}</h2>
+                <div class="block box_content round_bottom padding_10">
+
+                    <h3>{{'Softwares'|trans }}</h3>
+                    <p class="muted">
+                        {{ 'Esta página apresenta os softwares a serem excluídos.'|trans }}
+                    </p>
+                    <p class="muted">
+                        {{ 'Desmarcar um software e clicar no botão Enviar vai eliminá-la das coletas.'|trans }}
+                    </p>
+                    <hr />
+
+                    <form method="post" id={{ 'frmFiltroRelatorioDinamico'| trans }} action="{{ path('cacic_wmi_software_ativar') }}" class="form-horizontal" method="POST">
+
+                        {% for className in ativos|keys %}
+                            <fieldset>
+                                <legend>
+                                    {{ "Listas de Exclusão"|trans }}
+                                </legend>
+                                {% for software in ativos %}
+                                    <div class="controls" id="remover">
+                                        <label class="checkbox uniform">
+                                            <div id="uniform-undefined" class="checker">
+                                                <span>
+                                                    {% if software.ativo is not null and software.ativo == false %}
+                                                        <input class="checkbox uniform_on" type="checkbox" name="relatorio[]" value="{{ software.idRelatorio }}">
+                                                    {% else %}
+                                                        <input class="checkbox uniform_on" type="checkbox" name="relatorio[]" value="{{ software.idRelatorio }}" checked>
+                                                    {% endif %}
+                                                </span>
+                                                {{ software.nomeRelatorio }}
+                                            </div>
+
+                                        </label>
+                                    </div>
+                                {% endfor %}
+                            </fieldset>
+
+                        {% endfor %}
+
+                        <br>
+                        <div align="center">
+                            <button type="reset" class="btn">
+                                <i class="icon-refresh"></i>
+                                {{ "Resetar Valores"|trans }}
+                            </button>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="icon-ok-sign"></i>
+                                {{ "Salvar Dados"|trans }}
+                            </button>
+                        </div>
+
+                    </form>
+
+                </div> <!-- /block -->
+            </div> <!-- /box -->
+        </div> <!-- /span -->
+
+    </div> <!-- /row -->
+
+
+{% endblock %}
+
+
+{% block stylesheets %}
+	{{ parent() }}
+	<link href="{{ asset('bundles/cacicrelatorio/libs/bootstrap-transfer-master/css/bootstrap-transfer.css') }}" rel="stylesheet" />
+{% endblock %}
+
+{% block javascripts %}
+	{{ parent() }}
+
+{% endblock %}

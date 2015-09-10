@@ -24,8 +24,9 @@
                 <table class="display datatable" id="datatable">
                     <thead>
                     <tr>
-                        <th width="30%">{{ "Nome do Relatório"|trans }}</th>
-                        <th width="55%">{{ "Softwares Cadastrados"|trans }}</th>
+                        <th width="25%">{{ "Nome do Relatório"|trans }}</th>
+                        <th width="45%">{{ "Softwares Cadastrados"|trans }}</th>
+                        <th width="15%">{{ "Tipo de Relatório"|trans }}</th>
                         <th width="15%"></th>
                     </tr>
                     </thead>
@@ -47,6 +48,14 @@
                                         <li>(...)</li>
                                     {% endif %}
                                 </ul>
+                            </td>
+                            <td>
+                                {% if reg.getTipo() == 'excluir' %}
+                                    {{ "Lista de Exclusão"|trans }}
+                                {% else %}
+                                    {{ "Relatório de Software"|trans }}
+                                {% endif %}
+
                             </td>
                             <td style="text-align: center;">
                                 {% if is_granted('ROLE_ADMIN') %}

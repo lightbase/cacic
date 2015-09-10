@@ -22,10 +22,12 @@
 
 		    tSW.populate([ // Popula o TRANSFER com Softwares
   		        {% for sw in softwares %}
-  		        	{
-						value: "{{ sw.idRelatorio }}",
-						content: "{{ sw.nomeRelatorio|json_encode() }}"
-					}{% if loop.last != true %},{% endif %}
+                    {% if sw.tipo != 'excluir' %}
+                        {
+                            value: "{{ sw.idRelatorio }}",
+                            content: "{{ sw.nomeRelatorio|json_encode() }}"
+                        }{% if loop.last != true %},{% endif %}
+                    {% endif %}
   		        {% endfor %}
   		    ]);
 		    

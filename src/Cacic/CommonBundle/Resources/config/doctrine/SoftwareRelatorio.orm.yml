@@ -23,6 +23,14 @@ Cacic\CommonBundle\Entity\SoftwareRelatorio:
             type: boolean
             nullable: true
             column: habilita_notificacao
+        tipo:
+            type: string
+            nullable: true
+            column: tipo
+        ativo:
+            type: boolean
+            nullable: true
+            column: ativo
     manyToMany:
         softwares:
             targetEntity: Software

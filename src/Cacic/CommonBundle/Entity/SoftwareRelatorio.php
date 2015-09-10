@@ -220,4 +220,60 @@ class SoftwareRelatorio
     {
         return $this->aquisicoes;
     }
+    /**
+     * @var string
+     */
+    private $tipo;
+
+
+    /**
+     * Set tipo
+     *
+     * @param string $tipo
+     * @return SoftwareRelatorio
+     */
+    public function setTipo($tipo)
+    {
+        $this->tipo = $tipo;
+
+        return $this;
+    }
+
+    /**
+     * Get tipo
+     *
+     * @return string 
+     */
+    public function getTipo()
+    {
+        return $this->tipo;
+    }
+    /**
+     * @var boolean
+     */
+    private $ativo;
+
+
+    /**
+     * Set ativo
+     *
+     * @param boolean $ativo
+     * @return SoftwareRelatorio
+     */
+    public function setAtivo($ativo)
+    {
+        $this->ativo = $ativo;
+
+        return $this;
+    }
+
+    /**
+     * Get ativo
+     *
+     * @return boolean 
+     */
+    public function getAtivo()
+    {
+        return $this->ativo;
+    }
 }

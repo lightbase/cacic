@@ -181,4 +181,70 @@ class WmiController extends Controller
 
     }
 
+    public function softwareListarAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+        $ativos = $em->getRepository('CacicCommonBundle:SoftwareRelatorio')->findBy(array(
+            'tipo' => 'excluir'
+        ));
+
+        return $this->render(
+            'CacicCommonBundle:Wmi:softwareListar.html.twig',
+            array(
+                'ativos' => $ativos
+            )
+        );
+    }
+
+    public function softwareAtivarAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $ativar = $request->request->get('relatorio');
+
+        $classe = $em->getRepository("CacicCommonBundle:Classe")->findOneBy(array(
+            'nmClassName' => 'SoftwareList'
+        ));
+
+        // Primeiro marca como inativas todas as propriedades
+        $sql = "UPDATE class_property
+                SET ativo = FALSE
+                WHERE id_class = ".$classe->getIdClass();
+        $stmt = $em->getConnection()->prepare($sql);
+        $stmt->execute();
+
+        $sql = "UPDATE software_relatorio
+                SET ativo = FALSE
+                WHERE tipo = 'excluir'";
+        $stmt = $em->getConnection()->prepare($sql);
+        $stmt->execute();
+
+        $em->flush();
+
+        if (empty($ativar)) {
+            $this->get('session')->getFlashBag()->add('warning', 'Nenhum elemento selecionado. Todas as copletas de software foramd desativadas!');
+
+            return $this->redirectToRoute('cacic_wmi_software_listar');
+        }
+
+        // Agora ativa as marcadas
+        foreach ($ativar as $idRelatorio) {
+            $relatorio = $em->getRepository("CacicCommonBundle:SoftwareRelatorio")->find($idRelatorio);
+            $relatorio->setAtivo(true);
+
+            foreach ($relatorio->getSoftwares() as $software) {
+                $prop = $software->getIdClassProperty();
+                $prop->setAtivo(true);
+
+                $em->persist($prop);
+            }
+            $em->persist($relatorio);
+        }
+
+        $em->flush();
+        $this->get('session')->getFlashBag()->add('success', 'Elementos ativados com sucesso!');
+
+        return $this->redirectToRoute('cacic_wmi_software_listar');
+
+    }
+
 }

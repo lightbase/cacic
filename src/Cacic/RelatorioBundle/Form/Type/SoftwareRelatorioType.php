@@ -58,6 +58,21 @@ class SoftwareRelatorioType extends AbstractType
             )
         );
 
+        $builder->add(
+            'tipo',
+            'choice',
+            array(
+                'choices' => array(
+                    'relatorio' => "Relatório de Software",
+                    'excluir' => 'Lista de exclusão'
+                ),
+                'required' => true,
+                'label' => 'Tipo de relatório',
+                'expanded' =>false,
+                'multiple' => false
+            )
+        );
+
     }
 
     public function getName() {
