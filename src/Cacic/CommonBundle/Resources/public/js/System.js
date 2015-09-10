@@ -182,5 +182,67 @@ var System = {
                 }
             });
         },
+    },
+    Transfer: {
+        add: function( url, dados, update ){
+            //alert( url );
+            $.ajax({
+                type: "GET",
+                url: url,
+                data: dados,
+                cache: true,
+                async: true,
+                success: function(result) {
+                    //console.log(update);
+
+                    // Limpa lista de ocorrências
+                    $(update).empty();
+
+                    // Cria lista para a requisição Ajax
+                    result.forEach(function(element) {
+                        if (element.hasOwnProperty('idRede')) {
+                            // Adiciona novas opções no elemento a ser atualizado
+                            $(update).append(
+                                $("<option></option>")
+                                    .attr("value", element.idRede)
+                                    .text(element.nmRede + "/" + element.teIpRede)
+                            );
+                        } else if (element.hasOwnProperty('idSo')) {
+                            $(update).append(
+                                $("<option></option>")
+                                    .attr("value", element.idSo)
+                                    .text(element.teDescSo)
+                            );
+                        } else {
+                            console.log("ERROR: Não foi solicitada Rede nem SO")
+                        }
+                    });
+
+                },
+                error: function(result, status, error) {
+                    console.log("Erro na atualização da lista de ocorrências do transfer");
+                    //console.log("Status: " + status);
+                    console.log("Error message: " + error);
+                }
+            });
+        },
+        remove: function( url, dados ){
+            //alert( url );
+            $.ajax({
+                type: "GET",
+                url: url,
+                data: dados,
+                cache: true,
+                async: true,
+                success: function(result) {
+
+                },
+                error: function(result, status, error) {
+                    console.log("Erro na atualização da lista de ocorrências do transfer");
+                    //console.log("Status: " + status);
+                    console.log("Error message: " + error);
+                }
+            });
+        }
     }
 }

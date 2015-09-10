@@ -215,7 +215,7 @@ class SoRepository extends EntityRepository
      * @param $dados
      * @return array
      */
-    public function ajaxSo($dados)
+    public function ajaxSo($redes)
     {
         $qb = $this->createQueryBuilder('so')
             ->select(
@@ -224,19 +224,10 @@ class SoRepository extends EntityRepository
             )
             ->innerJoin("CacicCommonBundle:Computador", "comp", "WITH", "so.idSo = comp.idSo");
 
-        if (!empty($dados)) {
-            $qb->innerJoin("CacicCommonBundle:Rede", "r", "WITH", "comp.idRede = r.idRede");
-
-            if (array_key_exists('redes', $dados)) {
-                $qb->setParameter('idRede', $dados['redes'])
-                    ->andWhere('comp.idRede IN (:idRede)');
-            }
-
-            if (array_key_exists('locais', $dados)) {
-                $qb->innerJoin("CacicCommonBundle:Local", 'l', 'WITH', 'l.idLocal = r.idLocal')
-                    ->setParameter('idLocal', $dados['locais'])
-                    ->andWhere('l.idLocal IN (:idLocal)');
-            }
+        if (!empty($redes)) {
+            $qb->innerJoin("CacicCommonBundle:Rede", "r", "WITH", "comp.idRede = r.idRede")
+                ->setParameter('idRede', $redes)
+                ->andWhere('comp.idRede IN (:idRede)');
         }
 
         $qb->addOrderBy("so.teDescSo");

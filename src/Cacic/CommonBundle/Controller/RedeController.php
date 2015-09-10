@@ -1057,8 +1057,7 @@ class RedeController extends Controller
         $logger = $this->get('logger');
         $em = $this->getDoctrine()->getManager();
 
-        $content = $request->getContent();
-        $dados = json_decode($content, true);
+        $dados = $request->get('locais');
 
         $redes = $em->getRepository("CacicCommonBundle:Rede")->ajaxRede($dados);
 

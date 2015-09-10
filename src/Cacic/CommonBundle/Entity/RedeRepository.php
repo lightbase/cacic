@@ -341,11 +341,10 @@ class RedeRepository extends EntityRepository
             );
 
         if (!empty($dados)) {
-            if (array_key_exists('locais', $dados)) {
-                $qb->innerJoin("CacicCommonBundle:Local", 'l', 'WITH', 'l.idLocal = r.idLocal')
-                    ->setParameter('idLocal', $dados['locais'])
-                    ->andWhere('l.idLocal IN (:idLocal)');
-            }
+            $qb->innerJoin("CacicCommonBundle:Local", 'l', 'WITH', 'l.idLocal = r.idLocal')
+                ->setParameter('idLocal', $dados)
+                ->andWhere('l.idLocal IN (:idLocal)');
+
         }
 
         return $qb->getQuery()->getArrayResult();

@@ -165,12 +165,11 @@ class SoController extends Controller
         $logger = $this->get('logger');
         $em = $this->getDoctrine()->getManager();
 
-        $content = $request->getContent();
-        $dados = json_decode($content, true);
+        $redes = $request->get('redes');
 
-        $so = $em->getRepository("CacicCommonBundle:So")->ajaxSo($dados);
+        $so = $em->getRepository("CacicCommonBundle:So")->ajaxSo($redes);
 
-        // Retorna JSON das redes
+        // Retorna JSON dos sistemas operacionais
         $json_so = json_encode($so, true);
         $response = new JsonResponse();
         $response->setStatusCode(200);
