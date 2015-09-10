@@ -9,101 +9,65 @@
 
     <div class="row-fluid">
 
-        <div class="span6">
+        <div class="span12">
             <div class="box grad_colour_black">
-                <h2 class="box_head round_top"><i class="icon-list"></i> {{'Propriedades Ativas'|trans }}</h2>
+                <h2 class="box_head round_top"><i class="icon-list"></i> {{'Propriedades'|trans }}</h2>
                 <div class="block box_content round_bottom padding_10">
 
-                    <h3>{{'Propriedades ativas' |trans }}</h3>
+                    <h3>{{'Propriedades'|trans }}</h3>
                     <p class="muted">
-                        {{ 'Esta página apresenta as propriedades que estão ativas.'|trans }}
+                        {{ 'Esta página apresenta as propriedades de coleta.'|trans }}
                     </p>
                     <p class="muted">
-                        {{ 'Marcar uma propriedade e clicar no botão Desativar vai eliminá-la das coletas.'|trans }}
+                        {{ 'Desmarcar uma propriedade e clicar no botão Enviar vai eliminá-la das coletas.'|trans }}
                     </p>
                     <hr />
 
-                    <form method="post" id={{ 'frmFiltroRelatorioDinamico'| trans }} action="{{ path('cacic_wmi_desativar') }}" class="form-horizontal" method="POST">
+                    <form method="post" id={{ 'frmFiltroRelatorioDinamico'| trans }} action="{{ path('cacic_wmi_ativar_bulk') }}" class="form-horizontal" method="POST">
 
                         {% for className in ativos|keys %}
-                            <fieldset>
+                            {% if ((loop.index % 3) == 0) %}
+                                <div class="row">
+                            {% endif %}
+                            <div class="col-md-4">
+                                <fieldset>
+                                    <legend>
+                                        {{ className }}
+                                    </legend>
+                                    {% for property in ativos[className] %}
+                                        <div class="controls" id="remover">
+                                            <label class="checkbox uniform">
+                                                <div id="uniform-undefined" class="checker">
+                                                    <span>
+                                                        {% if property.ativo == 'false' %}
+                                                            <input class="checkbox uniform_on" type="checkbox" name="property[]" value="{{ property.idClassProperty }}">
+                                                        {% else %}
+                                                            <input class="checkbox uniform_on" type="checkbox" name="property[]" value="{{ property.idClassProperty }}" checked>
+                                                        {% endif %}
+                                                    </span>
+                                                        {{ property.nmPropertyName }}
+                                                </div>
 
-                                <legend>
-                                    {{ className }}
-                                </legend>
-                                {% for property in ativos[className] %}
-                                    <div class="controls" id="remover">
-                                        <label class="checkbox uniform">
-                                            <div id="uniform-undefined" class="checker">
-                                                <span>
-                                                    <input class="checkbox uniform_on" type="checkbox" name="property[]" value="{{ property.idClassProperty }}">
-                                                </span>
-                                                    {{ property.nmPropertyName }}
-                                            </div>
-
-                                        </label>
-                                    </div>
-                                {% endfor %}
-                            </fieldset>
+                                            </label>
+                                        </div>
+                                    {% endfor %}
+                                </fieldset>
+                            </div>
+                            {% if ((loop.index % 3) == 0) %}
+                                </div>
+                            {% endif %}
 
                         {% endfor %}
 
+                        <br>
                         <div align="center">
-                            <button type="submit" class="btn btn-danger">
-                                <i class="icon-remove"></i>
-                                {{ "Desativar"|trans }}
+                            <button type="reset" class="btn">
+                                <i class="icon-refresh"></i>
+                                {{ "Resetar Valores"|trans }}
                             </button>
-                        </div>
-
-                    </form>
-
-                </div> <!-- /block -->
-            </div> <!-- /box -->
-        </div> <!-- /span -->
-
-        <div class="span6">
-            <div class="box grad_colour_black">
-                <h2 class="box_head round_top"><i class="icon-list"></i> {{'Propriedades Inativas'|trans }}</h2>
-                <div class="block box_content round_bottom padding_10">
-
-                    <h3>{{'Propriedades inativas' |trans }}</h3>
-                    <p class="muted">
-                        {{ 'Esta página apresenta as propriedades que estão inativas.'|trans }}
-                    </p>
-                    <p class="muted">
-                        {{ 'Marcar uma propriedade e clicar no botão Ativar vai adicioná-la novamente nas coletas.'|trans }}
-                    </p>
-                    <hr />
-
-                    <form method="post" id={{ 'frmFiltroRelatorioDinamico'| trans }} action="{{ path('cacic_wmi_ativar') }}" class="form-horizontal" method="POST">
-
-                        {% for className in inativos|keys %}
-                            <fieldset>
-
-                                <legend>
-                                    {{ className }}
-                                </legend>
-                                {% for property in inativos[className] %}
-                                    <div class="controls" id="remover">
-                                        <label class="checkbox uniform">
-                                            <div id="uniform-undefined" class="checker">
-                                                <span>
-                                                    <input class="checkbox uniform_on" type="checkbox" name="property[]" value="{{ property.idClassProperty }}">
-                                                </span>
-                                                {{ property.nmPropertyName }}
-                                            </div>
-
-                                        </label>
-                                    </div>
-                                {% endfor %}
-                            </fieldset>
-
-                        {% endfor %}
-
-                        <div align="center">
                             <button type="submit" class="btn btn-primary">
-                                <i class="icon-ok"></i>
-                                {{ "Ativar"|trans }}
+                                <i class="icon-ok-sign"></i>
+                                {{ "Salvar Dados"|trans }}
                             </button>
                         </div>
 
@@ -112,7 +76,6 @@
                 </div> <!-- /block -->
             </div> <!-- /box -->
         </div> <!-- /span -->
-
 
     </div> <!-- /row -->
 

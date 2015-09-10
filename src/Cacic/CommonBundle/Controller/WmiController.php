@@ -30,14 +30,12 @@ class WmiController extends Controller
     public function listarAction()
     {
         $em = $this->getDoctrine()->getManager();
-        $ativos = $em->getRepository('CacicCommonBundle:ClassProperty')->listarAtivos();
-        $inativos = $em->getRepository('CacicCommonBundle:ClassProperty')->listarAtivos(false);
+        $ativos = $em->getRepository('CacicCommonBundle:ClassProperty')->listarTodos();
 
         return $this->render(
             'CacicCommonBundle:Wmi:listar.html.twig',
             array(
-                'ativos' => $ativos,
-                'inativos' => $inativos
+                'ativos' => $ativos
             )
         );
     }
@@ -147,6 +145,40 @@ class WmiController extends Controller
         return $this->render('CacicCommonBundle:Wmi:classe.html.twig', array(
             'form' => $form->createView()
         ));
+    }
+
+    public function ativarBulkAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $ativar = $request->request->get('property');
+
+        if (empty($ativar)) {
+            $this->get('session')->getFlashBag()->add('error', 'Elemento não encontrado!');
+
+            return $this->redirectToRoute('cacic_wmi_listar');
+        }
+
+        // Primeiro marca como inativas todas as propredades
+        $sql = "UPDATE class_property
+                SET ativo = FALSE";
+        $stmt = $em->getConnection()->prepare($sql);
+        $stmt->execute();
+
+        $em->flush();
+
+        // Agora ativa as marcadas
+        foreach ($ativar as $idClassProperty) {
+            $prop = $em->getRepository("CacicCommonBundle:ClassProperty")->find($idClassProperty);
+            $prop->setAtivo(true);
+
+            $em->persist($prop);
+        }
+
+        $em->flush();
+        $this->get('session')->getFlashBag()->add('success', 'Elementos ativados com sucesso!');
+
+        return $this->redirectToRoute('cacic_wmi_listar');
+
     }
 
 }

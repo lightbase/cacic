@@ -399,6 +399,14 @@ cacic_wmi_classe_listar:
     path: /admin/wmi/listar/classe
     defaults: { _controller: CacicCommonBundle:Wmi:listarClasse }
 
+cacic_wmi_software_listar:
+    path: /admin/software/listar
+    defaults: { _controller: CacicCommonBundleWmi:softwareListar }
+
+cacic_wmi_ativar_bulk:
+    path: /admin/wmi/ativarBulk
+    defaults: { _controller: CacicCommonBundle:Wmi:ativarBulk }
+
 ############################
 # FIM: Páginas administrativas
 #############################

@@ -136,4 +136,71 @@ class ClassPropertyRepository extends EntityRepository {
 
         return $qb->getQuery()->getResult();
     }
+
+    /**
+     * Lista todas as propriedades, ativas e inativas
+     *
+     * @param null $ativos Listar só os ativos
+     * @param null $inativos Listar só os inativos
+     * @return array
+     */
+    public function listarTodos() {
+
+        $ativos = $this->createQueryBuilder('p')
+            ->innerJoin("CacicCommonBundle:Classe", "cl", "WITH", "p.idClass = cl.idClass")
+            ->andWhere("cl.nmClassName != 'SoftwareList'")
+            ->addOrderBy("cl.nmClassName")
+            ->addOrderBy("p.nmPropertyName")
+            ->andWhere("p.ativo = TRUE or p.ativo IS NULL")
+            ->getQuery()->getResult();
+
+        $inativos = $this->createQueryBuilder('p')
+            ->innerJoin("CacicCommonBundle:Classe", "cl", "WITH", "p.idClass = cl.idClass")
+            ->andWhere("cl.nmClassName != 'SoftwareList'")
+            ->addOrderBy("cl.nmClassName")
+            ->addOrderBy("p.nmPropertyName")
+            ->andWhere("p.ativo = FALSE")
+            ->getQuery()->getResult();
+
+        $saida = array();
+        foreach ($ativos as $elm) {
+            if (empty($saida[$elm->getIdClass()->getNmClassName()])) {
+                $saida[$elm->getIdClass()->getNmClassName()] = array();
+            }
+
+            $saida_elm = array(
+                'idClassProperty' => $elm->getIdClassProperty(),
+                'nmPropertyName' => $elm->getNmPropertyName(),
+                'prettyName' => $elm->getPrettyName(),
+                'tePropertyDescription' => $elm->getTePropertyDescription(),
+                'nmFunctionPreDb' => $elm->getNmFunctionPreDb(),
+                'nmFunctionPosDb' => $elm->getNmFunctionPosDb(),
+                'ativo' => 'true'
+            );
+
+            array_push($saida[$elm->getIdClass()->getNmClassName()], $saida_elm);
+        }
+
+        foreach ($inativos as $elm) {
+            if (empty($saida[$elm->getIdClass()->getNmClassName()])) {
+                $saida[$elm->getIdClass()->getNmClassName()] = array();
+            }
+
+            $saida_elm = array(
+                'idClassProperty' => $elm->getIdClassProperty(),
+                'nmPropertyName' => $elm->getNmPropertyName(),
+                'prettyName' => $elm->getPrettyName(),
+                'tePropertyDescription' => $elm->getTePropertyDescription(),
+                'nmFunctionPreDb' => $elm->getNmFunctionPreDb(),
+                'nmFunctionPosDb' => $elm->getNmFunctionPosDb(),
+                'ativo' => 'false'
+            );
+
+            error_log("1111111111111122222222222222222222222222222 ".print_r($saida_elm, true));
+
+            array_push($saida[$elm->getIdClass()->getNmClassName()], $saida_elm);
+        }
+
+        return $saida;
+    }
 } 
