@@ -854,6 +854,74 @@ class NeoColetaControllerTest extends BaseTestCase {
         ));
         $this->assertEmpty($computadorColeta, "Coletou a propriedade clock mas nao deveria ter coletado");
 
+        // SOFTWARE: Testa software inativo
+        $classe = $em->getRepository("CacicCommonBundle:Classe")->findOneBy(array(
+            'nmClassName' => 'SoftwareList'
+        ));
+        $this->assertNotEmpty($classe);
+
+        $propriedade = $em->getRepository("CacicCommonBundle:ClassProperty")->findOneBy(array(
+            'idClass' => $classe,
+            'nmPropertyName' => 'account-plugin-aim'
+        ));
+        $this->assertNotEmpty($propriedade);
+
+        $computadorColeta = $em->getRepository("CacicCommonBundle:ComputadorColeta")->findOneBy(array(
+            'computador' => $computador,
+            'classProperty' => $propriedade
+        ));
+        $this->assertNotEmpty($computadorColeta);
+
+        $propriedadeSoftware = $em->getRepository("CacicCommonBundle:PropriedadeSoftware")->findOneBy(array(
+            'computador' => $computador,
+            'classProperty' => $propriedade
+        ));
+        $this->assertNotEmpty($propriedadeSoftware, "PropriedadeSoftware não encontrada");
+
+        $computadorColetaHistorico = $em->getRepository("CacicCommonBundle:ComputadorColetaHistorico")->findOneBy(array(
+            'computador' => $computador,
+            'computadorColeta' => $computadorColeta,
+            'classProperty' => $propriedade
+        ));
+        $this->assertNotEmpty($computadorColetaHistorico);
+
+        // Agora apaga a coleta, desativa e envia de novo
+        $em->remove($propriedadeSoftware);
+        $em->remove($computadorColetaHistorico);
+        $em->remove($computadorColeta);
+        $propriedade->setAtivo(false);
+        $em->persist($propriedade);
+        $em->flush();
+
+
+        $this->client->request(
+            'POST',
+            '/ws/neo/coleta',
+            array(),
+            array(),
+            array(
+                'CONTENT_TYPE'  => 'application/json',
+                //'HTTPS'         => true
+            ),
+            $this->coleta_modifications
+        );
+
+        $response = $this->client->getResponse();
+        $status = $response->getStatusCode();
+        $logger->debug("Response status: $status");
+
+        $computadorColeta = $em->getRepository("CacicCommonBundle:ComputadorColeta")->findOneBy(array(
+            'computador' => $computador,
+            'classProperty' => $propriedade
+        ));
+        $this->assertEmpty($computadorColeta);
+
+        $propriedadeSoftware = $em->getRepository("CacicCommonBundle:PropriedadeSoftware")->findOneBy(array(
+            'computador' => $computador,
+            'classProperty' => $propriedade
+        ));
+        $this->assertEmpty($propriedadeSoftware, "PropriedadeSoftware encontrada mas não deveria existir");
+
     }
 
     public function tearDown() {

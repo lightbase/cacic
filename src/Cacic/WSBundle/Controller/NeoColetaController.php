@@ -334,10 +334,19 @@ class NeoColetaController extends NeoController {
                 $classProperty->setTePropertyDescription("Software detectado: $software");
                 $classProperty->setNmPropertyName($idSoftware);
                 $classProperty->setIdClass($classObject);
+                $classProperty->setAtivo(true);
 
                 // Se não der o flush aqui, as consultas de baixo não encontram o objeto
                 $em->persist($classProperty);
                 $em->flush();
+            }
+
+            $ativo = $classProperty->getAtivo();
+            //$logger->debug("11111111111111111111111111111111111111111: |$ativo| |$propriedade|");
+            if ($ativo === false) {
+                // Só vou gravar o software se a propriedade estiver ativa
+                $logger->debug("COLETA: Pulando software inativo: $software");
+                return false;
             }
 
             // Eduardo: 2015-08-06
