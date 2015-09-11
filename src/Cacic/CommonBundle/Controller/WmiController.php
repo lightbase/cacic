@@ -205,15 +205,15 @@ class WmiController extends Controller
             'nmClassName' => 'SoftwareList'
         ));
 
-        // Primeiro marca como inativas todas as propriedades
+        // Primeiro marca como ativas todas as propriedades
         $sql = "UPDATE class_property
-                SET ativo = FALSE
+                SET ativo = TRUE
                 WHERE id_class = ".$classe->getIdClass();
         $stmt = $em->getConnection()->prepare($sql);
         $stmt->execute();
 
         $sql = "UPDATE software_relatorio
-                SET ativo = FALSE
+                SET ativo = TRUE
                 WHERE tipo = 'excluir'";
         $stmt = $em->getConnection()->prepare($sql);
         $stmt->execute();
@@ -226,14 +226,14 @@ class WmiController extends Controller
             return $this->redirectToRoute('cacic_wmi_software_listar');
         }
 
-        // Agora ativa as marcadas
+        // Agora inativa as que foram marcadas
         foreach ($ativar as $idRelatorio) {
             $relatorio = $em->getRepository("CacicCommonBundle:SoftwareRelatorio")->find($idRelatorio);
-            $relatorio->setAtivo(true);
+            $relatorio->setAtivo(false);
 
             foreach ($relatorio->getSoftwares() as $software) {
                 $prop = $software->getIdClassProperty();
-                $prop->setAtivo(true);
+                $prop->setAtivo(false);
 
                 $em->persist($prop);
             }
