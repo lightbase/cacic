@@ -196,7 +196,7 @@ class SoftwareController extends Controller
         $locale = $request->getLocale();
     	$dados = $this->getDoctrine()
     					->getRepository('CacicCommonBundle:Aquisicao')
-    					->gerarRelatorioAquisicoes();
+    					->gerarRelatorioLicencas();
 
     	return $this->render(
         	'CacicRelatorioBundle:Software:rel_aquisicoes.html.twig', 
