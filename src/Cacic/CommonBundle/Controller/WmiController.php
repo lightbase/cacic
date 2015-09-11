@@ -199,6 +199,7 @@ class WmiController extends Controller
     public function softwareAtivarAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
+        $logger = $this->get('logger');
         $ativar = $request->request->get('relatorio');
 
         $classe = $em->getRepository("CacicCommonBundle:Classe")->findOneBy(array(
@@ -233,9 +234,12 @@ class WmiController extends Controller
 
             foreach ($relatorio->getSoftwares() as $software) {
                 $prop = $software->getIdClassProperty();
-                $prop->setAtivo(false);
-
-                $em->persist($prop);
+                if (!empty($prop)) {
+                    $prop->setAtivo(false);
+                    $em->persist($prop);
+                } else {
+                    $logger->error("ERRO NA DESATIVAÇÃO DO SOFTWARE: id_class_property vazio para o software ".$software->getNmSoftware());
+                }
             }
             $em->persist($relatorio);
         }

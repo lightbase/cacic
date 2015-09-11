@@ -49,19 +49,29 @@ BEGIN
                 where id_software <> v_software
                       and id_class_property = prop.id_class_property LOOP
 
-      BEGIN
-        UPDATE aquisicoes_software
-        SET id_software = v_software
-        WHERE id_software = soft.id_software;
+      SELECT column_name INTO v_column
+      FROM information_schema.columns
+      WHERE table_name='aquisicoes_software'
+            and column_name='id_software';
 
-      EXCEPTION
-        WHEN SQLSTATE '23505' THEN
-          RAISE NOTICE 'Software já existente no relatório: % Software velho: %', v_software, soft.id_software;
+      IF v_column IS NOT NULL
+        THEN
 
-        DELETE FROM aquisicoes_software
-        WHERE id_software = soft.id_software;
+        BEGIN
+          UPDATE aquisicoes_software
+          SET id_software = v_software
+          WHERE id_software = soft.id_software;
 
-      END;
+        EXCEPTION
+          WHEN SQLSTATE '23505' THEN
+            RAISE NOTICE 'Software já existente no relatório: % Software velho: %', v_software, soft.id_software;
+
+          DELETE FROM aquisicoes_software
+          WHERE id_software = soft.id_software;
+
+        END;
+
+      END IF;
 
       BEGIN
         UPDATE proriedade_software
@@ -84,6 +94,11 @@ BEGIN
       RAISE NOTICE 'Removendo software repetido = %. Mantendo software atual = %', soft.id_software, v_software;
 
     END LOOP;
+
+    -- Adiciona id_class_property no software
+    UPDATE software
+    SET id_class_property = prop.id_class_property
+    WHERE id_software = v_software;
 
   END LOOP;
 

@@ -15,11 +15,11 @@
                 <div class="block box_content round_bottom padding_10">
 
                     <h3>{{'Softwares'|trans }}</h3>
-                    <p class="muted">
+                    <p class="help-block">
                         {{ 'Esta página apresenta os softwares a serem excluídos.'|trans }}
                     </p>
-                    <p class="muted">
-                        {{ 'Desmarcar um software e clicar no botão Enviar vai eliminá-la das coletas.'|trans }}
+                    <p class="help-block">
+                        {{ 'Marcar um software e clicar no botão Enviar vai eliminá-la das coletas.'|trans }}
                     </p>
                     <hr />
 
@@ -36,9 +36,9 @@
                                             <div id="uniform-undefined" class="checker">
                                                 <span>
                                                     {% if software.ativo is not null and software.ativo == false %}
-                                                        <input class="checkbox uniform_on" type="checkbox" name="relatorio[]" value="{{ software.idRelatorio }}">
-                                                    {% else %}
                                                         <input class="checkbox uniform_on" type="checkbox" name="relatorio[]" value="{{ software.idRelatorio }}" checked>
+                                                    {% else %}
+                                                        <input class="checkbox uniform_on" type="checkbox" name="relatorio[]" value="{{ software.idRelatorio }}">
                                                     {% endif %}
                                                 </span>
                                                 {{ software.nomeRelatorio }}
