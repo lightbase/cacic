@@ -239,13 +239,14 @@ class WmiController extends Controller
                     $em->persist($prop);
                 } else {
                     $logger->error("ERRO NA DESATIVAÇÃO DO SOFTWARE: id_class_property vazio para o software ".$software->getNmSoftware());
+                    $this->get('session')->getFlashBag()->add('notice', '<p>Não foi possível desativar o software '.$software->getNmSoftware().'</p>');
                 }
             }
             $em->persist($relatorio);
         }
 
         $em->flush();
-        $this->get('session')->getFlashBag()->add('success', 'Elementos ativados com sucesso!');
+        $this->get('session')->getFlashBag()->add('success', 'Listas de exclusão alteradas com sucesso!');
 
         return $this->redirectToRoute('cacic_wmi_software_listar');
 

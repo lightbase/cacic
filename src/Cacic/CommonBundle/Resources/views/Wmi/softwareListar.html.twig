@@ -21,6 +21,11 @@
                     <p class="help-block">
                         {{ 'Marcar um software e clicar no botão Enviar vai eliminá-la das coletas.'|trans }}
                     </p>
+                    <br>
+                    <a class="btn btn-primary bt-adicionar" href="{{ path('cacic_relatorio_software_cadastrar') }}">
+                        <i class="icon-plus-sign"></i>
+                        {{ "Cadastrar Lista de Exclusão"|trans }}
+                    </a>
                     <hr />
 
                     <form method="post" id={{ 'frmFiltroRelatorioDinamico'| trans }} action="{{ path('cacic_wmi_software_ativar') }}" class="form-horizontal" method="POST">

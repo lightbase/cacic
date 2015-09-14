@@ -229,11 +229,15 @@ class SoftwareRelatorio
     /**
      * Set tipo
      *
-     * @param string $tipo
+     * @param string $tipo Default para 'relatorio'
      * @return SoftwareRelatorio
      */
     public function setTipo($tipo)
     {
+        if (empty($tipo)) {
+            $tipo = 'relatorio';
+        }
+
         $this->tipo = $tipo;
 
         return $this;
@@ -242,10 +246,13 @@ class SoftwareRelatorio
     /**
      * Get tipo
      *
-     * @return string 
+     * @return string Default para 'relatorio'
      */
     public function getTipo()
     {
+        if (empty($this->tipo)) {
+            return 'relatorio';
+        }
         return $this->tipo;
     }
     /**
