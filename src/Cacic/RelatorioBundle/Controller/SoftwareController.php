@@ -18,6 +18,7 @@ use Cacic\RelatorioBundle\Form\Type\SoftwareRelatorioType;
 use Cacic\CommonBundle\Entity\SoftwareRelatorio;
 use Symfony\Component\Form\FormError;
 use Cacic\CommonBundle\Entity\Log;
+use DateTime;
 
 class SoftwareController extends Controller
 {
@@ -400,8 +401,7 @@ class SoftwareController extends Controller
      * Relatório detalhado de softwares adquiridos
      *
      * @param Request $request
-     * @param $idAquisicao
-     * @param $idTipoLicenca
+     * @param $idAquisicaoItem
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function aquisicoesDetalhadoAction( Request $request, $idAquisicaoItem)
@@ -409,7 +409,7 @@ class SoftwareController extends Controller
         $locale = $request->getLocale();
         $dados = $this->getDoctrine()
             ->getRepository('CacicCommonBundle:AquisicaoItem')
-            ->aquisicoesDetalhado($idAquisicaoItem);
+            ->licencasDetalhado($idAquisicaoItem);
 
         return $this->render(
             'CacicRelatorioBundle:Software:rel_aquisicoes_det.html.twig',
@@ -424,8 +424,7 @@ class SoftwareController extends Controller
      * CSV do relatório de softwares adquiridos
      *
      * @param Request $request
-     * @param $idAquisicao
-     * @param $idTipoLicenca
+     * @param $idAquisicaoItem
      * @return BinaryFileResponse
      * @throws \Ddeboer\DataImport\Exception\ExceptionInterface
      * @throws \Exception
@@ -435,7 +434,7 @@ class SoftwareController extends Controller
         $locale = $request->getLocale();
         $dados = $this->getDoctrine()
             ->getRepository('CacicCommonBundle:AquisicaoItem')
-            ->aquisicoesDetalhadoCsv($idAquisicaoItem);
+            ->licencasDetalhadoCsv($idAquisicaoItem);
 
         $cabecalho = array(array(
             'ID',
@@ -454,7 +453,8 @@ class SoftwareController extends Controller
         $workflow = new Workflow($reader);
 
         $converter = new CallbackValueConverter(function ($input) {
-            return $input->format('d/m/Y H:m:s');
+            $date = new DateTime($input);
+            return $date->format('d/m/Y H:m:s');
         });
         $workflow->addValueConverter('dtHrUltAcesso', $converter);
 
