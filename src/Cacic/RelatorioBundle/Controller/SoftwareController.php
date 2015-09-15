@@ -444,7 +444,7 @@ class SoftwareController extends Controller
             'Sistema Operacional',
             'Local',
             'Subrede',
-            'Data último acesso'
+            'Data da coleta'
         ));
         // Gera CSV
         $reader = new ArrayReader(array_merge($cabecalho, $dados));
@@ -1252,6 +1252,110 @@ class SoftwareController extends Controller
             'status' => 'ok'
         )));
         $response->setStatusCode(200);
+
+        return $response;
+    }
+
+    /**
+     * Relatório de Licenças removidas
+     *
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function removidosRelatorioAction( Request $request )
+    {
+        $locale = $request->getLocale();
+        $dados = $this->getDoctrine()
+            ->getRepository('CacicCommonBundle:Aquisicao')
+            ->gerarRelatorioRemovidos();
+
+        return $this->render(
+            'CacicRelatorioBundle:Software:rel_removidos.html.twig',
+            array(
+                'idioma'=>$locale,
+                'dados' => $dados
+            )
+        );
+    }
+
+    /**
+     * Relatório detalhado de softwares removidos
+     *
+     * @param Request $request
+     * @param $idAquisicaoItem
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function removidosDetalhadoAction( Request $request, $idAquisicaoItem )
+    {
+        $locale = $request->getLocale();
+        $dados = $this->getDoctrine()
+            ->getRepository('CacicCommonBundle:AquisicaoItem')
+            ->removidosDetalhado($idAquisicaoItem);
+
+        return $this->render(
+            'CacicRelatorioBundle:Software:rel_removidos_det.html.twig',
+            array(
+                'idioma'=>$locale,
+                'dados' => $dados
+            )
+        );
+    }
+
+    /**
+     * CSV do relatório de softwares removidos
+     *
+     * @param Request $request
+     * @param $idAquisicaoItem
+     * @return BinaryFileResponse
+     * @throws \Ddeboer\DataImport\Exception\ExceptionInterface
+     * @throws \Exception
+     */
+    public function removidosDetalhadoCsvAction( Request $request, $idAquisicaoItem )
+    {
+        $locale = $request->getLocale();
+        $dados = $this->getDoctrine()
+            ->getRepository('CacicCommonBundle:AquisicaoItem')
+            ->removidosDetalhadoCsv($idAquisicaoItem);
+
+        $cabecalho = array(array(
+            'ID',
+            'Nome da máquina',
+            'IP',
+            'MAC Address',
+            'Sistema Operacional',
+            'Local',
+            'Subrede',
+            'Data da coleta'
+        ));
+        // Gera CSV
+        $reader = new ArrayReader(array_merge($cabecalho, $dados));
+
+        // Create the workflow from the reader
+        $workflow = new Workflow($reader);
+
+        $converter = new CallbackValueConverter(function ($input) {
+            $date = new DateTime($input);
+            return $date->format('d/m/Y H:m:s');
+        });
+        $workflow->addValueConverter('dtHrUltAcesso', $converter);
+
+        $workflow->addValueConverter("reader",new CharsetValueConverter('UTF-8',$reader));
+
+        // Add the writer to the workflow
+        $filename = "relatorio-software.csv";
+        $tmpfile = tempnam(sys_get_temp_dir(), $filename);
+        $file = new \SplFileObject($tmpfile, 'w');
+        $writer = new CsvWriter($file);
+        $workflow->addWriter($writer);
+
+        // Process the workflow
+        $workflow->process();
+
+        // Retorna o arquivo
+        $response = new BinaryFileResponse($tmpfile);
+        $response->headers->set('Content-Type', 'text/csv');
+        $response->headers->set('Content-Disposition', "attachment; filename=$filename");
+        $response->headers->set('Content-Transfer-Encoding', 'binary');
 
         return $response;
     }

@@ -223,6 +223,18 @@ cacic_relatorio_software_notificar_del:
     path: /software/notificar/del
     defaults: { _controller: CacicRelatorioBundle:Software:notificarDel }
 
+cacic_relatorio_software_removidos:
+    path: /software/removidos
+    defaults: { _controller: CacicRelatorioBundle:Software:removidosRelatorio }
+
+cacic_relatorio_software_removidos_det:
+    path: /software/removidos/{idAquisicaoItem}
+    defaults: { _controller: CacicRelatorioBundle:Software:removidosDetalhado }
+
+cacic_relatorio_software_removidos_det_csv:
+    path: /software/removidos/{idAquisicaoItem}/csv
+    defaults: { _controller: CacicRelatorioBundle:Software:removidosDetalhadoCsv }
+
 ################################
 # HARDWARE
 ################################

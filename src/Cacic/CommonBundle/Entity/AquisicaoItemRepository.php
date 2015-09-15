@@ -139,7 +139,7 @@ class AquisicaoItemRepository extends EntityRepository
               so.id_so,
               l.nm_local,
               rede.nm_rede,
-              comp.dt_hr_ult_acesso,
+              sl.data_coleta as dt_hr_ult_acesso,
               aqit.nm_aquisicao,
               sl.id_aquisicao_item,
               aq.nr_processo,
@@ -166,6 +166,7 @@ class AquisicaoItemRepository extends EntityRepository
                 SELECT sl2.id_aquisicao_item
                 FROM software_licencas sl2
                 WHERE sl2.id_computador = sl.id_computador
+                  AND sl2.id_aquisicao = sl.id_aquisicao
                 ORDER BY sl2.data_coleta DESC
                 LIMIT 1
               )
@@ -185,7 +186,8 @@ class AquisicaoItemRepository extends EntityRepository
               t.te_tipo_licenca,
               sl.id_aquisicao,
               sl.prop_ativo,
-              sl.comp_ativo
+              sl.comp_ativo,
+              sl.data_coleta
         ";
 
         $query = $this->getEntityManager()->createNativeQuery($sql, $rsm);
@@ -216,7 +218,7 @@ class AquisicaoItemRepository extends EntityRepository
               so.te_desc_so,
               l.nm_local,
               rede.nm_rede,
-              comp.dt_hr_ult_acesso
+              sl.data_coleta as dt_hr_ult_acesso
             FROM software_licencas sl
               INNER JOIN computador comp ON sl.id_computador = comp.id_computador
               INNER JOIN so ON so.id_so = comp.id_so
@@ -238,6 +240,7 @@ class AquisicaoItemRepository extends EntityRepository
                 SELECT sl2.id_aquisicao_item
                 FROM software_licencas sl2
                 WHERE sl2.id_computador = sl.id_computador
+                  AND sl2.id_aquisicao = sl.id_aquisicao
                 ORDER BY sl2.data_coleta DESC
                 LIMIT 1
               )
@@ -250,6 +253,7 @@ class AquisicaoItemRepository extends EntityRepository
               so.id_so,
               l.nm_local,
               rede.nm_rede,
+              sl.data_coleta,
               comp.dt_hr_ult_acesso,
               aqit.nm_aquisicao,
               sl.id_aquisicao_item,
@@ -266,4 +270,160 @@ class AquisicaoItemRepository extends EntityRepository
 
         return $result;
     }
+
+
+    public function removidosDetalhado($idAquisicaoItem) {
+        $rsm = new ResultSetMapping();
+        $rsm->addScalarResult('id_computador', 'idComputador');
+        $rsm->addScalarResult('nm_computador', 'nmComputador');
+        $rsm->addScalarResult('te_ip_computador', 'teIpComputador');
+        $rsm->addScalarResult('te_node_address', 'teNodeAddress');
+        $rsm->addScalarResult('te_desc_so', 'teDescSo');
+        $rsm->addScalarResult('id_so', 'idSo');
+        $rsm->addScalarResult('nm_local', 'nmLocal');
+        $rsm->addScalarResult('nm_rede', 'nmRede');
+        $rsm->addScalarResult('dt_hr_ult_acesso', 'dtHrUltAcesso');
+        $rsm->addScalarResult('nm_aquisicao', 'nmAquisicao');
+        $rsm->addScalarResult('id_aquisicao_item', 'idAquisicaoItem');
+        $rsm->addScalarResult('id_aquisicao', 'idAquisicao');
+        $rsm->addScalarResult('te_tipo_licenca', 'teTipoLicenca');
+        $rsm->addScalarResult('nr_processo', 'nrProcesso');
+
+        $sql = "
+            SELECT comp.id_computador,
+              comp.nm_computador,
+              comp.te_ip_computador,
+              comp.te_node_address,
+              so.te_desc_so,
+              so.id_so,
+              l.nm_local,
+              rede.nm_rede,
+              sl.data_coleta as dt_hr_ult_acesso,
+              aqit.nm_aquisicao,
+              sl.id_aquisicao_item,
+              aq.nr_processo,
+              t.te_tipo_licenca,
+              sl.id_aquisicao
+            FROM software_licencas sl
+              INNER JOIN computador comp ON sl.id_computador = comp.id_computador
+              INNER JOIN so ON so.id_so = comp.id_so
+              INNER JOIN rede ON rede.id_rede = comp.id_rede
+              INNER JOIN local l ON l.id_local = rede.id_local
+              INNER JOIN aquisicao aq ON sl.id_aquisicao = aq.id_aquisicao
+              INNER JOIN aquisicao_item aqit ON aqit.id_aquisicao_item = sl.id_aquisicao_item
+              INNER JOIN tipo_licenca t ON sl.id_tipo_licenca = t.id_tipo_licenca
+            WHERE sl.id_aquisicao_item = $idAquisicaoItem
+              AND (
+                  (
+                    sl.comp_ativo = FALSE
+                  )
+                  OR (
+                    sl.prop_ativo = FALSE
+                  )
+                  OR sl.id_aquisicao_item <> (
+                    SELECT sl2.id_aquisicao_item
+                    FROM software_licencas sl2
+                    WHERE sl2.id_computador = sl.id_computador
+                      AND sl2.id_aquisicao = sl.id_aquisicao
+                    ORDER BY sl2.data_coleta DESC
+                    LIMIT 1
+                  )
+              )
+            GROUP BY comp.id_computador,
+              comp.nm_computador,
+              comp.te_ip_computador,
+              comp.te_node_address,
+              so.te_desc_so,
+              so.id_so,
+              l.nm_local,
+              rede.nm_rede,
+              sl.data_coleta,
+              comp.dt_hr_ult_acesso,
+              aqit.nm_aquisicao,
+              sl.id_aquisicao_item,
+              aq.nr_processo,
+              t.te_tipo_licenca,
+              sl.id_aquisicao,
+              sl.prop_ativo,
+              sl.comp_ativo
+        ";
+
+        $query = $this->getEntityManager()->createNativeQuery($sql, $rsm);
+
+        $result =  $query->execute();
+
+        return $result;
+    }
+
+    public function removidosDetalhadoCsv($idAquisicaoItem) {
+        $rsm = new ResultSetMapping();
+        $rsm->addScalarResult('id_computador', 'idComputador');
+        $rsm->addScalarResult('nm_computador', 'nmComputador');
+        $rsm->addScalarResult('te_ip_computador', 'teIpComputador');
+        $rsm->addScalarResult('te_node_address', 'teNodeAddress');
+        $rsm->addScalarResult('te_desc_so', 'teDescSo');
+        $rsm->addScalarResult('id_so', 'idSo');
+        $rsm->addScalarResult('nm_local', 'nmLocal');
+        $rsm->addScalarResult('nm_rede', 'nmRede');
+        $rsm->addScalarResult('dt_hr_ult_acesso', 'dtHrUltAcesso');
+
+        $sql = "
+            SELECT comp.id_computador,
+              comp.nm_computador,
+              comp.te_ip_computador,
+              comp.te_node_address,
+              so.te_desc_so,
+              l.nm_local,
+              rede.nm_rede,
+              sl.data_coleta as dt_hr_ult_acesso
+            FROM software_licencas sl
+              INNER JOIN computador comp ON sl.id_computador = comp.id_computador
+              INNER JOIN so ON so.id_so = comp.id_so
+              INNER JOIN rede ON rede.id_rede = comp.id_rede
+              INNER JOIN local l ON l.id_local = rede.id_local
+              INNER JOIN aquisicao aq ON sl.id_aquisicao = aq.id_aquisicao
+              INNER JOIN aquisicao_item aqit ON aqit.id_aquisicao_item = sl.id_aquisicao_item
+              INNER JOIN tipo_licenca t ON sl.id_tipo_licenca = t.id_tipo_licenca
+            WHERE sl.id_aquisicao_item = $idAquisicaoItem
+              AND (
+                  (
+                    sl.comp_ativo = FALSE
+                  )
+                  OR (
+                    sl.prop_ativo = FALSE
+                  )
+                  OR sl.id_aquisicao_item <> (
+                    SELECT sl2.id_aquisicao_item
+                    FROM software_licencas sl2
+                    WHERE sl2.id_computador = sl.id_computador
+                      AND sl2.id_aquisicao = sl.id_aquisicao
+                    ORDER BY sl2.data_coleta DESC
+                    LIMIT 1
+                  )
+              )
+            GROUP BY comp.id_computador,
+              comp.nm_computador,
+              comp.te_ip_computador,
+              comp.te_node_address,
+              so.te_desc_so,
+              so.id_so,
+              l.nm_local,
+              rede.nm_rede,
+              sl.data_coleta,
+              aqit.nm_aquisicao,
+              sl.id_aquisicao_item,
+              aq.nr_processo,
+              t.te_tipo_licenca,
+              sl.id_aquisicao,
+              sl.prop_ativo,
+              sl.comp_ativo
+        ";
+
+        $query = $this->getEntityManager()->createNativeQuery($sql, $rsm);
+
+        $result =  $query->execute();
+
+        return $result;
+    }
+
 }

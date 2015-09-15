@@ -1,0 +1,113 @@
+{% extends 'CacicRelatorioBundle::base.html.twig' %}
+
+{% block body %}
+
+<h2 class="">{{ 'Relatório de Licenças Inutilizadas'|trans }}</h2>
+<h5>{{ 'Relatório gerado em'|trans }} {% if idioma == 'pt_BR' %}{{ "now"|date("d/m/Y H\\hi") }}{% else %}{{ "now"|date("m/d/Y H\\hi") }}{% endif %}</h5>
+
+<hr />
+
+{% for key, reg in dados %}
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th width="25%">{{ "Processo"|trans }}</th>
+                <th width="20%">{{ "Data de Aquisição"|trans }}</th>
+                <th width="20%">{{ "Empresa"|trans }}</th>
+                <th width="20%">{{ "Proprietário"|trans }}</th>
+                <th>{{ "Pregão/Contrato"|trans }}</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr>
+                <td>{{ reg.nrProcesso }}</td>
+                <td>{{ reg.dtAquisicao|date('d/m/Y')}}</td>
+                <td>{{ reg.nmEmpresa }}</td>
+                <td>{{ reg.nmProprietario }}</td>
+                <td>{{ reg.nrNotafiscal }}</td>
+            </tr>
+            <tr>
+                <td colspan="5">
+                    <table class="table ">
+                        <tbody>
+                            <tr>
+                                <th width="26%">{{ 'Nome da Aquisição'|trans }}</th>
+                                <th width="15%">{{ 'Tipo Licença'|trans }}</th>
+                                {#<th width="30%">{{ 'Software'|trans }}</th>#}
+                                <th width="13%" style="text-align: center">{{ 'Licenças'|trans }}</th>
+                                <th width="13%" style="text-align: center">{{ 'Quantidade Coletada'|trans }}</th>
+                                <th width="13%" style="text-align: center">{{ 'Saldo'|trans }}</th>
+                                <th width="10%" style="text-align: center">{{ 'Vencimento'|trans }}</th>
+                                <th width="10%" style="text-align: center"></th>
+                            </tr>
+
+                                {% for item in reg['itens'] %}
+
+                                    {#{% for software in item.idSoftware %}
+                                        <input type="hidden" name="softwares" value="{{ software.idSoftware }}">
+                                    {% endfor %}#}
+                                    <tr>
+                                        <td>
+                                            {% if item['nmAquisicao'] is empty %}
+                                                {{ reg.nrProcesso }} / {{ item.teTipoLicenca }}
+                                            {% else %}
+                                                {{ item['nmAquisicao'] }}
+                                            {% endif %}
+                                        </td>
+                                        <td>{{ item.teTipoLicenca }}</td>
+                                        {#<td>{{ item.idSoftware.nmSoftware }}</td>#}
+                                        <td style="text-align: center">{{ item.qtLicenca }}</td>
+                                        <td style="text-align: center">
+                                            <a href="{{ path('cacic_relatorio_software_removidos_det', {'idAquisicaoItem': item.idAquisicaoItem}) }}" title="{{ "Detalhar"|trans }}" target="_blank">
+                                                {{ item.nComp }}
+                                            </a>
+                                        </td>
+                                        {% set saldo = item.qtLicenca - item.nComp %}
+                                        {% if saldo > 0 %}
+                                            <td style="text-align: center">
+                                                {{ saldo }}
+                                            </td>
+                                        {% else %}
+                                            <td style="text-align: center">
+                                                <span class="label label-important">{{ saldo }}</span>
+                                            </td>
+                                        {% endif %}
+                                        <td style="text-align: center">{{ item.dtVencimentoLicenca|date('d/m/Y') }}</td>
+                                        <td style="text-align: center">
+                                            <a href="{{ path('cacic_relatorio_software_removidos_det', {'idAquisicaoItem': item.idAquisicaoItem}) }}" class="btn btn-small" title="{{ "Detalhar"|trans }}" target="_blank">
+                                                <i class="btn-icon-only icon-search icon-large"></i>
+                                            </a>
+                                            <a href="{{ path('cacic_aquisicao_item_editar', {'idAquisicaoItem': item.idAquisicaoItem}) }}" class="btn btn-small" title="{{ "Alterar relatório"|trans }}" target="_blank">
+                                                <i class="btn-icon-only icon-edit icon-large"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+
+                                {% endfor %}
+
+                                {#<tr>
+                                    <td colspan="4">
+                                        <button type="submit" class="btn btn-default">
+                                            <i class="icon-ok-sign"></i>
+                                            {{ "Visualizar relatório detalhado"|trans }}
+                                        </button>
+                                    </td>
+                                </tr>#}
+
+                        </tbody>
+                    </table>
+
+                </td>
+            </tr>
+            {% else %}
+            <tr>
+                <td style="text-align: center" colspan="5"><b>{{ "NENHUM REGISTRO ENCONTRADO!"|trans }}</b></td>
+            </tr>
+
+       </tbody>
+    </table>
+{% endfor %}
+
+{% endblock %}
