@@ -146,6 +146,7 @@ class ComputadorController extends Controller
                 $software[$nome_propriedade]['displayVersion'] = $v['displayVersion'];
                 $software[$nome_propriedade]['URLInfoAbout'] = $v['URLInfoAbout'];
                 $software[$nome_propriedade]['publisher'] = $v['publisher'];
+                $software[$nome_propriedade]['ativo'] = $v['ativo'];
             } else {
                 // Outras coletas
                 $dadosColeta[$classe][$nome_propriedade]['nmPropertyName'] = $propriedade->getNmPropertyName();
