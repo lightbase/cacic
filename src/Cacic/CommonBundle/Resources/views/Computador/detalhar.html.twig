@@ -16,6 +16,7 @@
 	        	{{ "Detalhes do Computador"|trans }}: {{ computador.nmComputador }}
 	        </h2>
             <a href="#" class="toggle box_button_1" title="toggle">&nbsp;</a>
+            <a href="#" class="destroy box_button_1" title="close" style="display: none;">&nbsp;</a>
 
             <div class="toggle_container" style="display: block;">
 	    
@@ -123,17 +124,19 @@
 </div>
 
 
-<div class="row-fluid">
 
-    {% for classe in dadosColeta|keys %}
-        <div class="col-md-6 column ui-sortable" id="{{ classe }}">
+
+{% for classe in dadosColeta|keys %}
+    <div class="row-fluid">
+        <div class="span12 column ui-sortable" id="{{ classe }}">
             <div class="box grad_colour_black" id="box_{{ loop.index }}">
 
                 <h2 class="box_head round_top">
                     <i class="icon-list"></i>
                     {{ 'Classe de coleta: '|trans}}{{ classe }}
                 </h2>
-                <a name="{{ classe }}" class="toggle box_button_3" title="toggle">&nbsp;</a>
+                <a name="{{ classe }}" class="toggle box_button_1" title="toggle" href="#{{ classe }}">&nbsp;</a>
+                <a href="#" class="destroy box_button_1" title="close" style="display: none;">&nbsp;</a>
 
                 <div class="toggle_container">
 
@@ -177,7 +180,9 @@
                 </div>
             </div>
         </div>
-    {% else %}
+    </div>
+{% else %}
+    <div class="row-fluid">
         <div class="span12">
             <div class="box grad_colour_black">
 
@@ -204,9 +209,9 @@
                 </div>
             </div>
         </div>
+    </div>
+{% endfor %}
 
-    {% endfor %}
-</div>
 
 <div class="row-fluid">
 	<div class="span12">
@@ -216,7 +221,8 @@
                 <i class="icon-list"></i>
                 {{ 'Coleta de Software'|trans }}
             </h2>
-            <a href="#" class="toggle box_button_2" title="toggle">&nbsp;</a>
+            <a href="#" class="toggle box_button_1" title="toggle">&nbsp;</a>
+            <a href="#" class="destroy box_button_1" title="close" style="display: none;">&nbsp;</a>
             <div class="toggle-container">
                 <div class="block box_content round_bottom padding_10">
                     <table class="table">
