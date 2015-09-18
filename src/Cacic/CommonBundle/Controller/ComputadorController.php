@@ -126,43 +126,80 @@ class ComputadorController extends Controller
 
         $dadosColeta = array(); // Inicializa o array que agrupa os dados de coleta por Classe
         $software = array(); // Coloca a coleta de software num array separado
-        $listaClasses = array();
-        $listaSoftwares = array();
-        foreach ( $coleta as $v )
-        {
-            //$idClass = $v->getClassProperty()->getIdClass()->getIdClass();
-            // Vamos tratar primeiro a exceção, para o caso da classe ser software
-            $propriedade = $v[0]->getClassProperty();
-            $classe = $propriedade->getIdClass()->getNmClassName();
-            $nome_propriedade = $propriedade->getNmPropertyName();
-            if ($classe == 'SoftwareList') {
-                // O identificador do software está armazenado na propriedade
-                // Coleta de Software
-                $software[$nome_propriedade]['displayName'] = $v['displayName'];
-                if (empty($v['displayName'])) {
-                    // Alguns softwares não têm nome. É absurdo mas acontece
-                    $software[$nome_propriedade]['displayName'] = $nome_propriedade;
-                }
-                $software[$nome_propriedade]['displayVersion'] = $v['displayVersion'];
-                $software[$nome_propriedade]['URLInfoAbout'] = $v['URLInfoAbout'];
-                $software[$nome_propriedade]['publisher'] = $v['publisher'];
-                $software[$nome_propriedade]['ativo'] = $v['ativo'];
-            } else {
-                // Outras coletas
-                $dadosColeta[$classe][$nome_propriedade]['nmPropertyName'] = $propriedade->getNmPropertyName();
-                $dadosColeta[$classe][$nome_propriedade]['tePropertyDescription'] = $propriedade->getTePropertyDescription();
+        $hardwares_excluidos = array(); // Grupo de coletas removidas
+        $softwares_excluidos = array(); // Grupo de softwares removidos
 
-                // Trata o valor antes de enviar
-                $valor = TagValueHelper::getTableValues($v[0]->getTeClassPropertyValue());
-                $dadosColeta[$classe][$nome_propriedade]['teClassPropertyValue'] = $valor;
-
+        foreach ($computador->getHardwares() as $hardware) {
+            if ($hardware->getClassProperty()->getIdClass()->getNmClassName() == 'SoftwareList') {
+                // Ignora classe SoftwareList nesse array
+                continue;
             }
 
+            // Verifica se deve estar na lista de excluídos
+            if ($hardware->getAtivo() === false) {
+                // Aqui estará na lista de excluídos
+                if (!array_key_exists($hardware->getClassProperty()->getIdClass()->getNmClassName(), $hardwares_excluidos)) {
+                    $hardwares_excluidos[$hardware->getClassProperty()->getIdClass()->getNmClassName()] = array();
+                }
 
-            //if ( array_key_exists( $idClass, $dadosColeta ) )
-            //    $dadosColeta[ $idClass ] = array();
+                if (!array_key_exists($hardware->getClassProperty()->getNmPropertyName(), $hardwares_excluidos[$hardware->getClassProperty()->getIdClass()->getNmClassName()])) {
+                    $hardwares_excluidos[$hardware->getClassProperty()->getIdClass()->getNmClassName()][$hardware->getClassProperty()->getNmPropertyName()] = array();
+                }
 
-            //$dadosColeta[ $idClass ][] = $v;
+                $hardwares_excluidos[$hardware->getClassProperty()->getIdClass()->getNmClassName()][$hardware->getClassProperty()->getNmPropertyName()] = $hardware;
+            } else {
+                // Aqui lista de coletas normais
+                if (!array_key_exists($hardware->getClassProperty()->getIdClass()->getNmClassName(), $dadosColeta)) {
+                    $dadosColeta[$hardware->getClassProperty()->getIdClass()->getNmClassName()] = array();
+                }
+
+                if (!array_key_exists($hardware->getClassProperty()->getNmPropertyName(), $dadosColeta[$hardware->getClassProperty()->getIdClass()->getNmClassName()])) {
+                    $dadosColeta[$hardware->getClassProperty()->getIdClass()->getNmClassName()][$hardware->getClassProperty()->getNmPropertyName()] = array();
+                }
+
+                $dadosColeta[$hardware->getClassProperty()->getIdClass()->getNmClassName()][$hardware->getClassProperty()->getNmPropertyName()] = $hardware;
+            }
+
+        }
+
+        $software['inventariados'] = array();
+        $software['relatorios'] = array();
+        $softwares_excluidos['inventariados'] = array();
+        $softwares_excluidos['relatorios'] = array();
+        foreach ($computador->getSoftwareColetado() as $propSoftware) {
+
+            if ($propSoftware->getAtivo() === false) {
+                // Aqui estará na lista de excluídos
+                $relatorios = $propSoftware->getSoftware()->getRelatorios();
+                if (sizeof($relatorios) > 0) {
+                    // Primeiro agrupa por relatórios cadastrados
+                    foreach ($relatorios as $elm) {
+                        // Somente os softwares que não estiverem em lista de exclusão
+                        if ($elm->getTipo() != 'excluir') {
+                            $softwares_excluidos['relatorios'][$elm->getNomeRelatorio()] = $elm;
+                        }
+                    }
+                } else {
+                    // Se nao houver relatorio cadastrado, adiciona nos inventariados
+                    $softwares_excluidos['inventariados'][$propSoftware->getClassProperty()->getNmPropertyName()] = $propSoftware;
+                }
+            } else {
+                // Aqui está na lista normal de coletados
+                $relatorios = $propSoftware->getSoftware()->getRelatorios();
+                if (sizeof($relatorios) > 0) {
+                    // Primeiro agrupa por relatórios cadastrados
+                    foreach ($relatorios as $elm) {
+                        // Somente os softwares que não estiverem em lista de exclusão
+                        if ($elm->getTipo() != 'excluir') {
+                            $software['relatorios'][$elm->getNomeRelatorio()] = $elm;
+                        }
+                    }
+                } else {
+                    // Se nao houver relatorio cadastrado, adiciona nos inventariados
+                    $software['inventariados'][$propSoftware->getClassProperty()->getNmPropertyName()] = $propSoftware;
+                }
+            }
+
         }
 
         // Única maneira de verificar se é ativo. Bug bizarro do PHP
@@ -177,6 +214,11 @@ class ComputadorController extends Controller
         $ativo =  $stmt->fetchAll();
         $ativo = $ativo[0]['show_ativo'];
 
+        // Controle de licenças
+        $licencas = $d->getManager()->getRepository("CacicCommonBundle:Aquisicao")->licencasComputador($idComputador);
+        $licencas_removidas = $d->getManager()->getRepository("CacicCommonBundle:Aquisicao")->removidosComputador($idComputador);
+
+
         return $this->render(
             'CacicCommonBundle:Computador:detalhar.html.twig',
             array(
@@ -185,7 +227,11 @@ class ComputadorController extends Controller
                 'dadosColeta'   => $dadosColeta,
                 'software'      => $software,
                 'ativo'         => $ativo,
-                'nivel'         => $nivel
+                'nivel'         => $nivel,
+                'softwares_excluidos' => $softwares_excluidos,
+                'hardwares_excluidos' => $hardwares_excluidos,
+                'licencas' => $licencas,
+                'licencas_removidas' => $licencas_removidas
             )
         );
     }
@@ -587,3 +633,4 @@ class ComputadorController extends Controller
     }
 
 }
+
