@@ -39,6 +39,11 @@ class InativosCommand extends ContainerAwareCommand {
         $update = $em->getConnection()->prepare($sql);
         $update->execute();
 
+        // Atualiza o relatório de licenças
+        $sql = "SELECT update_licencas()";
+        $update = $em->getConnection()->prepare($sql);
+        $update->execute();
+
 
         //$output->writeln($text);
     }
