@@ -128,6 +128,7 @@ class ComputadorController extends Controller
         $software = array(); // Coloca a coleta de software num array separado
         $hardwares_excluidos = array(); // Grupo de coletas removidas
         $softwares_excluidos = array(); // Grupo de softwares removidos
+        $excluidos = false;
 
         foreach ($computador->getHardwares() as $hardware) {
             if ($hardware->getClassProperty()->getIdClass()->getNmClassName() == 'SoftwareList') {
@@ -137,6 +138,7 @@ class ComputadorController extends Controller
 
             // Verifica se deve estar na lista de excluídos
             if ($hardware->getAtivo() === false) {
+                $excluidos = true;
                 // Aqui estará na lista de excluídos
                 if (!array_key_exists($hardware->getClassProperty()->getIdClass()->getNmClassName(), $hardwares_excluidos)) {
                     $hardwares_excluidos[$hardware->getClassProperty()->getIdClass()->getNmClassName()] = array();
@@ -169,6 +171,7 @@ class ComputadorController extends Controller
         foreach ($computador->getSoftwareColetado() as $propSoftware) {
 
             if ($propSoftware->getAtivo() === false) {
+                $excluidos = true;
                 // Aqui estará na lista de excluídos
                 $relatorios = $propSoftware->getSoftware()->getRelatorios();
                 if (sizeof($relatorios) > 0) {
@@ -191,7 +194,19 @@ class ComputadorController extends Controller
                     foreach ($relatorios as $elm) {
                         // Somente os softwares que não estiverem em lista de exclusão
                         if ($elm->getTipo() != 'excluir') {
-                            $software['relatorios'][$elm->getNomeRelatorio()] = $elm;
+                            if ($this->get('security.context')->isGranted('ROLE_ADMIN')) {
+                                // Admin pode ver todos os relatórios
+                                $software['relatorios'][$elm->getNomeRelatorio()] = $elm;
+                            } elseif ($this->get('security.context')->isGranted('ROLE_GESTAO') && $elm->getTipo() == 'restrito') {
+                                // Relatórios de nível restrito são para administrador e gestor
+                                $software['relatorios'][$elm->getNomeRelatorio()] = $elm;
+                            } elseif ($elm->getNivelAcesso() == 'pessoal' && $elm->getIdUsuario() == $this->getUser()) {
+                                // Relatórios pessoais só podem ser acessados pelo próprio usuário
+                                $software['relatorios'][$elm->getNomeRelatorio()] = $elm;
+                            } elseif ($elm->getNivelAcesso() == 'publico') {
+                                // Relatórios públicos são acessíveis para todos
+                                $software['relatorios'][$elm->getNomeRelatorio()] = $elm;
+                            }
                         }
                     }
                 } else {
@@ -231,7 +246,8 @@ class ComputadorController extends Controller
                 'softwares_excluidos' => $softwares_excluidos,
                 'hardwares_excluidos' => $hardwares_excluidos,
                 'licencas' => $licencas,
-                'licencas_removidas' => $licencas_removidas
+                'licencas_removidas' => $licencas_removidas,
+                'excluidos' => $excluidos
             )
         );
     }

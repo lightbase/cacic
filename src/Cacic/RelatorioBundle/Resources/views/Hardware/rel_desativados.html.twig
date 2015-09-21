@@ -1,0 +1,66 @@
+{% extends 'CacicRelatorioBundle::base.html.twig' %}
+
+{% block body %}
+
+    <h2>{{ 'Relatório de remoções'|trans }}</h2>
+    <h5>{{ 'Relatório gerado em'|trans }} {% if idioma == 'pt_BR' %}{{ "now"|date("d/m/Y H\\hi") }}{% else %}{{ "now"|date("m/d/Y H\\hi") }}{% endif %}</h5>
+
+
+    <form id="csv" action="{{ path('cacic_relatorio_hardware_desativados_csv') }}" method="post">
+        <input type="hidden" name="idComputador" value="{{ idComputador }}">
+        {% for elm, value in filtros %}
+            <input type="hidden" name="{{ elm }}" value="{{ value }}">
+        {% endfor %}
+        <button class="btn btn-primary" type="submit">
+            <i class="icon-bar-chart"></i>
+            Gerar CSV
+        </button>
+    </form>
+    <hr />
+
+    <table class="display datatable" id="datatable">
+        <thead>
+            <tr>
+                <th width="2%" style="text-align: center"></th>
+                <th width="10%">{{ "Computador"|trans }}</th>
+                <th width="10%">{{ "MAC Address"|trans }}</th>
+                <th width="10%">{{ "Endereço IP"|trans }}</th>
+                <th width="10%">{{ "Sistema Operacional"|trans }}</th>
+                <th width="10%">{{ "Local"|trans }}</th>
+                <th width="10%">{{ "Subrede"|trans }}</th>
+                <th width="15%">{{ "Propriedade"|trans }}</th>
+                <th width="13%">{{ "Valor"|trans }}</th>
+                <th width="10%">{{ "Data/Hora da Remoção"|trans }}</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for reg in dados %}
+                <tr>
+                    <td style="text-align: center">{{ loop.index }}</td>
+                    <td>
+                        <b><a href="{{ path('cacic_computador_detalhar') }}/{{ reg.1 }}" title="{{ "Todas as informações do computador"|trans }}" target="_blank">{{ reg.nmComputador }}</a></b>
+                    </td>
+                    <td><a href="{{ path('cacic_computador_detalhar') }}/{{ reg.1 }}" title="{{ "Todas as informações do computador"|trans }}" target="_blank">{{ reg.teNodeAddress }}</a></td>
+                    <td><a href="{{ path('cacic_computador_detalhar') }}/{{ reg.1 }}" title="{{ "Todas as informações do computador"|trans }}" target="_blank">{{ reg.teIpComputador }}</a></td>
+                    <td><span class="{% if reg.inMswindows == 'S' %}red{% else %}blue{% endif %}">{{ reg.sgSo }}</span></td>
+                    <td>{{ reg.nmLocal }}</td>
+                    <td>{{ reg.nmRede }} / {{ reg.teIpRede }}</td>
+                    {%  if reg.displayName is not empty %}
+                        <td>{{ "Software" }}</td>
+                        <td>{{ reg.displayName }}</td>
+                    {% else %}
+                        <td>{{ reg.nmClassName }} / {{ reg.nmPropertyName }}</td>
+                        <td>{{ reg.teClassPropertyValue }}</td>
+                    {% endif %}
+                    <td>{{ reg.dataExclusao|date('d/m/Y H:i:s') }}</td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td style="text-align: center" colspan="10"><b>{{ "NENHUM REGISTRO ENCONTRADO!"|trans }}</b></td>
+                </tr>
+            {% endfor %}
+       </tbody>
+    </table>
+
+{% endblock %}

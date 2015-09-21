@@ -52,12 +52,18 @@
                                 <div class="block round_bottom padding_8 shortcuts">
                                     <a href="{{ path('cacic_relatorio_computador_log_acesso', {'idComputador': computador.idComputador}) }}" class="shortcut">
                                         <i class="shortcut-icon icon-desktop"></i>
-                                        <span class="shortcut-label">{{ "Log de Acesso" }}</span>
+                                        <span class="shortcut-label">{{ "Log de Acesso"|trans }}</span>
                                     </a>
                                     {% if is_granted('ROLE_GESTAO') %}
                                         <a href="{{ path('cacic_relatorio_computador_log_usuario', {'idComputador': computador.idComputador}) }}" class="shortcut">
                                             <i class="shortcut-icon icon-user"></i>
-                                            <span class="shortcut-label">{{ "Usuários Logados" }}</span>
+                                            <span class="shortcut-label">{{ "Usuários Logados"|trans }}</span>
+                                        </a>
+                                    {% endif %}
+                                    {% if excluidos %}
+                                        <a href="{{ path('cacic_relatorio_hardware_desativados', {'idComputador': computador.idComputador}) }}" class="shortcut">
+                                            <i class="shortcut-icon icon-warning-sign"></i>
+                                            <span class="shortcut-label">{{ "Remoções"|trans }}</span>
                                         </a>
                                     {% endif %}
                                 </div>
@@ -141,130 +147,132 @@
         </div>
     </div>
 
+    {% if licencas|length > 0 or software.relatorios|length > 0 %}
 
-    <div class="row-fluid">
-        <div class="span12">
-            <div class="box grad_colour_black">
+        <div class="row-fluid">
+            <div class="span12">
+                <div class="box grad_colour_black">
 
-                <h2 class="box_head round_top">
-                    <i class="icon-list"></i>
-                    {{ "Coleta de Software"|trans }}
-                </h2>
-                <a href="#" class="toggle box_button_1" title="toggle">&nbsp;</a>
-                <a href="#" class="destroy box_button_1" title="close" style="display: none;">&nbsp;</a>
-                <div class="toggle_container">
+                    <h2 class="box_head round_top">
+                        <i class="icon-list"></i>
+                        {{ "Coleta de Software"|trans }}
+                    </h2>
+                    <a href="#" class="toggle box_button_1" title="toggle">&nbsp;</a>
+                    <a href="#" class="destroy box_button_1" title="close" style="display: none;">&nbsp;</a>
+                    <div class="toggle_container">
 
-                    <div class="block box_content round_bottom padding_10">
+                        <div class="block box_content round_bottom padding_10">
 
-                        {% if software.relatorios|length > 0 %}
-                            <table class="table">
-                                <thead>
-                                <tr>
-                                    <th colspan="2">{{ 'Softwares Coletados'|trans }}</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                {% for elm in software.relatorios|keys %}
+                            {% if software.relatorios|length > 0 %}
+                                <table class="table">
+                                    <thead>
                                     <tr>
-                                        <td>{{ loop.index }}</td>
-                                        <td>{{ elm }}</td>
+                                        <th colspan="2">{{ 'Softwares Coletados'|trans }}</th>
                                     </tr>
-                                {% endfor %}
-                                </tbody>
-                            </table>
-                        {% endif %}
-                        <br>
-                        <br>
+                                    </thead>
+                                    <tbody>
+                                    {% for elm in software.relatorios|keys %}
+                                        <tr>
+                                            <td>{{ loop.index }}</td>
+                                            <td>{{ elm }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            {% endif %}
+                            <br>
+                            <br>
 
-                        <div class="row-fluid">
-                            <div class="span6">
-                                {% if licencas|length > 0 %}
-                                    <div class="panel panel-info">
-                                        <div class="panel-heading">
-                                            <h3 class="panel-title">{{ "Licenças Ativas"|trans }}</h3>
-                                        </div>
-                                        <div class="panel-body">
-                                            <table class="table">
-                                                <thead>
-                                                <tr>
-                                                    <th width="2%"></th>
-                                                    <th>{{ "Processo de Aquisição"|trans }}</th>
-                                                    <th>{{ "Nota Fiscal"|trans }}</th>
-                                                    <th>{{ "Data de Vencimento"|trans }}</th>
-                                                    <th>{{ "Tipo de Licença"|trans }}</th>
-                                                    <th>{{ "Nome da Aquisição"|trans }}</th>
-                                                </tr>
-                                                </thead>
-                                                <tbody>
-                                                {% for elm in licencas %}
+                            <div class="row-fluid">
+                                <div class="span6">
+                                    {% if licencas|length > 0 %}
+                                        <div class="panel panel-info">
+                                            <div class="panel-heading">
+                                                <h3 class="panel-title">{{ "Licenças Ativas"|trans }}</h3>
+                                            </div>
+                                            <div class="panel-body">
+                                                <table class="table">
+                                                    <thead>
                                                     <tr>
-                                                        <td>{{ loop.index }}</td>
-                                                        <td>{{ elm.nrProcesso }}</td>
-                                                        <td>{{ elm.nrNotaFiscal }}</td>
-                                                        <td>{{ elm.dtVencimentoLicenca|date('m/d/Y H:i:s') }}</td>
-                                                        <td>{{ elm.teTipoLicenca }}</td>
-                                                        <td>{{ elm.nmAquisicao }}</td>
+                                                        <th width="2%"></th>
+                                                        <th>{{ "Processo de Aquisição"|trans }}</th>
+                                                        <th>{{ "Nota Fiscal"|trans }}</th>
+                                                        <th>{{ "Data de Vencimento"|trans }}</th>
+                                                        <th>{{ "Tipo de Licença"|trans }}</th>
+                                                        <th>{{ "Nome da Aquisição"|trans }}</th>
                                                     </tr>
-                                                {% endfor %}
-                                                </tbody>
-                                            </table>
+                                                    </thead>
+                                                    <tbody>
+                                                    {% for elm in licencas %}
+                                                        <tr>
+                                                            <td>{{ loop.index }}</td>
+                                                            <td>{{ elm.nrProcesso }}</td>
+                                                            <td>{{ elm.nrNotaFiscal }}</td>
+                                                            <td>{{ elm.dtVencimentoLicenca|date('m/d/Y H:i:s') }}</td>
+                                                            <td>{{ elm.teTipoLicenca }}</td>
+                                                            <td>{{ elm.nmAquisicao }}</td>
+                                                        </tr>
+                                                    {% endfor %}
+                                                    </tbody>
+                                                </table>
+                                            </div>
                                         </div>
-                                    </div>
-                                {% endif %}
-                            </div>
-                            <div class="span6">
-                                {% if licencas_removidas|length > 0 %}
-                                    <div class="panel panel-danger">
-                                        <div class="panel-heading">
-                                            <h3 class="panel-title">{{ "Licenças Inativas"|trans }}</h3>
-                                        </div>
-                                        <div class="panel-body">
-                                            <table class="table">
-                                                <thead>
-                                                <tr>
-                                                    <th width="2%"></th>
-                                                    <th>{{ "Processo de Aquisição"|trans }}</th>
-                                                    <th>{{ "Nota Fiscal"|trans }}</th>
-                                                    <th>{{ "Data de Vencimento"|trans }}</th>
-                                                    <th>{{ "Tipo de Licença"|trans }}</th>
-                                                    <th>{{ "Nome da Aquisição"|trans }}</th>
-                                                </tr>
-                                                </thead>
-                                                <tbody>
-                                                {% for elm in licencas_removidas %}
+                                    {% endif %}
+                                </div>
+                                <div class="span6">
+                                    {% if licencas_removidas|length > 0 %}
+                                        <div class="panel panel-danger">
+                                            <div class="panel-heading">
+                                                <h3 class="panel-title">{{ "Licenças Inativas"|trans }}</h3>
+                                            </div>
+                                            <div class="panel-body">
+                                                <table class="table">
+                                                    <thead>
                                                     <tr>
-                                                        <td>{{ loop.index }}</td>
-                                                        <td>{{ elm.nrProcesso }}</td>
-                                                        <td>{{ elm.nrNotaFiscal }}</td>
-                                                        <td>{{ elm.dtVencimentoLicenca|date('m/d/Y H:i:s') }}</td>
-                                                        <td>{{ elm.teTipoLicenca }}</td>
-                                                        <td>{{ elm.nmAquisicao }}</td>
+                                                        <th width="2%"></th>
+                                                        <th>{{ "Processo de Aquisição"|trans }}</th>
+                                                        <th>{{ "Nota Fiscal"|trans }}</th>
+                                                        <th>{{ "Data de Vencimento"|trans }}</th>
+                                                        <th>{{ "Tipo de Licença"|trans }}</th>
+                                                        <th>{{ "Nome da Aquisição"|trans }}</th>
                                                     </tr>
-                                                {% endfor %}
-                                                </tbody>
-                                            </table>
+                                                    </thead>
+                                                    <tbody>
+                                                    {% for elm in licencas_removidas %}
+                                                        <tr>
+                                                            <td>{{ loop.index }}</td>
+                                                            <td>{{ elm.nrProcesso }}</td>
+                                                            <td>{{ elm.nrNotaFiscal }}</td>
+                                                            <td>{{ elm.dtVencimentoLicenca|date('m/d/Y H:i:s') }}</td>
+                                                            <td>{{ elm.teTipoLicenca }}</td>
+                                                            <td>{{ elm.nmAquisicao }}</td>
+                                                        </tr>
+                                                    {% endfor %}
+                                                    </tbody>
+                                                </table>
+                                            </div>
                                         </div>
-                                    </div>
-                                {% endif %}
+                                    {% endif %}
+                                </div>
                             </div>
+
+                            <br>
+                            <p style="text-align: center">
+                                <a class="btn btn-large" href="#SoftwareList">
+                                    {{ "Inventário de Software"|trans }}
+                                    <i class="icon-arrow-down icon-white"></i>
+                                </a>
+                            </p>
+                            <br>
+
                         </div>
-
-                        <br>
-                        <p style="text-align: center">
-                            <a class="btn btn-large" href="#SoftwareList">
-                                {{ "Inventário de Software"|trans }}
-                                <i class="icon-arrow-down icon-white"></i>
-                            </a>
-                        </p>
-                        <br>
-
                     </div>
+
+
                 </div>
-
-
             </div>
         </div>
-    </div>
+    {% endif %}
 
 
     {% for classe in dadosColeta|keys %}

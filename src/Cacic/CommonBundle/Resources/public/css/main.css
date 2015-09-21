@@ -6,7 +6,11 @@ body {
 
 .logo {
 	background: url('../images/cacic_logo.png') center no-repeat ;
-	width: 204px;
+	/*width: 204px;*/
+}
+
+.logo-small {
+	background: url('../images/cacic_logo.png') center no-repeat ;
 }
 
 .box_head i { margin-right: 5px; } /* Espaçamento entre o ícone e o título dos boxes (widgets) */

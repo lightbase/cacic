@@ -650,4 +650,83 @@ class HardwareController extends Controller
 
         return $response;
     }
+
+    public function desativadosGeralAction(Request $request, $idComputador) {
+        $locale = $request->getLocale();
+        $filtros = $request->get('rel_filtro_software', array());
+
+        $filtros['idComputador'] = $idComputador;
+
+        $dados = $this->getDoctrine()
+            ->getRepository('CacicCommonBundle:ComputadorColeta')
+            ->gerarRelatorioDesativados($filtros);
+
+        unset($filtros['idComputador']);
+
+        return $this->render(
+            'CacicRelatorioBundle:Hardware:rel_desativados.html.twig',
+            array(
+                'idioma'=> $locale,
+                'dados' => $dados,
+                'filtros' => $filtros,
+                'idComputador' => $idComputador
+            )
+        );
+    }
+
+    public function desativadosGeralCsvAction(Request $request) {
+        $locale = $request->getLocale();
+        $logger = $this->get('logger');
+        $filtros = $request->request->all();
+
+        $dados = $this->getDoctrine()
+            ->getRepository('CacicCommonBundle:ComputadorColeta')
+            ->gerarRelatorioDesativadosCsv($filtros);
+
+        // Gera CSV
+        $reader = new ArrayReader($dados);
+
+        // Create the workflow from the reader
+        $workflow = new Workflow($reader);
+
+        // As you can see, the first names are not capitalized correctly. Let's fix
+        // that with a value converter:
+        $converter = new CallbackValueConverter(function ($input) {
+            return $input->format('d/m/Y H:m:s');
+        });
+        //$workflow->addValueConverter('dataExclusao', $converter);
+
+        $workflow->addValueConverter("reader",new CharsetValueConverter('UTF-8',$reader));
+
+        // Add the writer to the workflow
+        $tmpfile = tempnam(sys_get_temp_dir(), 'Computadores-Subredes');
+        $file = new \SplFileObject($tmpfile, 'w');
+        $writer = new CsvWriter($file);
+        $writer->writeItem(array(
+            'ID do Computador',
+            'Computador',
+            'MAC Address',
+            'Endereço IP',
+            'SO',
+            'Local',
+            'Subrede',
+            'IP da Subrede',
+            'Classe de Coleta',
+            'Propriedade',
+            'Valor',
+            'Data e Hora da Remoção'
+        ));
+        $workflow->addWriter($writer);
+
+        // Process the workflow
+        $workflow->process();
+
+        // Retorna o arquivo
+        $response = new BinaryFileResponse($tmpfile);
+        $response->headers->set('Content-Type', 'text/csv');
+        $response->headers->set('Content-Disposition', 'attachment; filename="WMI-sem-coleta.csv"');
+        $response->headers->set('Content-Transfer-Encoding', 'binary');
+
+        return $response;
+    }
 }

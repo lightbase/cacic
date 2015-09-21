@@ -235,6 +235,14 @@ cacic_relatorio_software_removidos_det_csv:
     path: /software/removidos/{idAquisicaoItem}/csv
     defaults: { _controller: CacicRelatorioBundle:Software:removidosDetalhadoCsv }
 
+cacic_relatorio_hardware_desativados:
+    path: /desativados/hardware/{idComputador}
+    defaults: { _controller: CacicRelatorioBundle:Hardware:desativadosGeral, idComputador: null }
+
+cacic_relatorio_hardware_desativados_csv:
+    path: /desativados/csv/hardware
+    defaults: { _controller: CacicRelatorioBundle:Hardware:desativadosGeralCsv }
+
 ################################
 # HARDWARE
 ################################
