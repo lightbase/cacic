@@ -153,6 +153,29 @@ class CommandController extends Controller
             'api_key' => $usuario->getApiKey()
         );
 
+
+        // Altera chave de API e Senha do usuário padrão
+        $usuario = $om->getRepository("CacicCommonBundle:Usuario")->findOneBy(array(
+            'nmUsuarioAcesso' => 'devel'
+        ));
+
+        // Gera uma senha aleatória
+        $senha = $usuario->randomPassword();
+        $encoder = $this->container
+            ->get('security.encoder_factory')
+            ->getEncoder($usuario);
+        $usuario->setTeSenha($encoder->encodePassword($senha, $usuario->getSalt()));
+
+        // A chave de API é um UUID
+        $usuario->setApiKey(uniqid());
+
+        // Grava e devolve os valores no JSON
+        $om->persist($usuario);
+        $om->flush();
+
+        $saida['senha_devel'] = $senha;
+
+
         $logger->debug("FIXTURES-LOAD: Dados carregados com sucesso!");
 
         // Finaliza retornando o resultado
@@ -247,7 +270,7 @@ class CommandController extends Controller
         // Cria o link simbólico necessário para o site funcionar
         $web_dir = realpath($this->get('kernel')->getRootDir() . '/../web');
         $site_dir = $web_dir . '/' . $site->getUsername();
-        symlink($web_dir, $site_dir);
+        @symlink($web_dir, $site_dir);
 
         $logger->debug("CREATE-SITE: Site criado com sucesso!");
 
