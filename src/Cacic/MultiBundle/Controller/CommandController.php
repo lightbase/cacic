@@ -68,7 +68,7 @@ class CommandController extends Controller
             );
 
         // Debug
-        $logger->debug("MULTI-SITE DEBUG: detected domain $dbname");
+        $logger->debug("GET-SITE: MULTI-SITE DEBUG: detected domain $dbname");
 
         $siteManager = $this->container->get('site_manager');
 
@@ -102,9 +102,10 @@ class CommandController extends Controller
 
         // Ajusta o EntityManager específico com base na URL
         $result = $this->getSite($request);
+        $logger->debug("FIXTURES-LOAD: Iniciando carga de dados da instância |$result!");
 
         if (!$result) {
-            $logger->error("JSON INVÁLIDO!!!!!!!!!!!!!!!!!!! Erro no fixturesLoad");
+            $logger->error("FIXTURES-LOAD: JSON INVÁLIDO!!!!!!!!!!!!!!!!!!! Erro no fixturesLoad");
             // Retorna erro se o JSON for inválido
             $error_msg = '{
                 "message": "JSON Inválido",
@@ -119,14 +120,13 @@ class CommandController extends Controller
 
         // Carrega fixtures e executa no banco
         $fixturesHelper = new FixturesHelper();
-        $container = $this->get('kernel')->getContainer();
         $om = $this->getDoctrine()->getManager();
         $type = 'ORM';
-        $fixturesHelper->loadFixtures($type, $om, $container);
+        $fixturesHelper->loadFixtures($type, $om, $this->container);
 
         // Altera chave de API e Senha do usuário padrão
         $usuario = $om->getRepository("CacicCommonBundle:Usuario")->findOneBy(array(
-            'nmUsuarioAcesso' => 'cacic-adm'
+            'nmUsuarioAcesso' => 'admin'
         ));
 
         // Gera uma senha aleatória
@@ -153,6 +153,8 @@ class CommandController extends Controller
             'api_key' => $usuario->getApiKey()
         );
 
+        $logger->debug("FIXTURES-LOAD: Dados carregados com sucesso!");
+
         // Finaliza retornando o resultado
         $response = new JsonResponse();
         $response->setStatusCode(200);
@@ -174,7 +176,7 @@ class CommandController extends Controller
         $dados = json_decode($status, true);
 
         if (empty($dados)) {
-            $logger->error("JSON INVÁLIDO!!!!!!!!!!!!!!!!!!! Erro no createSite");
+            $logger->error("CREATE-SITE: JSON INVÁLIDO!!!!!!!!!!!!!!!!!!! Erro no createSite");
             // Retorna erro se o JSON for inválido
             $error_msg = '{
                 "message": "JSON Inválido",
@@ -188,7 +190,7 @@ class CommandController extends Controller
         }
 
         if (!array_key_exists('site', $dados)) {
-            $logger->error("Objeto do site não encontrado");
+            $logger->error("CREATE-SITE: Objeto do site não encontrado");
             // Retorna erro se o JSON for inválido
             $error_msg = '{
                 "message": "Site não encontrado",
@@ -224,11 +226,11 @@ class CommandController extends Controller
             );
 
         if (!empty($site2)) {
-            $logger->error("O site solicitado já existe! username = ".$site->getUsername());
+            $logger->error("CREATE-SITE: O site solicitado já existe! username = ".$site->getUsername());
 
             // Retorna erro com a mensagem
             $error_msg = '{
-                "message": "O site solicitado já existe! username = '.$site->getUsername().'",
+                "message": "CREATE-SITE: O site solicitado já existe! username = '.$site->getUsername().'",
                 "codigo": 3
             }';
 
@@ -241,6 +243,8 @@ class CommandController extends Controller
         // Agora salva o objeto
         $em->persist($site);
         $em->flush();
+
+        $logger->debug("CREATE-SITE: Site criado com sucesso!");
 
         // Agora retorna a resposta
         $response = new JsonResponse();
@@ -255,7 +259,7 @@ class CommandController extends Controller
         $dados = json_decode($status, true);
 
         if (empty($dados)) {
-            $logger->error("JSON INVÁLIDO!!!!!!!!!!!!!!!!!!! Erro no createSite");
+            $logger->error("SCHEMA-UPDATE: JSON INVÁLIDO!!!!!!!!!!!!!!!!!!! Erro no createSite");
             // Retorna erro se o JSON for inválido
             $error_msg = '{
                 "message": "JSON Inválido",
@@ -272,7 +276,7 @@ class CommandController extends Controller
         $result = $this->getSite($request);
 
         if (!$result) {
-            $logger->error("Objeto do site não encontrado");
+            $logger->error("SCHEMA-UPDATE: Objeto do site não encontrado");
             // Retorna erro se o JSON for inválido
             $error_msg = '{
                 "message": "Site não encontrado",
@@ -292,6 +296,8 @@ class CommandController extends Controller
         // A opção true manda consolidar as alterações no banco
         $tool = new SchemaTool($em, true);
         $tool->updateSchema($metadatas);
+
+        $logger->debug("SCHEMA-UPDATE: Finalizando carga do schema para |$result|");
 
         // Agora retorna a resposta
         $response = new JsonResponse();

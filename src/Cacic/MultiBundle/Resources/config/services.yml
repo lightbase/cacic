@@ -9,3 +9,7 @@ services:
         name: kernel.event_listener
         method: onKernelRequest
         event: kernel.request
+      -
+        name: kernel.event_listener
+        method: onConsoleCommand
+        event: console.command

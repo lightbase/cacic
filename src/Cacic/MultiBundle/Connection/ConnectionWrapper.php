@@ -69,7 +69,8 @@ class ConnectionWrapper extends Connection {
     public function connect()
     {
         if (! $this->session->has(self::SESSION_ACTIVE_DYNAMIC_CONN)) {
-            throw new \InvalidArgumentException('You have to inject into valid context first');
+            // Esse erro não precisa ser chamado quando estiver em um contexto de comando
+            //throw new \InvalidArgumentException('You have to inject into valid context first');
         }
         if ($this->isConnected()) {
             return true;
@@ -113,5 +114,26 @@ class ConnectionWrapper extends Connection {
             parent::close();
             $this->_isConnected = false;
         }
+    }
+
+    public function forceConnect($dbName, $dbUser, $dbPassword, $dbHost) {
+        $driverOptions = isset($params['driverOptions']) ? $params['driverOptions'] : array();
+
+        $params = $this->getParams();
+        $params['dbname'] = $dbName;
+        $params['user'] = $dbUser;
+        $params['password'] = $dbPassword;
+        $params['host'] = $dbHost;
+
+        $this->_conn = $this->_driver->connect($params, $params['user'], $params['password'], $driverOptions);
+
+        if ($this->_eventManager->hasListeners(Events::postConnect)) {
+            $eventArgs = new ConnectionEventArgs($this);
+            $this->_eventManager->dispatchEvent(Events::postConnect, $eventArgs);
+        }
+
+        $this->_isConnected = true;
+
+        return true;
     }
 } 

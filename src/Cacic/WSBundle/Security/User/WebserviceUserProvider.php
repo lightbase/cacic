@@ -16,6 +16,7 @@ use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Cacic\CommonBundle\Entity\Usuario as WebserviceUser;
 use Doctrine\ORM\NonUniqueResultException;
+use Symfony\Component\Security\Core\Exception\AuthenticationException;
 
 
 class WebserviceUserProvider implements UserProviderInterface {
@@ -30,13 +31,14 @@ class WebserviceUserProvider implements UserProviderInterface {
         // Eduardo: 20151501
         // Para funcionar no multisite e preciso forçar o ambiente aqui
         $env = $container->getParameter('kernel.environment');
-        if ($env == 'multi') {
+        if ($env == 'multi' || $env == 'dev_multi') {
             // O banco de dados cadastrado será o mesmo para todos os usuários
             $dbname = $container->getParameter('database_name');
             $dbuser = $container->getParameter('database_user');
             $dbpass = $container->getParameter('database_password');
+            $dbhost = $container->getParameter('database_host');
 
-            $container->get('doctrine.dbal.dynamic_connection')->forceSwitch($dbname, $dbuser, $dbpass);
+            $container->get('doctrine.dbal.dynamic_connection')->forceSwitch($dbname, $dbuser, $dbpass, $dbhost);
         }
 
         $this->em = $container->get('doctrine')->getManager();
