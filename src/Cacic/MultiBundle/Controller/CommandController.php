@@ -244,6 +244,11 @@ class CommandController extends Controller
         $em->persist($site);
         $em->flush();
 
+        // Cria o link simbólico necessário para o site funcionar
+        $web_dir = realpath($this->get('kernel')->getRootDir() . '/../web');
+        $site_dir = $web_dir . '/' . $site->getUsername();
+        symlink($web_dir, $site_dir);
+
         $logger->debug("CREATE-SITE: Site criado com sucesso!");
 
         // Agora retorna a resposta
