@@ -8,6 +8,20 @@ DECLARE
   v_nome VARCHAR;
   v_exists BOOLEAN;
 BEGIN
+
+  -- só executa atualização se o schema:update falhar
+  select 1 INTO v_exists
+  from information_schema.columns
+  where table_name='aquisicao_item'
+        AND column_name = lower('id_aquisicao_item');
+
+  IF v_exists IS NOT NULL THEN
+    RAISE NOTICE 'Atualização Desnecessária. Falhando...';
+
+    RETURN;
+
+  END IF;
+
   -- Cria modelo de dados esperado
   RAISE NOTICE 'Alterando modelo de dados...';
 
@@ -38,17 +52,45 @@ BEGIN
         RAISE NOTICE 'Coluna id_aquisicao_item já existe em aquisicoes_software';
   END;
 
-  ALTER TABLE aquisicoes_software
-  ALTER COLUMN id_software
-  DROP NOT NULL;
+  select 1 INTO v_exists
+  from information_schema.columns
+  where table_name='aquisicoes_software'
+        AND column_name = lower('id_software');
 
-  ALTER TABLE aquisicoes_software
-  ALTER COLUMN id_tipo_licenca
-  DROP NOT NULL;
+  IF v_exists IS NOT NULL THEN
 
-  ALTER TABLE aquisicoes_software
-  ALTER COLUMN id_aquisicao
-  DROP NOT NULL;
+    ALTER TABLE aquisicoes_software
+    ALTER COLUMN id_software
+    DROP NOT NULL;
+
+  END IF;
+
+  select 1 INTO v_exists
+  from information_schema.columns
+  where table_name='aquisicoes_software'
+        AND column_name = lower('id_tipo_licenca');
+
+  IF v_exists IS NOT NULL THEN
+
+    ALTER TABLE aquisicoes_software
+    ALTER COLUMN id_tipo_licenca
+    DROP NOT NULL;
+
+  END IF;
+
+
+  select 1 INTO v_exists
+  from information_schema.columns
+  where table_name='aquisicoes_software'
+        AND column_name = lower('id_tipo_licenca');
+
+  IF v_exists IS NOT NULL THEN
+
+    ALTER TABLE aquisicoes_software
+    ALTER COLUMN id_aquisicao
+    DROP NOT NULL;
+
+  END IF;
 
   ALTER TABLE software_estacao
   DROP CONSTRAINT IF EXISTS  fk_9bbdd0f82aff7683cf537cbe;
@@ -64,8 +106,10 @@ BEGIN
         RAISE NOTICE 'Coluna id_aquisicao_item já existe em software_estacao';
   END;
 
-  ALTER TABLE aquisicao_item
-  DROP CONSTRAINT IF EXISTS  aquisicao_item_pkey;
+  IF v_exists IS NOT NULL THEN
+    ALTER TABLE aquisicao_item
+    DROP CONSTRAINT IF EXISTS  aquisicao_item_pkey;
+  END IF;
 
   BEGIN
     ALTER TABLE aquisicao_item
