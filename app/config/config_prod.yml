@@ -20,7 +20,7 @@ monolog:
             handler:      lexik_monolog_browser
         app:
             type:         buffer
-            action_level: error
+            action_level: info
             channels:     app
             handler:      lexik_monolog_browser
         lexik_monolog_browser:
