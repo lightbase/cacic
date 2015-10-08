@@ -123,7 +123,7 @@ var System = {
 		}
 	},
 	Notifications: {
-        get: function(url, dados) {
+        get: function(url, dados, limit) {
             // Envia requisição Ajax de notificação
             $.ajax({
                 type: "GET",
@@ -134,7 +134,10 @@ var System = {
                 async: true,
                 success: function(result) {
                     var elm = "";
-                    for (var i = 0; i < result.length; i++) {
+                    if (result.length < limit) {
+                        limit = result.length;
+                    }
+                    for (var i = 0; i < limit; i++) {
                         var date = new Date(result[i].creationDate);
                         elm += "<a href='" + url + "/" + result[i].idNotification + "'>" +
                             result[i].subject +

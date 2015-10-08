@@ -10,9 +10,10 @@ $(document).ready(function(){
 	if (homepage !== undefined) {
         var not_url = homepage + 'notifications/get';
         var not_req = {
-            'limit': 5
+            'limit': null
         };
-        System.Notifications.get(not_url, not_req);
+        var limit = 5;
+        System.Notifications.get(not_url, not_req, limit);
 	}
 
 	/**
