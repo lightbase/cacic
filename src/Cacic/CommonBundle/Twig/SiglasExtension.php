@@ -11,7 +11,8 @@ class SiglasExtension extends \Twig_Extension
 	private $atividades = array(
 		'INS' => array( 'label' => 'INSERT', 'class' => 'green' ),
 		'UPD' => array( 'label' => 'UPDATE', 'class' => 'yellow' ),
-		'DEL' => array( 'label' => 'DELETE', 'class' => 'red' )
+		'DEL' => array( 'label' => 'DELETE', 'class' => 'red' ),
+		'ACE' => array( 'label' => 'ACESSO', 'class' => 'green' )
 	);
 	
 	/**

@@ -26,8 +26,7 @@
                                 <td style="text-align: center">{{ loop.index }}</td>
                                 <td>{{ log[0].dtAcao|date('d/m/Y H:i:s') }}</td>
                                 <td>
-                                    {{ log[0].nmTabela }}
-                                    <br />{{ log[0].csAcao|traduzAtividade }}
+                                    {{ log[0].nmTabela }} / {{ log[0].csAcao|traduzAtividade }}
                                 </td>
                                 <td>{{ log[0].nmScript }}</td>
                                 <td>{{ log['nmUsuarioCompleto'] }}<br /><i>{{ log['sgLocal'] }}</i></td>
