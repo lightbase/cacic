@@ -178,7 +178,7 @@ class FaturamentoController extends Controller {
         if (empty($idRede)) {
             $nmRede = null;
         } else {
-            $nmRede = $dados[0]['nmRede'];
+            $nmRede = @$dados[0]['nmRede'];
         }
 
 

@@ -33,6 +33,8 @@ class AtesteController extends Controller {
 
         $ateste = $this->createForm (new AtesteType() );
 
+        $dtAcaoInicio = null;
+        $dtAcaoFim = null;
         if ( $request->isMethod('POST') )
         {
             $data = $request->get('log_pesquisa');
@@ -75,7 +77,8 @@ class AtesteController extends Controller {
 
                     // Armazena relação entre ateste e redes
                     $ateste_rede = new AtesteRedes();
-                    $ateste_rede->setRede($em->getRepository('CacicCommonBundle:Rede')->find($rede));
+                    $rede_obj = $em->getRepository('CacicCommonBundle:Rede')->find($rede);
+                    $ateste_rede->setRede($rede_obj);
                     $ateste_rede->setAteste($ateste_obj);
                     $ateste_rede->setEstacoes($estacoes);
 
@@ -94,7 +97,7 @@ class AtesteController extends Controller {
             //convertando a string em formato pt-BR para en-EN
             $dtAcaoInicio = $data['dtAcaoInicio'];
             $dtAcaoInicio = substr($dtAcaoInicio,6,4)."-".substr($dtAcaoInicio,3,2)."-".substr($dtAcaoInicio,0,2);
-            $dtAcaoFim = $data['dtAcaoInicio'];
+            $dtAcaoFim = $data['dtAcaoFim'];
             $dtAcaoFim = substr($dtAcaoFim,6,4)."-".substr($dtAcaoFim,3,2)."-".substr($dtAcaoFim,0,2);
 
         }

@@ -91,9 +91,9 @@ class ComputadorController extends Controller {
 
         $data = $request->request->all();
         if (!empty($data)) {
-            $inicio = $data['log_pesquisa']['dtAcaoInicio'];
-            $fim = $data['log_pesquisa']['dtAcaoFim'];
-            $idLocal = $data['log_pesquisa']['idLocal'];
+            $inicio = @$data['log_pesquisa']['dtAcaoInicio'];
+            $fim = @$data['log_pesquisa']['dtAcaoFim'];
+            $idLocal = @$data['log_pesquisa']['idLocal'];
         } else {
             $inicio = null;
             $fim = null;
