@@ -7,12 +7,13 @@ $(document).ready(function(){
      * Lista de notificações
      */
     var homepage = $( '#homepage' ).attr('href');
-    var not_url = homepage + 'notifications/get';
-	var not_req = {
-		'limit': 5
-	};
-    System.Notifications.get(not_url, not_req);
-
+	if (homepage !== undefined) {
+        var not_url = homepage + 'notifications/get';
+        var not_req = {
+            'limit': 5
+        };
+        System.Notifications.get(not_url, not_req);
+	}
 
 	/**
 	 * Remove o COOKIE com informação da imagem de BACKGROUND
