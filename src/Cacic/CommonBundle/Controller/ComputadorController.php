@@ -314,21 +314,23 @@ class ComputadorController extends Controller
     public function coletarAction(Request $request)
     {
         $form = $this->createForm( new ComputadorConsultaType() );
+        $computadores = array();
         if ( $request->isMethod('POST') )
         {
             $form->bind( $request );
             $data = $form->getData();
 
-
             $computadores = $this->getDoctrine()->getRepository( 'CacicCommonBundle:Computador')
-                ->selectIp($data['teIpComputador'],$data['nmComputador'],$data['teNodeAddress'],$data['idComputador'] );
+                ->selectIp($data['teIpComputador'],$data['nmComputador'],$data['teNodeAddress'],@$data['idComputador'] );
 
         }
 
         return $this->render( 'CacicCommonBundle:Computador:coletar.html.twig',
             array(
                 'form' => $form->createView(),
-                'computadores' => $computadores));
+                'computadores' => $computadores
+            )
+        );
 
     }
     /**
@@ -346,7 +348,7 @@ class ComputadorController extends Controller
             $this->getDoctrine()->getManager()->persist( $computador );
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirect($this->generateUrl('cacic_computador_coletar') );
+            return $this->redirect($this->generateUrl('cacic_computador_coletar'));
         }
 
     }
