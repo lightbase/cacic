@@ -1,0 +1,9 @@
+inc_file_path: "/tmp/vagrant-puppet/files" # Absolute path to the puppet template files directory (No need to change it)
+tz: "America/Sao_Paulo" # Timezone
+user: "vagrant" # User to create
+password: "vagrant" # The user's password
+domain_name: "cacic.localhost" # Used in nginx, uwsgi and virtualenv directory
+db_name: "cacic" # PostgreSQL database name to create
+db_user: "cacic" # PostgreSQL username to create
+db_password: "cacic" # PostgreSQL password for user
+secret: "MudeIssoPorqueNaoESeguro"
