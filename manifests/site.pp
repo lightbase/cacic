@@ -5,17 +5,22 @@ Exec { path => '/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin' }
 
 include timezone
 include user
-#include apt
-include apache
+include apache_install
 include postgresql
-include php
+include php_install
 include symfony
 include software
 
+# PHP
+include php
+include php::apt
+include php::params
+include php::pear
+
+
 class timezone {
   package { "tzdata":
-    ensure => latest,
-    require => Class['apt']
+    ensure => latest
   }
 
   file { "/etc/localtime":
@@ -46,18 +51,7 @@ class user {
   }
 }
 
-class apache {
-
-  package { 'apache2':
-    ensure => latest,
-    require => Class['apt']
-  }
-
-  service { 'apache2':
-    ensure => running,
-    enable => true,
-    require => Package['apache2']
-  }
+class apache_install {
 
   class { 'apache':
     default_vhost => false,
@@ -67,23 +61,22 @@ class apache {
     ip => '127.0.0.1',
   }
 
+  apache::fastcgi::server { 'php':
+    host       => '127.0.0.1:9000',
+    timeout    => 15,
+    flush      => false,
+    faux_path  => '/var/www/php.fcgi',
+    fcgi_alias => '/php.fcgi',
+    file_type  => 'application/x-httpd-php'
+  }
+
   apache::vhost { "${domain_name}":
     port => 80,
     docroot => "/home/${user}/public_html/${domain_name}",
     fallbackresource => '/app.php',
     options => ['-Indexes','+FollowSymLinks','+MultiViews'],
     override => ['all'],
-    suphp_addhandler => 'x-httpd-php',
-    suphp_engine     => 'on',
-    suphp_configpath => '/etc/php5/apache2',
-    directories      => [
-      { 'path'  => "/home/${user}/public_html/${domain_name}",
-        'suphp' => {
-          user  => "${user}",
-          group => "${user}",
-        },
-      },
-    ],
+    custom_fragment => 'AddType application/x-httpd-php .php'
   }
 
   apache::vhost { "ssl.${domain_name}":
@@ -93,17 +86,7 @@ class apache {
     options => ['-Indexes','+FollowSymLinks','+MultiViews'],
     override => ['all'],
     ssl => true,
-    suphp_addhandler => 'x-httpd-php',
-    suphp_engine     => 'on',
-    suphp_configpath => '/etc/php5/apache2',
-    directories      => [
-      { 'path'  => "/home/${user}/public_html/${domain_name}",
-        'suphp' => {
-          user  => "${user}",
-          group => "${user}",
-        },
-      },
-    ],
+    custom_fragment => 'AddType application/x-httpd-php .php'
   }
 
 }
@@ -153,36 +136,80 @@ class postgresql {
 }
 
 
-class php {
+class php_install($version = 'latest') {
 
-  package { 'php5':
-    ensure => latest,
-    require => Class['apt']
+  # Extensions must be installed before they are configured
+  Php::Extension <| |> -> Php::Config <| |>
+
+  # Ensure base packages is installed in the correct order
+  # and before any php extensions
+  Package['php5-common']
+  -> Package['php5-dev']
+  -> Package['php5-cli']
+  -> Php::Extension <| |>
+
+  class {
+    # Base packages
+    [ 'php::dev', 'php::cli' ]:
+      ensure => $version;
+
+    # PHP extensions
+    [
+      'php::extension::curl', 'php::extension::gd', 'php::extension::imagick',
+      'php::extension::mcrypt', 'php::extension::pgsql', 'php::extension::ldap'
+    ]:
+      ensure => $version;
+
+    [ 'php::extension::igbinary' ]:
+      ensure => installed
   }
 
-  package { ['php5-pgsql', 'php5-gd', 'php5-mcrypt', 'libapache2-mod-php5', 'php5-ldap', 'php-pear', 'openjdk-7-jre', 'php5-intl', 'php5-cli', 'php5-common']:
-    ensure => latest,
-    require => Class['apt']
+  # Install APC user cache only (php 5.5 uses OptCache instead of APC)
+  php::extension { 'php5-apcu':
+    ensure    => $version,
+    package   => 'php5-apcu',
+    provider  => 'apt'
   }
 
-  php::config { 'memory_limit':
-    file    => '/etc/php5/apache2/php.ini',
-    setting => 'memory_limit',
-    value => '512M',
-    require => Package['php5']
+  # Install the INTL extension
+  php::extension { 'php5-intl':
+    ensure    => $version,
+    package   => 'php5-intl',
+    provider  => 'apt'
   }
 
-  php::config { 'memory_limit':
-    file    => '/etc/php5/apache2/php.ini',
-    setting => 'date.timezone',
-    value => "${tz}",
-    require => Package['php5']
+  create_resources('php::config', hiera_hash('php_config', {}))
+  create_resources('php::cli::config', hiera_hash('php_cli_config', {}))
+
+  class { 'php::fpm':
+    ensure => $version,
+    service_enable => true
   }
+
+  create_resources('php::fpm::pool',  hiera_hash('php_fpm_pool', {}))
+  create_resources('php::fpm::config',  hiera_hash('php_fpm_config', {}))
+
+  php::fpm::config { "memory_limit=512M":
+    require => Class['php::fpm']
+  }
+
+  php::fpm::config { "date.timezone=${tz}":
+    require => Class['php::fpm']
+  }
+
+  Php::Extension <| |> ~> Service['php5-fpm']
+
+  exec { "restart-php5-fpm":
+    command  => "service php5-fpm restart",
+    schedule => hourly,
+    require => Class['php::fpm']
+  }
+
 }
 
 class symfony {
   package { 'webenv':
-    require => Class['php', 'user', 'postgresql', 'apache']
+    require => Class['php_install', 'user', 'postgresql', 'apache_install']
   }
 
   file { 'parameters':
@@ -266,18 +293,31 @@ class symfony {
 }
 
 class software {
+
+  apt::source { 'non-free':
+    release  => 'stable',
+    repos    => 'non-free',
+    include  => {
+      'deb' => true,
+    },
+    notify => Exec['apt_update']
+  }
+
   package { 'git':
-    ensure => latest,
-    require => Class['apt']
+    ensure => latest
   }
 
   package { 'vim':
-    ensure => latest,
-    require => Class['apt']
+    ensure => latest
   }
 
   package { 'libffi-dev':
-    ensure => latest,
-    require => Class['apt']
+    ensure => latest
   }
+
+  package {'openjdk-7-jre':
+    ensure => latest
+  }
+
+
 }
