@@ -80,6 +80,7 @@ Vagrant.configure(2) do |config|
     puppet module install puppetlabs/postgresql
     puppet module install puppetlabs/apache
     puppet module install nodes/php
+    puppet module install saz-locales
   SHELL
 
   config.vm.provision "puppet" do |puppet|

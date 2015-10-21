@@ -7,3 +7,5 @@ db_name: "cacic" # PostgreSQL database name to create
 db_user: "cacic" # PostgreSQL username to create
 db_password: "cacic" # PostgreSQL password for user
 secret: "MudeIssoPorqueNaoESeguro"
+default_locale: 'pt_BR.UTF-8'
+locales: ['pt_BR.UTF-8 UTF-8', 'en_US.UTF-8 UTF-8']

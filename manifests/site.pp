@@ -27,6 +27,12 @@ class timezone {
     require => Package["tzdata"],
     source => "file:///usr/share/zoneinfo/${tz}",
   }
+
+  class { 'locales':
+    default_locale  => $default_locale,
+    locales         => $locales,
+  }
+
 }
 
 class user {
@@ -55,38 +61,48 @@ class apache_install {
 
   class { 'apache':
     default_vhost => false,
+    default_mods  => false,
+    mpm_module    => 'worker'
   }
 
   host { "${domain_name}":
     ip => '127.0.0.1',
   }
 
-  apache::fastcgi::server { 'php':
-    host       => '127.0.0.1:9000',
-    timeout    => 15,
-    flush      => false,
-    faux_path  => '/var/www/php.fcgi',
-    fcgi_alias => '/php.fcgi',
-    file_type  => 'application/x-httpd-php'
+  # Módulos obrigatórios
+  apache::mod { 'rewrite': 
+  }
+
+  apache::mod { 'proxy_fcgi': 
+  }
+
+  class { 
+    'apache::mod::ssl':
+  }
+
+  class { 
+    'apache::mod::alias':
+  }
+
+  class { 
+    'apache::mod::proxy':
   }
 
   apache::vhost { "${domain_name}":
     port => 80,
+    proxy_pass => "'/' 'fcgi://127.0.0.1:9000/' enablereuse=on",
     docroot => "/home/${user}/public_html/${domain_name}",
-    fallbackresource => '/app.php',
     options => ['-Indexes','+FollowSymLinks','+MultiViews'],
     override => ['all'],
-    custom_fragment => 'AddType application/x-httpd-php .php'
   }
 
   apache::vhost { "ssl.${domain_name}":
     port => 443,
+    proxy_pass => "'/' 'fcgi://127.0.0.1:9000/' enablereuse=on",
     docroot => "/home/${user}/public_html/${domain_name}",
-    fallbackresource => '/app.php',
     options => ['-Indexes','+FollowSymLinks','+MultiViews'],
     override => ['all'],
     ssl => true,
-    custom_fragment => 'AddType application/x-httpd-php .php'
   }
 
 }
@@ -155,20 +171,13 @@ class php_install($version = 'latest') {
 
     # PHP extensions
     [
-      'php::extension::curl', 'php::extension::gd', 'php::extension::imagick',
+      'php::extension::curl', 'php::extension::gd',
       'php::extension::mcrypt', 'php::extension::pgsql', 'php::extension::ldap'
     ]:
       ensure => $version;
 
     [ 'php::extension::igbinary' ]:
       ensure => installed
-  }
-
-  # Install APC user cache only (php 5.5 uses OptCache instead of APC)
-  php::extension { 'php5-apcu':
-    ensure    => $version,
-    package   => 'php5-apcu',
-    provider  => 'apt'
   }
 
   # Install the INTL extension
@@ -178,24 +187,29 @@ class php_install($version = 'latest') {
     provider  => 'apt'
   }
 
+  # Install the CGI extension
+  php::extension { 'php5-cgi':
+    ensure    => $version,
+    package   => 'php5-cgi',
+    provider  => 'apt'
+  }
+
+  # Install the SQLite extension (for tests)
+  php::extension { 'php5-sqlite':
+    ensure    => $version,
+    package   => 'php5-sqlite',
+    provider  => 'apt'
+  }
+
   create_resources('php::config', hiera_hash('php_config', {}))
   create_resources('php::cli::config', hiera_hash('php_cli_config', {}))
 
   class { 'php::fpm':
-    ensure => $version,
-    service_enable => true
+    ensure => $version
   }
 
   create_resources('php::fpm::pool',  hiera_hash('php_fpm_pool', {}))
   create_resources('php::fpm::config',  hiera_hash('php_fpm_config', {}))
-
-  php::fpm::config { "memory_limit=512M":
-    require => Class['php::fpm']
-  }
-
-  php::fpm::config { "date.timezone=${tz}":
-    require => Class['php::fpm']
-  }
 
   Php::Extension <| |> ~> Service['php5-fpm']
 
@@ -205,18 +219,48 @@ class php_install($version = 'latest') {
     require => Class['php::fpm']
   }
 
+  php::fpm::pool { 'fpm-config':
+    ensure => 'present',
+    user => "${user}",
+    group => "${group}"
+  }
+
+
+  php::fpm::config { "memory_limit":
+    file    => '/etc/php5/cgi/php.ini',
+    setting => 'memory_limit',
+    value => '512M',
+    section => 'PHP'
+  }
+
+  php::fpm::config { "date.timezone":
+    file    => '/etc/php5/cgi/php.ini',
+    setting => 'date.timezone',
+    value => "${tz}",
+    section => 'Date'
+  }
+
+  php::cli::config { "memory_limit2":
+    setting => 'memory_limit',
+    value => '512M',
+    section => 'PHP',
+  }
+
+  php::cli::config { "date.timezone2":
+    setting => 'date.timezone',
+    value => "${tz}",
+    section => 'Date',
+  }
+
 }
 
 class symfony {
-  package { 'webenv':
-    require => Class['php_install', 'user', 'postgresql', 'apache_install']
-  }
 
   file { 'parameters':
-    path => "/home/${user}/projects/${domain_name}/app/config",
+    path => "/home/${user}/projects/${domain_name}/app/config/parameters.yml",
     ensure => file,
     content => template("${inc_file_path}/symfony/parameters.yml.erb"),
-    require => Package['webenv']
+    require => Class['php_install', 'user', 'postgresql', 'apache_install', 'software', 'timezone']
   }
 
   exec { 'composer install':
@@ -295,7 +339,8 @@ class symfony {
 class software {
 
   apt::source { 'non-free':
-    release  => 'stable',
+    location => 'http://ftp.pop-sc.rnp.br/debian/',
+    release  => 'wheezy',
     repos    => 'non-free',
     include  => {
       'deb' => true,
