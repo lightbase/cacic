@@ -55,6 +55,11 @@ class user {
     group => "${user}",
     require => Exec['add user']
   }
+
+  # Variavel de ambiente do composer
+  file { "/etc/environment":
+    content => inline_template("COMPOSER_HOME=/home/${user}/.composer")
+  }
 }
 
 class apache_install {
@@ -90,7 +95,11 @@ class apache_install {
 
   apache::vhost { "${domain_name}":
     port => 80,
-    proxy_pass => "'/' 'fcgi://127.0.0.1:9000/' enablereuse=on",
+    filesmatch => "\.php",
+    directories => [
+      'path' => "\.php" ,
+      'set_handler' => 'proxy:fcgi://127.0.0.1:9000'
+    ]
     docroot => "/home/${user}/public_html/${domain_name}",
     options => ['-Indexes','+FollowSymLinks','+MultiViews'],
     override => ['all'],
@@ -98,7 +107,11 @@ class apache_install {
 
   apache::vhost { "ssl.${domain_name}":
     port => 443,
-    proxy_pass => "'/' 'fcgi://127.0.0.1:9000/' enablereuse=on",
+    filesmatch => "\.php",
+    directories => [
+      'path' => "\.php" ,
+      'set_handler' => 'proxy:fcgi://127.0.0.1:9000'
+    ]
     docroot => "/home/${user}/public_html/${domain_name}",
     options => ['-Indexes','+FollowSymLinks','+MultiViews'],
     override => ['all'],
@@ -219,7 +232,7 @@ class php_install($version = 'latest') {
     require => Class['php::fpm']
   }
 
-  php::fpm::pool { 'fpm-config':
+  php::fpm::pool { 'www':
     ensure => 'present',
     user => "${user}",
     group => "${group}"
