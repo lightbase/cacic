@@ -57,9 +57,19 @@ class user {
   }
 
   # Variavel de ambiente do composer
-  file { "/etc/environment":
-    content => inline_template("COMPOSER_HOME=/home/${user}/.composer")
+  file { "user-profile":
+    path => "/home/${user}/.profile",
+    owner => "${user}",
+    group => "${user}",
+    content => inline_template("COMPOSER_HOME=/home/${user}/.composer"),
+    require => Exec['add user']
   }
+
+  exec {'load profile':
+    command => "bash -c 'source /home/${user}/.profile'",
+    require => File['user-profile']
+  }
+
 }
 
 class apache_install {
@@ -95,26 +105,38 @@ class apache_install {
 
   apache::vhost { "${domain_name}":
     port => 80,
-    filesmatch => "\.php",
-    directories => [
-      'path' => "\.php" ,
-      'set_handler' => 'proxy:fcgi://127.0.0.1:9000'
-    ]
     docroot => "/home/${user}/public_html/${domain_name}",
-    options => ['-Indexes','+FollowSymLinks','+MultiViews'],
-    override => ['all'],
+    directories => [
+      {
+        path => "\\.php" ,
+        provider => 'filesmatch',
+        custom_fragment => 'SetHandler proxy:fcgi://127.0.0.1:9000',
+      },
+      {
+        path => "/home/${user}/public_html/${domain_name}",
+        provider => 'directory',
+        allow_override => 'all',
+        options => ['-Indexes','+FollowSymLinks','+MultiViews'],
+      }
+    ],
   }
 
   apache::vhost { "ssl.${domain_name}":
     port => 443,
-    filesmatch => "\.php",
-    directories => [
-      'path' => "\.php" ,
-      'set_handler' => 'proxy:fcgi://127.0.0.1:9000'
-    ]
     docroot => "/home/${user}/public_html/${domain_name}",
-    options => ['-Indexes','+FollowSymLinks','+MultiViews'],
-    override => ['all'],
+    directories => [
+      {
+        path => "\\.php" ,
+        provider => 'filesmatch',
+        custom_fragment => 'SetHandler proxy:fcgi://127.0.0.1:9000',
+      },
+      {
+        path => "/home/${user}/public_html/${domain_name}",
+        provider => 'directory',
+        allow_override => 'all',
+        options => ['-Indexes','+FollowSymLinks','+MultiViews'],
+      }
+    ],
     ssl => true,
   }
 
@@ -277,7 +299,7 @@ class symfony {
   }
 
   exec { 'composer install':
-    command => "php composer.phar install",
+    command => "bash -c 'export COMPOSER_HOME=/home/${user}/.composer && php composer.phar install'",
     cwd => "/home/${user}/projects/${domain_name}",
     user => $user,
     require => File['parameters']
