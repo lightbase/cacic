@@ -30,7 +30,7 @@ web/downloads/
 web/images/
 web/js/
 web/assetic/
-web/app.php
+#web/app.php
 web/app_dev.php
 
 # Ignora htaccess

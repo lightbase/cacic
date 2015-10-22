@@ -44,6 +44,11 @@ class Version20150213142949 extends AbstractMigration implements ContainerAwareI
         $modulo = array('cacic280.exe', '2.8.1.23', '6bec84cb246c49e596256d4833e6b301');
         $logger->debug("Copia modulo  via FTP: ".$modulo[0]);
 
+        if (empty($rede)) {
+            // Não precisa executar isso
+            return true;
+        }
+
         $strResult = $this->checkAndSend(
             $modulo[0],
             realpath($downloadsDir . 'update28/' . $modulo[0]),

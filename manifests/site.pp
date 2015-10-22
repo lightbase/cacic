@@ -29,8 +29,8 @@ class timezone {
   }
 
   class { 'locales':
-    default_locale  => $default_locale,
-    locales         => $locales,
+    #default_locale  => $default_locale,
+    locales         => Array[$locales],
   }
 
 }
@@ -173,6 +173,7 @@ class postgresql {
 
   postgresql::server::role { "${db_user}":
     createdb => true,
+    password_hash => postgresql_password("${db_user}", "${db_password}"),
     require  => Class['postgresql::server']
   }
 
@@ -234,6 +235,13 @@ class php_install($version = 'latest') {
     ensure    => $version,
     package   => 'php5-sqlite',
     provider  => 'apt'
+  }
+
+  # Install APCu extension to keep everything working
+  php::extension { 'php5-apcu':
+    ensure    => $version,
+    package   => 'apcu-beta',
+    provider  => 'pecl'
   }
 
   create_resources('php::config', hiera_hash('php_config', {}))
@@ -306,7 +314,7 @@ class symfony {
   }
 
   exec { 'cache clear':
-    command => "php app/console cache:clear --env=prod",
+    command => "php app/console cache:warmup --env=prod",
     cwd => "/home/${user}/projects/${domain_name}",
     user => $user,
     require => Exec['composer install']
@@ -341,14 +349,14 @@ class symfony {
   }
 
   exec { 'migrations migrate':
-    command => "php app/console doctrine:migrations:migrate",
+    command => "php app/console doctrine:migrations:migrate --no-interaction",
     cwd => "/home/${user}/projects/${domain_name}",
     user => $user,
     require => Exec['schema update']
   }
 
   exec { 'cache clear2':
-    command => "php app/console cache:clear --env=prod",
+    command => "php app/console cache:warmup --env=prod",
     cwd => "/home/${user}/projects/${domain_name}",
     user => $user,
     require => Exec['migrations migrate']
@@ -369,6 +377,14 @@ class symfony {
     force => true,
     require => Exec['monolog browser']
   }
+
+  exec { 'fixtures load':
+    command => "php app/console doctrine:fixtures:load",
+    cwd => "/home/${user}/projects/${domain_name}",
+    user => $user,
+    require => Exec['monolog browser']
+  }
+
 }
 
 class software {

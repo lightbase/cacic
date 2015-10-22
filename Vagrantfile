@@ -97,6 +97,9 @@ Vagrant.configure(2) do |config|
       "db_name"       => vpdj_config["db_name"],
       "db_user"       => vpdj_config["db_user"],
       "db_password"   => vpdj_config["db_password"],
+      "secret"        => vpdj_config["secret"],
+      "default_locale" => vpdj_config["default_locale"],
+      "locales"       => vpdj_config["locales"],
     }
   end
 

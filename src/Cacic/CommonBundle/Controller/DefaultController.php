@@ -93,8 +93,19 @@ class DefaultController extends Controller
                     $agentes_path = $version->getRealPath() . "/" . $so->getTipo();
 
                     $agentes = new Finder();
-                    $agentes->files()->in($agentes_path);
-
+                    try {
+                        $agentes->files()->in($agentes_path);
+                    } catch (\InvalidArgumentException $e) {
+                        $logger->error($e->getMessage());
+                        $platforms += 1;
+                        $this->get('session')
+                            ->getFlashBag()
+                            ->add(
+                                'notice',
+                                '<p>Não foram encontrados agentes para a plataforma '.$so->getTipo().'. Por favor, faça upload dos agentes na interface.</p>'
+                            );
+                        continue;
+                    }
                     if ($agentes->count() == 0) {
                         $platforms += 1;
                         $this->get('session')
@@ -104,6 +115,8 @@ class DefaultController extends Controller
                                 '<p>Não foram encontrados agentes para a plataforma '.$so->getTipo().'. Por favor, faça upload dos agentes na interface.</p>'
                             );
                     }
+
+
                 }
             }
         }
