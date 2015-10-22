@@ -334,18 +334,18 @@ class symfony {
     require => Exec['assets install']
   }
 
-  exec { 'unittests':
-    command => "php phpunit.phar -c app",
-    cwd => "/home/${user}/projects/${domain_name}",
-    user => $user,
-    require => Exec['assetic dump']
-  }
+  #exec { 'unittests':
+  #  command => "php phpunit.phar -c app",
+  #  cwd => "/home/${user}/projects/${domain_name}",
+  #  user => $user,
+  #  require => Exec['assetic dump']
+  #}
 
   exec { 'schema update':
     command => "php app/console doctrine:schema:update --force",
     cwd => "/home/${user}/projects/${domain_name}",
     user => $user,
-    require => Exec['unittests']
+    require => Exec['assetic dump']
   }
 
   exec { 'migrations migrate':
