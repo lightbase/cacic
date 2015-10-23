@@ -98,6 +98,11 @@ class AquisicaoController extends Controller
             throw $this->createNotFoundException( 'Aquisicao não encontrado' );
 
         $em = $this->getDoctrine()->getManager();
+
+        foreach ($Aquisicao->getItens() as $item) {
+            $Aquisicao->removeIten($item);
+        }
+
         $em->remove( $Aquisicao );
         $em->flush();
 
