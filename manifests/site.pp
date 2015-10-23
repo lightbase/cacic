@@ -207,13 +207,19 @@ class php_install($version = 'latest') {
 
     # PHP extensions
     [
-      'php::extension::curl', 'php::extension::gd',
+      'php::extension::curl', 'php::extension::gd', 
       'php::extension::mcrypt', 'php::extension::pgsql', 'php::extension::ldap'
     ]:
       ensure => $version;
 
     [ 'php::extension::igbinary' ]:
-      ensure => installed
+      ensure => installed;
+
+    ['php::extension::apcu']: 
+      ensure    => $version,
+      package   => 'apcu-beta',
+      provider  => 'pecl',
+      inifile   => "/etc/php5/mods-available/apcu.ini";
   }
 
   # Install the INTL extension
@@ -235,13 +241,6 @@ class php_install($version = 'latest') {
     ensure    => $version,
     package   => 'php5-sqlite',
     provider  => 'apt'
-  }
-
-  # Install APCu extension to keep everything working
-  php::extension { 'php5-apcu':
-    ensure    => $version,
-    package   => 'apcu-beta',
-    provider  => 'pecl'
   }
 
   create_resources('php::config', hiera_hash('php_config', {}))
@@ -270,14 +269,12 @@ class php_install($version = 'latest') {
 
 
   php::fpm::config { "memory_limit":
-    file    => '/etc/php5/cgi/php.ini',
     setting => 'memory_limit',
     value => '512M',
     section => 'PHP'
   }
 
   php::fpm::config { "date.timezone":
-    file    => '/etc/php5/cgi/php.ini',
     setting => 'date.timezone',
     value => "${tz}",
     section => 'Date'
@@ -295,6 +292,23 @@ class php_install($version = 'latest') {
     section => 'Date',
   }
 
+  # Habilita manualmente. É o único jeito
+  file { 'apcu_config':
+    ensure  => "present",
+    path    => "/etc/php5/mods-available/apcu.ini",
+    content => inline_template("extension=apcu.so"),
+    require => Class["php::extension::apcu"]
+  }
+
+  file { ["/etc/php5/fpm/conf.d/20-apcu.ini",
+          "/etc/php5/cli/conf.d/20-apcu.ini"
+        ]:
+    ensure  => "link",
+    target  => "/etc/php5/mods-available/apcu.ini",
+    replace => yes,
+    force   => true,
+    require => [Class["php::extension::apcu"], Class["php::fpm"], Class["php::cli"], File['apcu_config']]
+  }
 }
 
 class symfony {
@@ -365,6 +379,7 @@ class symfony {
   exec { 'monolog browser':
     command => "php app/console lexik:monolog-browser:schema-create",
     cwd => "/home/${user}/projects/${domain_name}",
+    unless => "test -f /home/${user}/projects/${domain_name}/app/cache/monolog.db",
     user => $user,
     require => Exec['cache clear2']
   }
