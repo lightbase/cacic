@@ -101,7 +101,21 @@ class AquisicaoController extends Controller
 
         foreach ($Aquisicao->getItens() as $item) {
             $Aquisicao->removeIten($item);
+            $em->flush($Aquisicao);
+            $sql = "DELETE FROM aquisicoes_software
+                    WHERE id_aquisicao_item = ".$item->getIdAquisicaoItem();
+            $stmt = $em->getConnection()->prepare($sql);
+            $stmt->execute();
         }
+        $sql = "DELETE FROM software_licencas
+                WHERE id_aquisicao = ".$Aquisicao->getIdAquisicao();
+        $stmt = $em->getConnection()->prepare($sql);
+        $stmt->execute();
+
+        $sql = "DELETE FROM aquisicao_item
+                WHERE id_aquisicao = ".$Aquisicao->getIdAquisicao();
+        $stmt = $em->getConnection()->prepare($sql);
+        $stmt->execute();
 
         $em->remove( $Aquisicao );
         $em->flush();
