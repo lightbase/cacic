@@ -192,6 +192,10 @@ class AquisicaoRepository extends EntityRepository
                 sl.prop_ativo = TRUE
                 or sl.prop_ativo IS NULL
               )
+              AND (
+                sl.software_ativo = TRUE
+                or sl.software_ativo IS NULL
+              )
               AND sl.id_aquisicao_item = (
                 SELECT sl2.id_aquisicao_item
                 FROM software_licencas sl2
@@ -319,6 +323,9 @@ class AquisicaoRepository extends EntityRepository
               OR (
                 sl.prop_ativo = FALSE
               )
+              OR (
+                sl.software_ativo = FALSE
+              )
               OR sl.id_aquisicao_item <> (
                 SELECT sl2.id_aquisicao_item
                 FROM software_licencas sl2
@@ -434,6 +441,10 @@ class AquisicaoRepository extends EntityRepository
                 sl.prop_ativo = TRUE
                 or sl.prop_ativo IS NULL
               )
+              AND (
+                sl.software_ativo = TRUE
+                or sl.software_ativo IS NULL
+              )
               AND sl.id_aquisicao_item = (
                 SELECT sl2.id_aquisicao_item
                 FROM software_licencas sl2
@@ -509,6 +520,9 @@ class AquisicaoRepository extends EntityRepository
                 )
                 OR (
                   sl.prop_ativo = FALSE
+                )
+                OR (
+                  sl.software_ativo = FALSE
                 )
                 OR sl.id_aquisicao_item <> (
                   SELECT sl2.id_aquisicao_item
