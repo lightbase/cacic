@@ -40,7 +40,8 @@ class SoftwareRelatorioRepository extends EntityRepository
             ->innerJoin("CacicCommonBundle:So", "so", "WITH", "so.idSo = comp.idSo")
             ->innerJoin("CacicCommonBundle:Rede", "r", "WITH", "comp.idRede = r.idRede")
             ->innerJoin("CacicCommonBundle:Local", "loc", "WITH", "loc.idLocal = r.idLocal")
-            ->andWhere("comp.ativo IS NULL or comp.ativo = 't'")
+            ->andWhere("comp.ativo IS NULL or comp.ativo = TRUE")
+            ->andWhere("prop.ativo IS NULL or prop.ativo = TRUE")
             ->groupBy("so.teDescSo",
                 "so.idSo",
                 "so.inMswindows",
@@ -113,7 +114,8 @@ class SoftwareRelatorioRepository extends EntityRepository
             ->innerJoin("CacicCommonBundle:So", "so", "WITH", "so.idSo = comp.idSo")
             ->innerJoin("CacicCommonBundle:Rede", "r", "WITH", "comp.idRede = r.idRede")
             ->innerJoin("CacicCommonBundle:Local", "loc", "WITH", "loc.idLocal = r.idLocal")
-            ->andWhere("comp.ativo IS NULL or comp.ativo = 't'")
+            ->andWhere("comp.ativo IS NULL or comp.ativo = TRUE")
+            ->andWhere("prop.ativo IS NULL or prop.ativo = TRUE")
             ->groupBy("so.teDescSo",
                 "so.idSo",
                 "so.inMswindows",
@@ -187,7 +189,8 @@ class SoftwareRelatorioRepository extends EntityRepository
             ->innerJoin("CacicCommonBundle:So", "so", "WITH", "so.idSo = comp.idSo")
             ->innerJoin("CacicCommonBundle:Rede", "r", "WITH", "comp.idRede = r.idRede")
             ->innerJoin("CacicCommonBundle:Local", "loc", "WITH", "loc.idLocal = r.idLocal")
-            ->andWhere("comp.ativo IS NULL or comp.ativo = 't'")
+            ->andWhere("comp.ativo IS NULL or comp.ativo = TRUE")
+            ->andWhere("prop.ativo IS NULL or prop.ativo = TRUE")
             ->groupBy("so.teDescSo",
                 "so.idSo",
                 "so.inMswindows",
@@ -253,7 +256,8 @@ class SoftwareRelatorioRepository extends EntityRepository
             ->innerJoin("CacicCommonBundle:So", "so", "WITH", "so.idSo = comp.idSo")
             ->innerJoin("CacicCommonBundle:Rede", "r", "WITH", "comp.idRede = r.idRede")
             ->innerJoin("CacicCommonBundle:Local", "loc", "WITH", "loc.idLocal = r.idLocal")
-            ->andWhere("comp.ativo IS NULL or comp.ativo = 't'")
+            ->andWhere("comp.ativo IS NULL or comp.ativo = TRUE")
+            ->andWhere("prop.ativo IS NULL or prop.ativo = TRUE")
             ->groupBy("so.teDescSo",
                 "so.idSo",
                 "so.inMswindows",
@@ -340,4 +344,107 @@ class SoftwareRelatorioRepository extends EntityRepository
 
         return $qb->getQuery()->getOneOrNullResult();
     }
+
+    /**
+     * Lista softwares coletados que estão sendo sendo considerados no relatório
+     *
+     * @param $idRelatorio
+     * @param null $idComputador
+     * @return array
+     */
+    public function getSoftwareColetado($idRelatorio, $idComputador = null) {
+        $qb = $this->createQueryBuilder('rel')
+            ->select(
+                'rel.idRelatorio',
+                'rel.nomeRelatorio',
+                'rel.nivelAcesso',
+                'rel.ativo',
+                'prop.displayName',
+                'prop.displayVersion',
+                'prop.URLInfoAbout',
+                'prop.publisher',
+                'sw.nmSoftware',
+                'sw.teDescricaoSoftware',
+                'cl.nmPropertyName',
+                'max(col.dtHrInclusao) as dtHrInclusao'
+            )
+            ->innerJoin("rel.softwares", "sw")
+            ->innerJoin("CacicCommonBundle:PropriedadeSoftware", "prop", "WITH", "sw.idSoftware = prop.software")
+            ->innerJoin("CacicCommonBundle:ClassProperty", 'cl', 'WITH', 'cl.idClassProperty = prop.classProperty')
+            ->innerJoin("CacicCommonBundle:ComputadorColeta", "col", "WITH", "cl.idClassProperty = prop.classProperty
+                AND prop.computador = col.computador")
+            ->andWhere("rel.idRelatorio = :idRelatorio")
+            ->setParameter('idRelatorio', $idRelatorio);
+
+        if (!empty($idComputador)) {
+            $qb->andWhere("col.computador = :idComputador")
+                ->setParameter("idComputador", $idComputador);
+        }
+        $qb->groupBy(
+            'rel.idRelatorio,
+            rel.nomeRelatorio,
+            rel.nivelAcesso,
+            rel.ativo,
+            prop.displayName,
+            prop.displayVersion,
+            prop.URLInfoAbout,
+            prop.publisher,
+            sw.nmSoftware,
+            sw.teDescricaoSoftware,
+            cl.nmPropertyName'
+        );
+
+        return $qb->getQuery()->getArrayResult();
+    }
+
+    public function getAquisicaoSoftwareColetado($idAquisicaoItem, $idComputador = null) {
+        $qb = $this->createQueryBuilder('rel')
+            ->select(
+                'aqit.idAquisicaoItem',
+                'aqit.nmAquisicao',
+                'rel.idRelatorio',
+                'rel.nomeRelatorio',
+                'rel.nivelAcesso',
+                'rel.ativo',
+                'prop.displayName',
+                'prop.displayVersion',
+                'prop.URLInfoAbout',
+                'prop.publisher',
+                'sw.nmSoftware',
+                'sw.teDescricaoSoftware',
+                'cl.nmPropertyName',
+                'max(col.dtHrInclusao) as dtHrInclusao'
+            )
+            ->innerJoin("rel.softwares", "sw")
+            ->innerJoin("rel.aquisicoes", "aqit")
+            ->innerJoin("CacicCommonBundle:PropriedadeSoftware", "prop", "WITH", "sw.idSoftware = prop.software")
+            ->innerJoin("CacicCommonBundle:ClassProperty", 'cl', 'WITH', 'cl.idClassProperty = prop.classProperty')
+            ->innerJoin("CacicCommonBundle:ComputadorColeta", "col", "WITH", "cl.idClassProperty = prop.classProperty
+                AND prop.computador = col.computador")
+            ->andWhere("aqit.idAquisicaoItem = :idAquisicaoItem")
+            ->setParameter('idAquisicaoItem', $idAquisicaoItem);
+
+        if (!empty($idComputador)) {
+            $qb->andWhere("col.computador = :idComputador")
+                ->setParameter("idComputador", $idComputador);
+        }
+        $qb->groupBy(
+            'aqit.idAquisicaoItem,
+            aqit.nmAquisicao,
+            rel.idRelatorio,
+            rel.nomeRelatorio,
+            rel.nivelAcesso,
+            rel.ativo,
+            prop.displayName,
+            prop.displayVersion,
+            prop.URLInfoAbout,
+            prop.publisher,
+            sw.nmSoftware,
+            sw.teDescricaoSoftware,
+            cl.nmPropertyName'
+        );
+
+        return $qb->getQuery()->getArrayResult();
+    }
+
 }

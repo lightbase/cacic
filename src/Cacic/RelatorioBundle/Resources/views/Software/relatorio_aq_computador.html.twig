@@ -1,0 +1,81 @@
+{% extends 'CacicRelatorioBundle::base.html.twig' %}
+
+{% block body %}
+
+    <h2 class="">{{ 'Relatório de Software'|trans }}</h2>
+    <h3>{{ "Detalhes do Computador:"|trans }}</h3>
+    <dl>
+        <dt>{{ "Nome:"|trans }}</dt>
+        <dd>{{ computador.nmComputador }}</dd>
+        <dt>{{ "IP:"|trans }}</dt>
+        <dd>{{ computador.teIpComputador }}</dd>
+        <dt>{{ "MAC:"|trans }}</dt>
+        <dd>{{ computador.teNodeAddress }}</dd>
+        <dt>{{ "Data do ùltimo Acesso:"|trans }}</dt>
+        <dd>{{ computador.dtHrUltAcesso|date('d/m/Y H:i:s') }}</dd>
+    </dl>
+    <h5>{{ 'Relatório gerado em'|trans }} {% if idioma == 'pt_BR' %}{{ "now"|date("d/m/Y H\\hi") }}{% else %}{{ "now"|date("m/d/Y H\\hi") }}{% endif %}</h5>
+
+    <hr />
+
+    {% if software_list|length > 0 %}
+
+        <table class="display datatable" id="datatable">
+            <thead>
+            <tr>
+                <th width="2%">#</th>
+                <th width="13%">{{ "Nome do Relatório"|trans }}</th>
+                <th width="15%">{{ "Nome da Aquisicao"|trans }}</th>
+                <th width="15%">{{ "Nome do Software"|trans }}</th>
+                <th width="15%">{{ "Display Name"|trans }}</th>
+                <th width="20%">{{ "Identificador"|trans }}</th>
+                <th width="20%">{{ "Data da Coleta"|trans }}</th>
+            </tr>
+            </thead>
+
+            <tbody>
+
+            {% for software in software_list %}
+
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    <td>{{ software['nomeRelatorio'] }}</td>
+                    <td>{{ software['nmAquisicao'] }}</td>
+                    <td>{{ software['nmSoftware'] }}</td>
+                    <td>{{ software['displayName'] }}</td>
+                    <td>{{ software['nmPropertyName'] }}</td>
+                    <td>{{ software['dtHrInclusao']|date('d/m/Y H:i:s') }}</td>
+                </tr>
+
+            {% else %}
+                <tr>
+                    <td style="text-align: center" colspan="6"><b>{{ "NENHUM REGISTRO ENCONTRADO!"|trans }}</b></td>
+                </tr>
+            {% endfor %}
+
+            </tbody>
+        </table>
+    {% else %}
+
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th width="2%">#</th>
+                <th width="18%">{{ "Nome do Relatório"|trans }}</th>
+                <th width="20%">{{ "Nome do Software"|trans }}</th>
+                <th width="20%">{{ "Display Name"|trans }}</th>
+                <th width="20%">{{ "Identificador"|trans }}</th>
+                <th width="20%">{{ "Data da Coleta"|trans }}</th>
+            </tr>
+            </thead>
+
+            <tbody>
+                <tr>
+                    <td style="text-align: center" colspan="6"><b>{{ "NENHUM REGISTRO ENCONTRADO!"|trans }}</b></td>
+                </tr>
+            </tbody>
+        </table>
+
+    {% endif %}
+
+{% endblock %}

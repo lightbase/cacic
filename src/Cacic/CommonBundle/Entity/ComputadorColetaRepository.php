@@ -70,7 +70,8 @@ class ComputadorColetaRepository extends EntityRepository
             ->innerJoin('comp.idSo', 'so')
             ->innerJoin('comp.idRede', 'rede')
             ->innerJoin('rede.idLocal', 'local')
-            ->andWhere("comp.ativo IS NULL or comp.ativo = 't'");
+            ->andWhere("comp.ativo IS NULL or comp.ativo = TRUE")
+            ->andWhere("coleta.ativo IS NULL OR coleta.ativo = TRUE");
 
         /**
          * Verifica os filtros
@@ -162,7 +163,8 @@ class ComputadorColetaRepository extends EntityRepository
             ->innerJoin('comp.idRede', 'rede')
             ->innerJoin('rede.idLocal', 'local')
             ->andWhere('classe.nmClassName = :classe')
-            ->andWhere("comp.ativo IS NULL or comp.ativo = 't'")
+            ->andWhere("comp.ativo IS NULL or comp.ativo = TRUE")
+            ->andWhere("coleta.ativo IS NULL OR coleta.ativo = TRUE")
             ->setParameter('classe', $classe);
 
         /**
@@ -206,7 +208,9 @@ class ComputadorColetaRepository extends EntityRepository
             ->innerJoin('CacicCommonBundle:PropriedadeSoftware', 'prop', 'WITH', 'prop.classProperty = coleta.classProperty')
             ->innerJoin('prop.software', 'soft')
             ->andWhere('soft.nmSoftware = :software')
-            ->andWhere("comp.ativo IS NULL or comp.ativo = 't'")
+            ->andWhere("comp.ativo IS NULL or comp.ativo = TRUE")
+            ->andWhere("coleta.ativo IS NULL OR coleta.ativo = TRUE")
+            ->andWhere("prop.ativo IS NULL OR prop.ativo = TRUE")
             ->groupBy('coleta.computador, comp.nmComputador, comp.teNodeAddress,
              comp.teIpComputador, so.inMswindows, so.sgSo, rede.idRede, rede.nmRede, rede.teIpRede, local.nmLocal')
             ->orderBy('coleta.computador, local.nmLocal, rede.teIpRede')
@@ -251,7 +255,9 @@ class ComputadorColetaRepository extends EntityRepository
             ->innerJoin('rede.idLocal', 'local')
             ->innerJoin('CacicCommonBundle:PropriedadeSoftware', 'prop', 'WITH', 'prop.classProperty = coleta.classProperty')
             ->innerJoin('prop.software', 'soft')
-            ->andWhere("comp.ativo IS NULL or comp.ativo = 't'")
+            ->andWhere("comp.ativo IS NULL or comp.ativo = TRUE")
+            ->andWhere("coleta.ativo IS NULL OR coleta.ativo = TRUE")
+            ->andWhere("prop.ativo IS NULL OR prop.ativo = TRUE")
             ->groupBy('soft.nmSoftware', 'soft.idSoftware', 'rede.idRede', 'rede.nmRede', 'rede.teIpRede', 'local.nmLocal', 'local.idLocal');
 
         /**
@@ -302,7 +308,8 @@ class ComputadorColetaRepository extends EntityRepository
             ->innerJoin('comp.idRede', 'rede')
             ->innerJoin('rede.idLocal', 'local')
             ->andWhere('classe.nmClassName = :classe')
-            ->andWhere("comp.ativo IS NULL or comp.ativo = 't'")
+            ->andWhere("comp.ativo IS NULL or comp.ativo = TRUE")
+            ->andWhere("coleta.ativo IS NULL OR coleta.ativo = TRUE")
             ->groupBy('property.nmPropertyName,
                 coleta.teClassPropertyValue,
                 so.idSo,
@@ -347,7 +354,8 @@ class ComputadorColetaRepository extends EntityRepository
             ->leftJoin('CacicCommonBundle:Rede', 'r','WITH', 'comp.idRede = r.idRede')
             ->leftJoin('CacicCommonBundle:Uorg','u','WITH', 'r.idRede = u.rede')
             ->innerJoin('CacicCommonBundle:Local','l','WITH', 'r.idLocal = l.idLocal')
-            ->andWhere("comp.ativo IS NULL or comp.ativo = 't'")
+            ->andWhere("comp.ativo IS NULL or comp.ativo = TRUE")
+            ->andWhere("coleta.ativo IS NULL OR coleta.ativo = TRUE")
             ->groupBy('comp.nmComputador,r.idRede, class.nmPropertyName, u.nmUorg, coleta.teClassPropertyValue,so.sgSo, r.teIpRede,  l.nmLocal, r.nmRede, comp.idComputador,so.inMswindows')
             ->orderBy('r.teIpRede, l.nmLocal');
 
@@ -384,7 +392,8 @@ class ComputadorColetaRepository extends EntityRepository
             ->leftJoin('CacicCommonBundle:Rede', 'r','WITH', 'comp.idRede = r.idRede')
             ->innerJoin('CacicCommonBundle:Uorg','u','WITH', 'r.idRede = u.rede')
             ->innerJoin('CacicCommonBundle:Local','l','WITH', 'r.idLocal = l.idLocal')
-            ->andWhere("comp.ativo IS NULL or comp.ativo = 't'")
+            ->andWhere("comp.ativo IS NULL or comp.ativo = TRUE")
+            ->andWhere("coleta.ativo IS NULL OR coleta.ativo = TRUE")
             ->groupBy('comp.nmComputador,r.idRede, u.nmUorg,so.sgSo, r.teIpRede,  l.nmLocal, r.nmRede, comp.idComputador,so.inMswindows')
             ->orderBy('r.teIpRede, l.nmLocal');
 
@@ -477,7 +486,8 @@ class ComputadorColetaRepository extends EntityRepository
         INNER JOIN CacicCommonBundle:Classe cl WITH prop.idClass = cl.idClass
         WHERE cl.nmClassName = 'Patrimonio'
         AND comp.idComputador = :idComputador
-        AND (comp.ativo IS NULL or comp.ativo = 't')
+        AND (comp.ativo IS NULL or comp.ativo = TRUE)
+        AND (c.ativo IS NULL or c.ativo = TRUE)
         ";
 
         return $this->getEntityManager()->createQuery( $_dql )
@@ -501,7 +511,8 @@ class ComputadorColetaRepository extends EntityRepository
         INNER JOIN CacicCommonBundle:ClassProperty prop WITH p.classProperty = prop.idClassProperty
         INNER JOIN CacicCommonBundle:Computador comp WITH c.computador = comp.idComputador
         WHERE LOWER(c.teClassPropertyValue) LIKE LOWER('%modem%')
-        AND (comp.ativo IS NULL or comp.ativo = 't')
+        AND (comp.ativo IS NULL or comp.ativo = TRUE)
+        AND (c.ativo IS NULL or c.ativo = TRUE)
         GROUP BY c.teClassPropertyValue, prop.nmPropertyName, p.displayName, p.publisher
         ";
 
@@ -542,7 +553,7 @@ class ComputadorColetaRepository extends EntityRepository
                  AND comp.idComputador = prop.computador'
             )
             ->innerJoin('prop.software', 'soft')
-            ->andWhere("comp.ativo IS NULL or comp.ativo = 't'")
+            ->andWhere("comp.ativo IS NULL or comp.ativo = TRUE")
             ->groupBy('soft.nmSoftware', 'soft.idSoftware', 'rede.idRede', 'rede.nmRede', 'rede.teIpRede', 'local.nmLocal', 'local.idLocal');
 
         /**
@@ -595,7 +606,7 @@ class ComputadorColetaRepository extends EntityRepository
             )
             ->innerJoin('prop.software', 'soft')
             ->andWhere('soft.nmSoftware = :software')
-            ->andWhere("comp.ativo IS NULL or comp.ativo = 't'")
+            ->andWhere("comp.ativo IS NULL or comp.ativo = TRUE")
             ->groupBy('coleta.computador, comp.nmComputador, comp.teNodeAddress,
              comp.teIpComputador, so.inMswindows, so.sgSo, rede.idRede, rede.nmRede,
              rede.teIpRede, local.idLocal, local.nmLocal, prop.dataExclusao')

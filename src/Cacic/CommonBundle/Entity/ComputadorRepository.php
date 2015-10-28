@@ -60,7 +60,7 @@ class ComputadorRepository extends EntityRepository
             )
             ->innerJoin('comp.idRede', 'rede')
             ->innerJoin('rede.idLocal', 'loc')
-            ->andWhere("comp.ativo IS NULL or comp.ativo = 't'")
+            ->andWhere("comp.ativo IS NULL or comp.ativo = TRUE")
             ->groupBy('loc');
 
         return $qb->getQuery()->getResult();
@@ -308,30 +308,30 @@ GROUP BY c0_.te_node_address,
         $rsm->addScalarResult('te_versao_cacic', 'TeVersaoCacic');
 
         $sql = "
-SELECT c0_.te_node_address AS te_node_address,
-	string_agg(DISTINCT CAST(c0_.id_computador AS text), ', ') as id_computador,
-	string_agg(DISTINCT c0_.te_ip_computador, ', ') as te_ip_computador,
-	string_agg(DISTINCT c0_.nm_computador, ', ') AS nm_computador,
-    string_agg(DISTINCT c0_.te_versao_cacic, ', ') AS te_versao_cacic,
-	string_agg(DISTINCT CAST(s2_.id_so AS text), ', ') AS id_so,
-	string_agg(DISTINCT s2_.sg_so, ', ') AS sg_so,
-	string_agg(DISTINCT CAST(r3_.id_rede AS text), ', ') AS id_rede,
-	string_agg(DISTINCT r3_.nm_rede, ', ') AS nm_rede,
-	string_agg(DISTINCT r3_.te_ip_rede, ', ') AS te_ip_rede,
-	max(l1_.data) AS max_data,
-	l4_.nm_local AS nm_local,
-	l4_.id_local AS id_local
-FROM log_acesso l1_
-INNER JOIN computador c0_ ON l1_.id_computador = c0_.id_computador
-INNER JOIN so s2_ ON c0_.id_so = s2_.id_so
-INNER JOIN rede r3_ ON c0_.id_rede = r3_.id_rede
-INNER JOIN local l4_ ON r3_.id_local = l4_.id_local
-WHERE  (c0_.ativo IS NULL or c0_.ativo = 't')
-AND c0_.te_versao_cacic = '$versaoAgente'
-AND l1_.data >= (CURRENT_DATE - 30)
-GROUP BY c0_.te_node_address,
-	l4_.nm_local,
-	l4_.id_local
+            SELECT c0_.te_node_address AS te_node_address,
+                string_agg(DISTINCT CAST(c0_.id_computador AS text), ', ') as id_computador,
+                string_agg(DISTINCT c0_.te_ip_computador, ', ') as te_ip_computador,
+                string_agg(DISTINCT c0_.nm_computador, ', ') AS nm_computador,
+                string_agg(DISTINCT c0_.te_versao_cacic, ', ') AS te_versao_cacic,
+                string_agg(DISTINCT CAST(s2_.id_so AS text), ', ') AS id_so,
+                string_agg(DISTINCT s2_.sg_so, ', ') AS sg_so,
+                string_agg(DISTINCT CAST(r3_.id_rede AS text), ', ') AS id_rede,
+                string_agg(DISTINCT r3_.nm_rede, ', ') AS nm_rede,
+                string_agg(DISTINCT r3_.te_ip_rede, ', ') AS te_ip_rede,
+                max(l1_.data) AS max_data,
+                l4_.nm_local AS nm_local,
+                l4_.id_local AS id_local
+            FROM log_acesso l1_
+            INNER JOIN computador c0_ ON l1_.id_computador = c0_.id_computador
+            INNER JOIN so s2_ ON c0_.id_so = s2_.id_so
+            INNER JOIN rede r3_ ON c0_.id_rede = r3_.id_rede
+            INNER JOIN local l4_ ON r3_.id_local = l4_.id_local
+            WHERE  (c0_.ativo IS NULL or c0_.ativo = 't')
+            AND c0_.te_versao_cacic = '$versaoAgente'
+            AND l1_.data >= (CURRENT_DATE - 30)
+            GROUP BY c0_.te_node_address,
+                l4_.nm_local,
+                l4_.id_local
         ";
 
         $query = $this->getEntityManager()->createNativeQuery($sql, $rsm);
@@ -416,7 +416,8 @@ GROUP BY c0_.te_node_address,
             ->innerJoin('computador.idRede', 'rede')
             ->innerJoin('rede.idLocal', 'local')
             ->innerJoin('computador.idSo', 'so')
-            ->andWhere("computador.ativo IS NULL or computador.ativo = 't'");
+            ->andWhere("computador.ativo IS NULL or computador.ativo = TRUE")
+            ->andWhere("coleta.ativo IS NULL OR coleta.ativo = TRUE");
 
         /**
          * Verifica os filtros
@@ -935,7 +936,8 @@ GROUP BY c0_.te_node_address,
                     $_dql .= " AND local.idLocal IN ($locais)";
                 }
 
-                $_dql .= ") LEFT JOIN CacicCommonBundle:ComputadorColeta cl WITH (c.idComputador = cl.computador";
+                $_dql .= ") LEFT JOIN CacicCommonBundle:ComputadorColeta cl WITH (c.idComputador = cl.computador
+                    AND (cl.ativo IS NULL OR cl.ativo = TRUE)";
                 if ( array_key_exists('conf', $filtros) && !empty($filtros['conf']) ){
                     $conf = $filtros['conf'];
                     $_dql .= " AND cl.classProperty IN ($conf)";
@@ -995,7 +997,8 @@ GROUP BY c0_.te_node_address,
             $_dql .= " AND local.idLocal IN ($locais)";
         }
 
-        $_dql .= ") LEFT JOIN CacicCommonBundle:ComputadorColeta cl WITH (c.idComputador = cl.computador";
+        $_dql .= ") LEFT JOIN CacicCommonBundle:ComputadorColeta cl WITH (c.idComputador = cl.computador
+            AND (cl.ativo IS NULL OR cl.ativo = TRUE)";
         if ( array_key_exists('conf', $filtros) && !empty($filtros['conf']) ){
             $conf = $filtros['conf'];
             $_dql .= " AND cl.classProperty IN ($conf)";
@@ -1082,7 +1085,8 @@ GROUP BY c0_.te_node_address,
             $sql .= " AND local.id_local = $locais";
         }
 
-        $sql .= ") LEFT JOIN computador_coleta cl ON (c.id_computador = cl.id_computador ";
+        $sql .= ") LEFT JOIN computador_coleta cl ON (c.id_computador = cl.id_computador
+            AND (cl.ativo IS NULL OR cl.ativo = TRUE) ";
 
         if ( array_key_exists('idClass', $filtros)) {
             if ( !empty($filtros['idClass']) ){
@@ -1160,10 +1164,11 @@ GROUP BY c0_.te_node_address,
 
         if (!empty($idClasse)) {
             $id = implode(' ,',$idClasse);
-            $_dql .= "LEFT JOIN CacicCommonBundle:ComputadorColeta cl WITH (c.idComputador = cl.computador AND cl.classProperty in
+            $_dql .= "LEFT JOIN CacicCommonBundle:ComputadorColeta cl WITH (c.idComputador = cl.computador
+                        AND (cl.ativo IS NULL OR cl.ativo = TRUE) AND cl.classProperty IN
                           (SELECT cp.idClassProperty FROM CacicCommonBundle:ClassProperty cp WHERE cp.idClass IN ($id)))";
         } else {
-            $_dql .= "LEFT JOIN CacicCommonBundle:ComputadorColeta cl WITH (c.idComputador = cl.computador)";
+            $_dql .= "LEFT JOIN CacicCommonBundle:ComputadorColeta cl WITH (c.idComputador = cl.computador AND (cl.ativo IS NULL OR cl.ativo = TRUE))";
         }
 
         $_dql .= "WHERE cl.computador IS NULL
@@ -1195,10 +1200,11 @@ GROUP BY c0_.te_node_address,
 
         if (!empty($idClasse)) {
             $id = implode(' ,',$idClasse);
-            $_dql .= "LEFT JOIN CacicCommonBundle:ComputadorColeta cl WITH (c.idComputador = cl.computador AND cl.classProperty in
+            $_dql .= "LEFT JOIN CacicCommonBundle:ComputadorColeta cl WITH (c.idComputador = cl.computador
+                        AND (cl.ativo IS NULL OR cl.ativo = TRUE) AND cl.classProperty IN
                           (SELECT cp.idClassProperty FROM CacicCommonBundle:ClassProperty cp WHERE cp.idClass IN ($id)))";
         } else {
-            $_dql .= "LEFT JOIN CacicCommonBundle:ComputadorColeta cl WITH (c.idComputador = cl.computador)";
+            $_dql .= "LEFT JOIN CacicCommonBundle:ComputadorColeta cl WITH (c.idComputador = cl.computador AND (cl.ativo IS NULL OR cl.ativo = TRUE))";
         }
 
         $_dql .= "WHERE cl.computador IS NULL
@@ -1247,7 +1253,8 @@ GROUP BY c0_.te_node_address,
                     $_dql .= " AND local.idLocal = $idLocal ";
                 }
 
-                $_dql .= ") LEFT JOIN CacicCommonBundle:ComputadorColeta cl WITH (c.idComputador = cl.computador AND cl.classProperty in
+                $_dql .= ") LEFT JOIN CacicCommonBundle:ComputadorColeta cl WITH (c.idComputador = cl.computador
+                        AND (cl.ativo IS NULL OR cl.ativo = TRUE) AND cl.classProperty IN
                           (SELECT cp.idClassProperty FROM CacicCommonBundle:ClassProperty cp WHERE cp.idClass IN ($id)))
                 WHERE cl.computador IS NULL
                 AND (c.ativo IS NULL OR c.ativo = 't')
@@ -1295,7 +1302,8 @@ GROUP BY c0_.te_node_address,
             $_dql .= " AND local.idLocal = $idLocal ";
         }
 
-        $_dql .= ") LEFT JOIN CacicCommonBundle:ComputadorColeta cl WITH (c.idComputador = cl.computador AND cl.classProperty in
+        $_dql .= ") LEFT JOIN CacicCommonBundle:ComputadorColeta cl WITH (c.idComputador = cl.computador
+                        AND (cl.ativo IS NULL OR cl.ativo = TRUE) AND cl.classProperty IN
                           (SELECT cp.idClassProperty FROM CacicCommonBundle:ClassProperty cp WHERE cp.idClass IN ($id)))
                 WHERE cl.computador IS NULL
                 AND (c.ativo IS NULL OR c.ativo = 't')
@@ -1331,6 +1339,7 @@ GROUP BY c0_.te_node_address,
             ->andWhere("comp.idComputador = :idComputador")
             ->andWhere("cl.nmClassName = 'Patrimonio'")
             ->andWhere("col.ativo = 't' OR col.ativo IS NULL")
+            ->andWhere("col.ativo IS NULL OR col.ativo = TRUE")
             ->setParameter('idComputador', $idComputador)
             ->orderBy("col.dtHrInclusao", "desc");
 

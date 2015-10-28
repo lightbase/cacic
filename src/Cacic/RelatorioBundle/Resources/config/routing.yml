@@ -243,6 +243,14 @@ cacic_relatorio_hardware_desativados_csv:
     path: /desativados/csv/hardware
     defaults: { _controller: CacicRelatorioBundle:Hardware:desativadosGeralCsv }
 
+cacic_relatorio_software_computador:
+    path: /software/relatorio/{idRelatorio}/{idComputador}
+    defaults: { _controller: CacicRelatorioBundle:Software:relatorioComputador }
+
+cacic_relatorio_software_aq_computador:
+    path: /software/aquisicao/{idAquisicaoItem}/{idComputador}
+    defaults: { _controller: CacicRelatorioBundle:Software:relatorioAquisicaoComputador }
+
 ################################
 # HARDWARE
 ################################

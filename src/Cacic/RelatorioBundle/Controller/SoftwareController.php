@@ -1360,4 +1360,42 @@ class SoftwareController extends Controller
         return $response;
     }
 
+    public function relatorioComputadorAction(Request $request, $idRelatorio, $idComputador) {
+        $locale = $request->getLocale();
+        $em = $this->getDoctrine()->getManager();
+
+        $software_list = $em->getRepository("CacicCommonBundle:SoftwareRelatorio")
+            ->getSoftwareColetado($idRelatorio, $idComputador);
+
+        $computador = $em->getRepository("CacicCommonBundle:Computador")->find($idComputador);
+
+        return $this->render(
+            'CacicRelatorioBundle:Software:relatorio_computador.html.twig',
+            array(
+                'idioma' => $locale,
+                'software_list' => $software_list,
+                'computador' => $computador
+            )
+        );
+    }
+
+    public function relatorioAquisicaoComputadorAction(Request $request, $idAquisicaoItem, $idComputador) {
+        $locale = $request->getLocale();
+        $em = $this->getDoctrine()->getManager();
+
+        $software_list = $em->getRepository("CacicCommonBundle:SoftwareRelatorio")
+            ->getAquisicaoSoftwareColetado($idAquisicaoItem, $idComputador);
+
+        $computador = $em->getRepository("CacicCommonBundle:Computador")->find($idComputador);
+
+        return $this->render(
+            'CacicRelatorioBundle:Software:relatorio_aq_computador.html.twig',
+            array(
+                'idioma' => $locale,
+                'software_list' => $software_list,
+                'computador' => $computador
+            )
+        );
+    }
+
 }
