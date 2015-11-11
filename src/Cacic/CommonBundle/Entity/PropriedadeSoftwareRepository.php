@@ -43,7 +43,7 @@ class PropriedadeSoftwareRepository extends EntityRepository
     public function softwareByName( $nmSoftware, $idComputador ) {
         $qb = $this->createQueryBuilder('prop')
             ->select('prop')
-            ->innerJoin('CacicCommonBundle:classProperty', 'cp', 'WITH', 'prop.classProperty = cp.idClassProperty')
+            ->innerJoin('CacicCommonBundle:ClassProperty', 'cp', 'WITH', 'prop.classProperty = cp.idClassProperty')
             ->innerJoin('CacicCommonBundle:Software', 'sw', 'WITH', 'sw.idSoftware = prop.software')
             ->innerJoin('CacicCommonBundle:Computador', 'comp', 'WITH', 'prop.computador = comp.idComputador')
             ->andWhere("comp.ativo IS NULL or comp.ativo = 't'")
@@ -63,7 +63,7 @@ class PropriedadeSoftwareRepository extends EntityRepository
     public function desativados( ) {
         $qb = $this->createQueryBuilder('prop')
             ->select('DISTINCT sw')
-            ->innerJoin('CacicCommonBundle:classProperty', 'cp', 'WITH', 'prop.classProperty = cp.idClassProperty')
+            ->innerJoin('CacicCommonBundle:ClassProperty', 'cp', 'WITH', 'prop.classProperty = cp.idClassProperty')
             ->innerJoin('CacicCommonBundle:Software', 'sw', 'WITH', 'sw.idSoftware = prop.software')
             ->innerJoin('CacicCommonBundle:Computador', 'comp', 'WITH', 'prop.computador = comp.idComputador')
             ->andWhere("comp.ativo IS NULL or comp.ativo = 't'")
