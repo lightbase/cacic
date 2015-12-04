@@ -29,7 +29,10 @@ class DefaultController extends Controller
             'totalComp7Dias' => $em->getRepository('CacicCommonBundle:LogAcesso')->countComputadorDias('0','7'),
             'totalComp14Dias' => $em->getRepository('CacicCommonBundle:LogAcesso')->countComputadorDias('7','14'),
             'semModulos' => $em->getRepository("CacicCommonBundle:Rede")->semModulos(),
-            'acoesRede' => $em->getRepository("CacicCommonBundle:Rede")->acoesPorRede()
+            'acoesRede' => $em->getRepository("CacicCommonBundle:Rede")->acoesPorRede(),
+            'ping' => $em->getRepository("CacicCommonBundle:Computador")->pingGeral(),
+            'noPing' => $em->getRepository("CocarBundle:Computador")->cacicNull(),
+            'totalPing' => $em->getRepository("CocarBundle:Computador")->totalComp(),
         );
 
         // Verifica se há agentes ativos

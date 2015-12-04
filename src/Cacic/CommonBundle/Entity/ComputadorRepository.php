@@ -1346,4 +1346,32 @@ GROUP BY c0_.te_node_address,
         return $qb->getQuery()->getResult();
     }
 
+    /**
+     *
+     * Relatorio geral considerando maquinas que tem ping no Cocar
+     * @return mixed
+     */
+    public function pingGeral() {
+        $start = isset($start) ? $start : (time() - ((60*60*24)*30));
+        $start = new \DateTime(date("Y-m-d", $start));
+        $end   = isset($end) ? $end : time();
+        $end = new \DateTime(date("Y-m-d", $end));
+
+        $qb = $this->createQueryBuilder('comp')
+            ->select(
+                "count(DISTINCT comp.idComputador) as nComp",
+                "comp.ativo"
+            )
+            ->innerJoin("CocarBundle:Computador", "c", "WITH", "comp.idComputador = c.cacic_id")
+            ->innerJoin("CocarBundle:PingComputador", "p", "WITH", "c.id = p.computador")
+            ->andWhere("p.date BETWEEN :start AND :end")
+            ->setParameter("start", $start)
+            ->setParameter("end", $end)
+            ->groupBy(
+                "comp.ativo"
+            );
+
+        return $qb->getQuery()->execute();
+    }
+
 }

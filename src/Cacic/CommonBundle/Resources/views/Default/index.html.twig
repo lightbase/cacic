@@ -31,24 +31,107 @@
 		</div> <!-- /box -->
 	</div><!-- /span -->
     {#{% endif %}#}
-	
-	<div class="span6 column ui-sortable" id="col1">
-		<div class="box grad_colour_black" id="box1">
-			<h2 class="box_head round_top"> <i class="icon-info"></i> {{ 'Boas vindas'|trans }}</h2>
-			<div class="toggle_container">
-				<div class="block box_content round_bottom padding_10">
-				<p>{{ 'Olá'|trans }}, {{ app.user.nmUsuarioCompleto }}, {{ 'seja bem-vindo à área administrativa do CACIC v3.'|trans }}</p>
-                <p>O Cacic é capaz de fornecer um diagnóstico do parque computacional e disponibilizar informações como o número de equipamentos e sua distribuição nos mais diversos órgãos, os tipos de softwares utilizados e licenciados, configurações de hardware, entre outras. Também pode fornecer informações patrimoniais e a localização física dos equipamentos, ampliando o controle do parque computacional e a segurança na rede.</p>
-				</div>
-			</div>
-		</div> <!-- /box -->
-	</div> <!-- /span -->
+
+
+    <div class="span6 column ui-sortable" id="col6">
+        <div class="box grad_colour_black" id="box6">
+            <h2 class="box_head round_top"> <i class="icon-info"></i> {{ 'Monitoramento Cocar'|trans }}</h2>
+            <div class="toggle_container">
+                <div class="block box_content round_bottom padding_10">
+                    <ul class="statistics">
+                        <li>
+                            <a href="#">
+                                <i class="icon-laptop icon-large"></i>
+                                <span class="blue">{{ estatisticas['totalPing'] }}</span>
+                                {{ 'Total de computadores do Cocar nos últimos 30 dias'|trans }}
+                            </a>
+                        </li>
+                        {% for elm in estatisticas['ping'] %}
+                            {% if elm.ativo is sameas(false) %}
+                                <li>
+                                    <a href="#">
+                                        <i class="icon-fire"></i>
+                                        <span class="yellow">{{ elm.nComp }}</span>
+                                        {{ "Computadores inativos que pingaram nos últimos 30 dias"|trans }}
+                                    </a>
+                                </li>
+                            {% else %}
+                                <li>
+                                    <a href="#">
+                                        <i class="icon-fire"></i>
+                                        <span class="green">{{ elm.nComp }}</span>
+                                        {{ "Computadores ativos que pingaram nos últimos 30 dias"|trans }}
+                                    </a>
+                                </li>
+                            {% endif %}
+                        {% endfor %}
+                        <li>
+                            <a href="#">
+                                <i class="icon-fire"></i>
+                                <span class="red">{{ estatisticas.noPing }}</span>
+                                {{ "Computadores que pingaram e não estão no Cacic"|trans }}
+                            </a>
+                        </li>
+                    </ul>
+                    <hr>
+                    <center>
+                        <a class="btn btn-success" type="submit" href="{{ path('computador_index') }}" title="{{ "Gerar relatório consolidado"|trans }}" target="_blank">
+                            <i class="icon-bar-chart"></i>
+                            {{ "Gerar relatório"|trans }}
+                        </a>
+                    </center>
+                </div>
+            </div>
+        </div> <!-- /box -->
+    </div> <!-- /span -->
+
 	
 </div> <!-- /row -->
 
 <div class="row-fluid">
 
+
+
 	<div class="span6 column ui-sortable" id="col2">
+
+        <div class="box grad_colour_black" id="box1">
+            <h2 class="box_head round_top"> <i class="icon-info"></i> {{ 'Boas vindas'|trans }}</h2>
+            <div class="toggle_container">
+                <div class="block box_content round_bottom padding_10">
+                    <p>{{ 'Olá'|trans }}, {{ app.user.nmUsuarioCompleto }}, {{ 'seja bem-vindo à área administrativa do CACIC v3.'|trans }}</p>
+                    <p>O Cacic é capaz de fornecer um diagnóstico do parque computacional e disponibilizar informações como o número de equipamentos e sua distribuição nos mais diversos órgãos, os tipos de softwares utilizados e licenciados, configurações de hardware, entre outras. Também pode fornecer informações patrimoniais e a localização física dos equipamentos, ampliando o controle do parque computacional e a segurança na rede.</p>
+                </div>
+            </div>
+        </div> <!-- /box -->
+
+        {% if is_granted("ROLE_ADMIN") %}
+            <div class="box grad_colour_black" id="box3">
+                <h2 class="box_head round_top"><i class="icon-heart"></i> {{ 'Atalhos'|trans }}</h2>
+                <div class="toggle_container">
+                    <div class="block box_content round_bottom padding_10 shortcuts">
+                        <a href="{{ path('cacic_agente') }}" class="shortcut">
+                            <i class="shortcut-icon icon-file"></i>
+                            <span class="shortcut-label">{{ 'Agentes'|trans }}</span>
+                        </a>
+
+                        <a href="{{ path('cacic_usuario_index') }}" class="shortcut">
+                            <i class="shortcut-icon icon-group"></i>
+                            <span class="shortcut-label">{{ 'Usuários'|trans }}</span>
+                        </a>
+
+                        <a href="{{ path('cacic_local_index') }}" class="shortcut">
+                            <i class="shortcut-icon icon-globe"></i>
+                            <span class="shortcut-label">{{ 'Locais'|trans }}</span>
+                        </a>
+
+                        <a href="{{ path('cacic_modulo_index') }}" class="shortcut">
+                            <i class="shortcut-icon icon-cogs"></i>
+                            <span class="shortcut-label">{{ 'Módulos'|trans }}</span>
+                        </a>
+                    </div>
+                </div>
+            </div> <!-- /box -->
+        {% endif %}
 
         <div class="box grad_colour_black" id="box2">
             <h2 class="box_head round_top"> <i class="icon-file"></i> {{ 'Agentes'|trans }}</h2>
@@ -198,35 +281,6 @@
                 </div>
             </div>
         </div> <!-- /box -->
-
-        {% if is_granted("ROLE_ADMIN") %}
-            <div class="box grad_colour_black" id="box3">
-                <h2 class="box_head round_top"><i class="icon-heart"></i> {{ 'Atalhos'|trans }}</h2>
-                <div class="toggle_container">
-                    <div class="block box_content round_bottom padding_10 shortcuts">
-                        <a href="{{ path('cacic_agente') }}" class="shortcut">
-                            <i class="shortcut-icon icon-file"></i>
-                            <span class="shortcut-label">{{ 'Agentes'|trans }}</span>
-                        </a>
-
-                        <a href="{{ path('cacic_usuario_index') }}" class="shortcut">
-                            <i class="shortcut-icon icon-group"></i>
-                            <span class="shortcut-label">{{ 'Usuários'|trans }}</span>
-                        </a>
-
-                        <a href="{{ path('cacic_local_index') }}" class="shortcut">
-                            <i class="shortcut-icon icon-globe"></i>
-                            <span class="shortcut-label">{{ 'Locais'|trans }}</span>
-                        </a>
-
-                        <a href="{{ path('cacic_modulo_index') }}" class="shortcut">
-                            <i class="shortcut-icon icon-cogs"></i>
-                            <span class="shortcut-label">{{ 'Módulos'|trans }}</span>
-                        </a>
-                    </div>
-                </div>
-            </div> <!-- /box -->
-        {% endif %}
 
 	</div><!-- /span -->
 
