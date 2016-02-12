@@ -800,13 +800,17 @@ class NeoColetaController extends NeoController {
             }
         }
 
+        // Eduardo: 2016-02-12
+        // MPOG pediu pra manter só o nome da classe
+        $chaves = @array_keys($coletasRetiradas);
+
         $body = "Nome do Computador: ". $computador->getNmComputador() ."
              IP do Computador: ". $computador->getTeIpComputador() ."
              MAC: ". $computador->getTeNodeAddress() ."
              Rede: ". $computador->getIdRede()->getNmRede() ."
 
              Remoções identificadas: \n
-             ". json_encode($coletasRetiradas, JSON_PRETTY_PRINT) ."\n
+             ". json_encode($chaves, JSON_PRETTY_PRINT) ."\n
             ";
 
         if ($this->container->hasParameter('mailer_from')) {

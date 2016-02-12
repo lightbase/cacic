@@ -73,6 +73,9 @@ CREATE OR REPLACE FUNCTION upgrade_software2() RETURNS VOID AS $$
             DELETE FROM aquisicoes_software
             WHERE id_software = prop_software.id_software;
 
+          WHEN SQLSTATE '42703' THEN
+            RAISE NOTICE 'Coluna id_software não existe';
+
         END;
 
         -- Agora apaga software
