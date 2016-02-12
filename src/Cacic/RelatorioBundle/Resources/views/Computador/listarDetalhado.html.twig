@@ -20,62 +20,85 @@
     <br>
     <!--Botão CSV -->
 
-    <table class="display datatable" id="datatable">
-		<thead>
-		<tr>
-			<th width="15%">{{ "Computador"|trans }}</th>
-			<th width="10%">{{ "MAC Address"|trans }}</th>
-			<th width="10%">{{ "Endereço IP"|trans }}</th>
-			<th width="10%">{{ "Sistema Operacional"|trans }}</th>
-			<th width="25%">{{ "Local"|trans }}</th>
-			<th width="15%">{{ "Subrede"|trans }}</th>
-			<th width="15%">{{ "Data/Hora do Último Acesso"|trans }}</th>
-		</tr>
-		</thead>
+    {% if dados|length %}
 
-		<tbody>
+        <table class="display datatable" id="datatable">
+            <thead>
+            <tr>
+                <th width="15%">{{ "Computador"|trans }}</th>
+                <th width="10%">{{ "MAC Address"|trans }}</th>
+                <th width="10%">{{ "Endereço IP"|trans }}</th>
+                <th width="10%">{{ "Sistema Operacional"|trans }}</th>
+                <th width="25%">{{ "Local"|trans }}</th>
+                <th width="15%">{{ "Subrede"|trans }}</th>
+                <th width="15%">{{ "Data/Hora do Último Acesso"|trans }}</th>
+            </tr>
+            </thead>
 
-            {% for reg in dados %}
-            {% set computadores = reg.idComputador|split(',') %}
-            {% set nomes = reg.nmComputador|split(',') %}
-            {% set ips = reg.teIpComputador|split(',') %}
-			<tr>
-				<td>
-                    {% for comp in nomes %}
-					    <b><a href="{{ path('cacic_computador_detalhar', {'idComputador' : reg.idComputador }) }}" title="{{ 'Detalhar computador'|trans }}" target="_blank">{{ comp }}</a></b>
-                    {% else %}
-                        <b>{{ reg.nmComputador }}</b>
-                    {% endfor %}
-				</td>
-				<td><a href="{{ path('cacic_computador_detalhar', {'idComputador' : reg.idComputador }) }}" title="{{ 'Detalhar computador'|trans }}" target="_blank">{{ reg.teNodeAddress }}</a></td>
-                <td>
-                    {% for comp in ips %}
-                        <b><a href="{{ path('cacic_computador_detalhar', {'idComputador' : reg.idComputador }) }}" title="{{ 'Detalhar computador'|trans }}" target="_blank">{{ comp }}</a></b>
-                    {% else %}
-                        <b>{{ reg.teIpComputador }}</b>
-                    {% endfor %}
-                </td>
-				<td>{{ reg.sgSo }}</td>
-				<td>{{ reg.nmLocal }}</td>
-				<td>{{ reg.nmRede }} / {{ reg.teIpRede }}</td>
-				<td>{{ reg.dtHrUltAcesso|date(' d, M, Y H:m:s') }}</td>
-			</tr>
-		{% else %}
-			<tr>
-				<td style="text-align: center" colspan="7"><b>{{ "NENHUM REGISTRO ENCONTRADO!"|trans }}</b></td>
-			</tr>
-		{% endfor %}
+            <tbody>
 
-		</tbody>
-	</table>
+                {% for reg in dados %}
+                {% set computadores = reg.idComputador|split(',') %}
+                {% set nomes = reg.nmComputador|split(',') %}
+                {% set ips = reg.teIpComputador|split(',') %}
+                <tr>
+                    <td>
+                        {% for comp in nomes %}
+                            <b><a href="{{ path('cacic_computador_detalhar', {'idComputador' : reg.idComputador }) }}" title="{{ 'Detalhar computador'|trans }}" target="_blank">{{ comp }}</a></b>
+                        {% else %}
+                            <b>{{ reg.nmComputador }}</b>
+                        {% endfor %}
+                    </td>
+                    <td><a href="{{ path('cacic_computador_detalhar', {'idComputador' : reg.idComputador }) }}" title="{{ 'Detalhar computador'|trans }}" target="_blank">{{ reg.teNodeAddress }}</a></td>
+                    <td>
+                        {% for comp in ips %}
+                            <b><a href="{{ path('cacic_computador_detalhar', {'idComputador' : reg.idComputador }) }}" title="{{ 'Detalhar computador'|trans }}" target="_blank">{{ comp }}</a></b>
+                        {% else %}
+                            <b>{{ reg.teIpComputador }}</b>
+                        {% endfor %}
+                    </td>
+                    <td>{{ reg.sgSo }}</td>
+                    <td>{{ reg.nmLocal }}</td>
+                    <td>{{ reg.nmRede }} / {{ reg.teIpRede }}</td>
+                    <td>{{ reg.dtHrUltAcesso|date(' d, M, Y H:m:s') }}</td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td style="text-align: center" colspan="7"><b>{{ "NENHUM REGISTRO ENCONTRADO!"|trans }}</b></td>
+                </tr>
+            {% endfor %}
 
-    <table class="display datatable" id="datatable">
-        <thead>
-        <tr>
-            <th width="77%" style="text-align: left">{{ "Total de Estações"|trans }}</th>
-            <th width="23%" style="text-align: center">{{ dados|length }}</th>
-        </tr>
-        </thead>
-    </table>
+            </tbody>
+        </table>
+
+        <table class="display datatable" id="datatable">
+            <thead>
+            <tr>
+                <th width="77%" style="text-align: left">{{ "Total de Estações"|trans }}</th>
+                <th width="23%" style="text-align: center">{{ dados|length }}</th>
+            </tr>
+            </thead>
+        </table>
+    {% else %}
+        <table class="table table-striped table-bordered">
+            <thead>
+            <tr>
+                <th width="15%">{{ "Computador"|trans }}</th>
+                <th width="10%">{{ "MAC Address"|trans }}</th>
+                <th width="10%">{{ "Endereço IP"|trans }}</th>
+                <th width="10%">{{ "Sistema Operacional"|trans }}</th>
+                <th width="25%">{{ "Local"|trans }}</th>
+                <th width="15%">{{ "Subrede"|trans }}</th>
+                <th width="15%">{{ "Data/Hora do Último Acesso"|trans }}</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <tr>
+                <td style="text-align: center;" colspan="7"><b>{{ "NENHUM REGISTRO ENCONTRADO!"|trans }}</b></td>
+            </tr>
+            </tbody>
+        </table>
+    {% endif %}
 
 {% endblock %}

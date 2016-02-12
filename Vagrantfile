@@ -77,10 +77,14 @@ Vagrant.configure(2) do |config|
   config.vm.provision "shell", inline: <<-SHELL
     sudo apt-get update
     sudo apt-get install -y puppet
-    puppet module install puppetlabs/postgresql
-    puppet module install puppetlabs/apache
-    puppet module install nodes/php
-    puppet module install saz-locales
+    (puppet module list | grep puppetlabs/postgresql) ||
+        puppet module install puppetlabs/postgresql
+    (puppet module list | grep puppetlabs/apache) ||
+        puppet module install puppetlabs/apache
+    (puppet module list | grep nodes/php) ||
+        puppet module install nodes/php
+    (puppet module list | grep saz-locales) ||
+        puppet module install saz-locales
   SHELL
 
   config.vm.provision "puppet" do |puppet|

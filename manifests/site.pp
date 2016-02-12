@@ -215,10 +215,10 @@ class php_install($version = 'latest') {
     [ 'php::extension::igbinary' ]:
       ensure => installed;
 
-    ['php::extension::apcu']: 
-      ensure    => $version,
-      package   => 'apcu-beta',
-      provider  => 'pecl',
+    ['php::extension::apcu']:
+      ensure    => installed,
+      package   => 'php5-apcu',
+      provider  => 'apt',
       inifile   => "/etc/php5/mods-available/apcu.ini";
   }
 
