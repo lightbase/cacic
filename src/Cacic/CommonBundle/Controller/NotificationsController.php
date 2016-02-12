@@ -332,4 +332,46 @@ class NotificationsController extends Controller
         return $response;
     }
 
+    public function markReadAction(Request $request) {
+        $em = $this->getDoctrine()->getManager();
+
+        if($this->get('security.context')->isGranted('ROLE_ADMIN')) {
+            // Marca como lidas todas as notificações do sistema
+
+            $sql = "UPDATE notifications
+                    SET read_date = now()";
+            $stmt = $em->getConnection()->prepare($sql);
+            $stmt->execute();
+
+            $em->flush();
+        } else {
+            // Marca como lidas as notificações do usuário
+            $user = $this->getUser();
+            $email = $user->getEmail();
+
+            $sql = "UPDATE notifications
+                    SET read_date = now()
+                    WHERE to_addr = '$email'";
+            $stmt = $em->getConnection()->prepare($sql);
+            $stmt->execute();
+
+            $em->flush();
+        }
+
+        // Retorna JSON
+        $response = new JsonResponse();
+        $response->setStatusCode(200);
+
+        $this->get('session')->getFlashBag()->add('success', 'Notificação removida com sucesso!');
+
+        $response->setContent(json_encode(
+            array(
+                'status' => 'ok'
+            ),
+            true
+        ));
+
+        return $response;
+    }
+
 }

@@ -217,8 +217,8 @@ class php_install($version = 'latest') {
 
     ['php::extension::apcu']:
       ensure    => installed,
-      package   => 'php5-apcu',
-      provider  => 'apt',
+      package   => 'apcu-4.0.10',
+      provider  => 'pecl',
       inifile   => "/etc/php5/mods-available/apcu.ini";
   }
 
