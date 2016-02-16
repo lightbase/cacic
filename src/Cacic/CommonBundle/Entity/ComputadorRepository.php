@@ -526,7 +526,7 @@ GROUP BY c0_.te_node_address,
 
         if (empty($dataInicio) && empty($dataFim)) {
             // Aqui não preciso filtrar pela data
-            $query->leftJoin('CacicCommonBundle:LogAcesso', 'log', 'WITH', 'comp.idComputador = log.idComputador');
+            //$query->leftJoin('CacicCommonBundle:LogAcesso', 'log', 'WITH', 'comp.idComputador = log.idComputador');
         } else {
 
             $query->leftJoin('CacicCommonBundle:LogAcesso', 'log', 'WITH', 'comp.idComputador = log.idComputador AND log.data >= :dtInicio AND log.data <= :dtFim')
@@ -563,7 +563,7 @@ GROUP BY c0_.te_node_address,
          */
         if (empty($dataInicio) && empty($dataFim)) {
             // Aqui não preciso filtrar pela data
-            $query->leftJoin('CacicCommonBundle:LogAcesso', 'log', 'WITH', 'comp.idComputador = log.idComputador');
+            //$query->leftJoin('CacicCommonBundle:LogAcesso', 'log', 'WITH', 'comp.idComputador = log.idComputador');
         } else {
 
             $query->leftJoin('CacicCommonBundle:LogAcesso', 'log', 'WITH', 'comp.idComputador = log.idComputador AND log.data >= :dtInicio AND log.data <= :dtFim')
@@ -575,7 +575,7 @@ GROUP BY c0_.te_node_address,
             $query->andWhere( 'comp.idRede IN (:rede)' )->setParameter('rede', $idRede);
 
         // Filtro que mostra somente máquinas sem coleta
-        $query->andWhere('log.idComputador IS NULL');
+        //$query->andWhere('log.idComputador IS NULL');
 
         $query->groupBy('rede.idRede', 'rede.nmRede', 'rede.teIpRede', 'loc.nmLocal', 'loc.sgLocal', 'comp.idComputador', 'comp.nmComputador', 'comp.teNodeAddress', 'comp.teIpComputador', 'so.idSo', 'so.inMswindows', 'so.sgSo');
 
