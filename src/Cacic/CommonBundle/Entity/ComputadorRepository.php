@@ -1223,7 +1223,10 @@ GROUP BY c0_.te_node_address,
 
     public function detalharClasse($idClasse, $idRede, $idLocal, $idSo) {
 
-        $id = implode(' ,',$idClasse);
+        $id = null;
+        if (!empty($idClasse)) {
+            $id = implode(' ,',$idClasse);
+        }
 
         $_dql = "SELECT  c.idComputador,
                         c.nmComputador,
@@ -1253,9 +1256,16 @@ GROUP BY c0_.te_node_address,
                     $_dql .= " AND local.idLocal = $idLocal ";
                 }
 
-                $_dql .= ") LEFT JOIN CacicCommonBundle:ComputadorColeta cl WITH (c.idComputador = cl.computador
+                if (!empty($id)) {
+                    $_dql .= ") LEFT JOIN CacicCommonBundle:ComputadorColeta cl WITH (c.idComputador = cl.computador
                         AND (cl.ativo IS NULL OR cl.ativo = TRUE) AND cl.classProperty IN
-                          (SELECT cp.idClassProperty FROM CacicCommonBundle:ClassProperty cp WHERE cp.idClass IN ($id)))
+                          (SELECT cp.idClassProperty FROM CacicCommonBundle:ClassProperty cp WHERE cp.idClass IN ($id)))";
+                } else {
+                    $_dql .= ") LEFT JOIN CacicCommonBundle:ComputadorColeta cl WITH (c.idComputador = cl.computador
+                        AND (cl.ativo IS NULL OR cl.ativo = TRUE))";
+                }
+
+                $_dql .= "
                 WHERE cl.computador IS NULL
                 AND (c.ativo IS NULL OR c.ativo = 't')
                 GROUP BY  c.idComputador,
