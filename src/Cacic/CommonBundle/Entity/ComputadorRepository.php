@@ -599,7 +599,7 @@ GROUP BY c0_.te_node_address,
 
         if (empty($dataInicio) && empty($dataFim)) {
             // Aqui não preciso filtrar pela data
-            $query->leftJoin('CacicCommonBundle:LogAcesso', 'log', 'WITH', 'comp.idComputador = log.idComputador');
+            //$query->leftJoin('CacicCommonBundle:LogAcesso', 'log', 'WITH', 'comp.idComputador = log.idComputador');
         } else {
 
             $query->leftJoin('CacicCommonBundle:LogAcesso', 'log', 'WITH', 'comp.idComputador = log.idComputador AND log.data >= :dtInicio AND log.data <= :dtFim')
@@ -636,7 +636,7 @@ GROUP BY c0_.te_node_address,
          */
         if (empty($dataInicio) && empty($dataFim)) {
             // Aqui não preciso filtrar pela data
-            $query->leftJoin('CacicCommonBundle:LogAcesso', 'log', 'WITH', 'comp.idComputador = log.idComputador');
+            //$query->leftJoin('CacicCommonBundle:LogAcesso', 'log', 'WITH', 'comp.idComputador = log.idComputador');
         } else {
 
             $query->leftJoin('CacicCommonBundle:LogAcesso', 'log', 'WITH', 'comp.idComputador = log.idComputador AND log.data >= :dtInicio AND log.data <= :dtFim')
