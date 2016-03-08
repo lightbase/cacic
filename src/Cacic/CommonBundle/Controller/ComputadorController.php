@@ -136,6 +136,11 @@ class ComputadorController extends Controller
                 continue;
             }
 
+            // Ignora coletas marcadas como ignoradas
+            if ($hardware->getClassProperty()->getAtivo() === false) {
+                continue;
+            }
+
             // Verifica se deve estar na lista de excluídos
             if ($hardware->getAtivo() === false) {
                 $excluidos = true;

@@ -5,6 +5,7 @@ DECLARE
   cp record;
   comp record;
   cl record;
+  soft record;
   v_id_cp integer;
   v_id_class integer;
 BEGIN
@@ -47,6 +48,13 @@ BEGIN
       DELETE FROM computador_coleta
       WHERE id_class_property = cp.id_class_property;
 
+      FOR soft IN SELECT * from software WHERE id_class_property = cp.id_class_property  LOOP
+        DELETE FROM proriedade_software WHERE id_software = soft.id_software;
+      END LOOP;
+
+      DELETE FROM software
+      WHERE id_class_property = cp.id_class_property;
+
       RAISE NOTICE 'Processamento finalizado. Excluindo id_class_property = %', cp.id_class_property;
 
       -- Finalmente apaga a propriedade
@@ -74,6 +82,9 @@ BEGIN
     WHERE id_class_property = cp.id_class_property;
 
     DELETE FROM computador_coleta
+    WHERE id_class_property = cp.id_class_property;
+
+    DELETE FROM software
     WHERE id_class_property = cp.id_class_property;
 
     RAISE NOTICE 'Processamento finalizado. Excluindo id_class_property = %', cp.id_class_property;
