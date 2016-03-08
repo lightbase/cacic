@@ -953,7 +953,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/migrations/zipball/7ab492c6a65ebe7c0f4665bf96320bef4fb31b70",
+                "url": "https://api.github.com/repos/doctrine/migrations/zipball/20e25bd5037512a270bc8dee36e02fbd17a5e222",
                 "reference": "78954cce4962a4655ff47c0751eb78021fbaf2cc",
                 "shasum": ""
             },
@@ -2391,12 +2391,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/lightbase/cocar.git",
-                "reference": "c94cf06e8b4555e649001725dfc2a7ff588cd041"
+                "reference": "8a7c56b54f6fd4be97cbf14373e7a50a2f229a50"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lightbase/cocar/zipball/c94cf06e8b4555e649001725dfc2a7ff588cd041",
-                "reference": "c94cf06e8b4555e649001725dfc2a7ff588cd041",
+                "url": "https://api.github.com/repos/lightbase/cocar/zipball/8a7c56b54f6fd4be97cbf14373e7a50a2f229a50",
+                "reference": "8a7c56b54f6fd4be97cbf14373e7a50a2f229a50",
                 "shasum": ""
             },
             "require": {
@@ -2425,9 +2425,9 @@
             ],
             "description": "COCAR",
             "support": {
-                "source": "https://github.com/lightbase/cocar/tree/v3.1.18"
+                "source": "https://github.com/lightbase/cocar/tree/master"
             },
-            "time": "2015-12-04 13:21:11"
+            "time": "2016-03-08 03:30:59"
         },
         {
             "name": "liip/functional-test-bundle",
