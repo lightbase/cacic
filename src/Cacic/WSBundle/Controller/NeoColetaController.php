@@ -341,13 +341,15 @@ class NeoColetaController extends NeoController {
                 $em->flush();
             }
 
-            $ativo = $classProperty->getAtivo();
+	    // Landim: 2016-07-07 
+	    // A coleta irá ignorar os softwares que estivem em relatório de exclusão, não mais a coluna ativo da entidade classProperty.
+            //$ativo = $classProperty->getAtivo();
             //$logger->debug("11111111111111111111111111111111111111111: |$ativo| |$propriedade|");
-            if ($ativo === false) {
+            /*if ($ativo === false) {
                 // Só vou gravar o software se a propriedade estiver ativa
                 $logger->debug("COLETA: Pulando software inativo: $software");
                 return false;
-            }
+            }*/
 
             // Eduardo: 2015-08-06
             // A propriedade passa a ser um identificador para o Software
@@ -367,6 +369,17 @@ class NeoColetaController extends NeoController {
                 $em->persist($softwareObject);
                 $em->flush();
             }
+
+	    // Landim: 2016-07-07 
+	    // Verifica se o sofware está em algum relatório de exclusão.
+            foreach($softwareObject->getRelatorios() as $relatorio) {
+                if($relatorio->getTipo() === "excluir") {
+                        $logger->debug("COLETA: Pulando software que está em relatório de exclusão: $software");
+                        return false;
+                }
+            }
+
+
 
             // Adiciona software ao computador
             $propSoftware = $em->getRepository('CacicCommonBundle:PropriedadeSoftware')->findOneBy(array(
