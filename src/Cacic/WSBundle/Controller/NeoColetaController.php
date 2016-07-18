@@ -341,8 +341,8 @@ class NeoColetaController extends NeoController {
                 $em->flush();
             }
 
-	    // Landim: 2016-07-07 
-	    // A coleta irá ignorar os softwares que estivem em relatório de exclusão, não mais a coluna ativo da entidade classProperty.
+            // Landim: 2016-07-07
+            // A coleta irá ignorar os softwares que estivem em relatório de exclusão, não mais a coluna ativo da entidade classProperty.
             //$ativo = $classProperty->getAtivo();
             //$logger->debug("11111111111111111111111111111111111111111: |$ativo| |$propriedade|");
             /*if ($ativo === false) {
@@ -370,8 +370,8 @@ class NeoColetaController extends NeoController {
                 $em->flush();
             }
 
-	    // Landim: 2016-07-07 
-	    // Verifica se o sofware está em algum relatório de exclusão.
+            // Landim: 2016-07-07
+            // Verifica se o sofware está em algum relatório de exclusão.
             foreach($softwareObject->getRelatorios() as $relatorio) {
                 if($relatorio->getTipo() === "excluir") {
                         $logger->debug("COLETA: Pulando software que está em relatório de exclusão: $software");
@@ -633,7 +633,10 @@ class NeoColetaController extends NeoController {
             // Desativa os hardwares no computador
             foreach ($coletasRetiradas['hardware'] as $classe => $valor) {
                 $logger->debug("MODIFICATIONS: Retirando dados da classe WMI $classe para o computador ".$computador->getIdComputador());
-                $this->retiraClasse($classe, $valor, $computador);
+                $retira = $this->retiraClasse($classe, $valor, $computador);
+                if(!$retira) {
+                        unset($coletasRetiradas['hardware'][$classe]);
+                }
             }
 
             // NOTIFICAÇÕES
@@ -660,9 +663,9 @@ class NeoColetaController extends NeoController {
         ));
 
         $idSoftware = $software;
-        if (array_key_exists('description', $valor)) {
+        /*if (array_key_exists('description', $valor)) {
             $software = $valor['description'];
-        }
+        }*/
 
         $softwareObject = $em->getRepository('CacicCommonBundle:Software')->getByName($software);
 
@@ -724,6 +727,11 @@ class NeoColetaController extends NeoController {
         $classObject = $em->getRepository('CacicCommonBundle:Classe')->findOneBy( array(
             'nmClassName'=> $classe
         ));
+
+        if($classe == 'Win32_SMBIOSMemory') {
+                $logger->error("MODIFICATIONS: A classe $classe não está habilitada nas coletas. Não é possível registrar a remoção");
+                return false;
+        }
 
         if (empty($classObject)) {
             $logger->error("MODIFICATIONS: A classe $classe não está habilitada nas coletas. Não é possível registrar a remoção");
@@ -816,8 +824,8 @@ class NeoColetaController extends NeoController {
         // Eduardo: 2016-02-12
         // MPOG pediu pra manter só o nome da classe
         $chaves = @array_keys($coletasRetiradas);
-
-        $body = "Nome do Computador: ". $computador->getNmComputador() ."
+        if(sizeof($chaves) > 0) {
+           $body = "Nome do Computador: ". $computador->getNmComputador() ."
              IP do Computador: ". $computador->getTeIpComputador() ."
              MAC: ". $computador->getTeNodeAddress() ."
              Rede: ". $computador->getIdRede()->getNmRede() ."
@@ -826,24 +834,24 @@ class NeoColetaController extends NeoController {
              ". json_encode($chaves, JSON_PRETTY_PRINT) ."\n
             ";
 
-        if ($this->container->hasParameter('mailer_from')) {
+          if ($this->container->hasParameter('mailer_from')) {
             $from = $this->getParameter('mailer_from');
-        } else {
+          } else {
             $from = 'cacic@localhost';
-        }
+         }
 
-        // NOTIFICAÇÕES
-        $notification = $computador->createNotification(
+         // NOTIFICAÇÕES
+         $notification = $computador->createNotification(
             'DEL',
             $object,
             "COLETA: $object removido",
             $body,
             $from
-        );
+         );
 
-        $em->persist($notification);
-        $em->flush();
-
+         $em->persist($notification);
+         $em->flush();
+        }
         // Verifica se a notificação deve ser enviada por e-mail
         $email_notifications = $computador->getIdRede()->getIdLocal()->getConfiguracaoChave('email_notifications');
 
