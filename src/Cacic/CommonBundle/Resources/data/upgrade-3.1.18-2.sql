@@ -81,9 +81,9 @@ BEGIN
   ADD FOREIGN KEY (id_tipo_licenca)
   REFERENCES tipo_licenca (id_tipo_licenca);
 
-  --ALTER TABLE software_licencas
-  --ADD FOREIGN KEY (id_aquisicao_item)
-  --REFERENCES aquisicao_item (id_aquisicao_item);
+  ALTER TABLE software_licencas
+  ADD FOREIGN KEY (id_aquisicao_item)
+  REFERENCES aquisicao_item (id_aquisicao_item);
 
   RETURN;
 END;
