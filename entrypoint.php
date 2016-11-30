@@ -36,8 +36,14 @@ exec('cd /usr/src/cacic && php app/console assetic:dump --env=prod');
 exec('cd /usr/src/cacic && php app/console cache:warmup --env=prod');
 exec('cd /usr/src/cacic && php app/console lexik:monolog-browser:schema-create');
 
+// Create downloads directory
+exec('mkdir -p /usr/src/cacic/web/downloads');
+
 // Change owner
-chown('/usr/src/cacic', 'www-data');
+exec('chown -R www-data.www-data /usr/src/cacic');
+
+// Run Apache
+exec('apache2-foreground');
 
 
 /**

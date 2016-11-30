@@ -68,7 +68,6 @@ RUN a2enmod rewrite
 
 # Install Cacic
 ADD . /usr/src/cacic
-RUN cd /usr/src/cacic && php entrypoint.php
 RUN chown -R www-data.www-data /usr/src/cacic
 RUN rm -rf /var/www/html && ln -s /usr/src/cacic/web /var/www/html
 
@@ -77,4 +76,6 @@ RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 EXPOSE 80
 
-CMD ["apache2-foreground"]
+VOLUME [ "/usr/src/cacic/web/downloads" ]
+
+CMD ["php", "/usr/src/cacic/entrypoint.php"]
