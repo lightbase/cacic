@@ -13,10 +13,18 @@ RUN apt-get update && apt-get install -y \
         libpng12-dev \
         subversion \
         wget \
+        git \
         libmagickwand-dev \
         libldb-dev \
         libc-client-dev \
         libkrb5-dev \
+        libpq-dev \
+        libicu-dev \
+        libffi-dev \
+        openjdk-7-jre \
+        libsqlite3-dev \
+        libyaml-dev \
+        zlib1g-dev \
         libldap2-dev
 
 # Fix LDAP lib path problem
@@ -26,10 +34,14 @@ RUN ln -s /usr/lib/x86_64-linux-gnu/libldap.so /usr/lib/libldap.so \
 
 RUN docker-php-ext-install -j$(nproc) iconv mcrypt \
     && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
-    && docker-php-ext-install -j$(nproc) gd gettext ldap pdo_mysql pdo_pgsql
+    && docker-php-ext-install -j$(nproc) gd gettext ldap pdo_mysql pdo_pgsql pdo_sqlite intl zip
 
+# Other extensions
 RUN pecl install imagick-3.4.1 \
     && docker-php-ext-enable imagick
+
+RUN pecl install apcu-4.0.10 \
+    && docker-php-ext-enable apcu
 
 # Configuration file extension
 RUN pecl install yaml \
@@ -53,12 +65,11 @@ COPY conf/php.ini /usr/local/etc/php/
 
 # Install Cacic
 ADD . /var/www/html/
+RUN cd /var/www/html && php entrypoint.php
 
 # Clean up APT when done.
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 EXPOSE 80
 
-VOLUME [ "/var/www/html/app/config" ]
-
-CMD ["php", "entrypoint.php"]
+CMD ["apache2-foreground"]

@@ -1,37 +1,41 @@
 <?php
 
 
-$parameters = yaml_parse_file(dirname(__FILE__) . "/config/app/cacic-dist-parameters.yml");
+$parameters = yaml_parse_file(dirname(__FILE__) . "/app/config/cacic-dist-parameters.yml");
 
 
 // Load env vars
-$parameters['database_driver'] = getenv('CACIC_DB_DRIVER') ? getenv('CACIC_DB_DRIVER') : 'pdo_pgsql';
-$parameters['database_host'] = getenv('CACIC_DB_HOST') ? getenv('CACIC_DB_HOST') : '127.0.0.1';
-$parameters['database_port'] = getenv('CACIC_DB_PORT') ? getenv('CACIC_DB_PORT') : '5432';
-$parameters['database_name'] = getenv('CACIC_DB_NAME') ? getenv('CACIC_DB_NAME') : 'cacic';
-$parameters['database_password'] = getenv('CACIC_DB_PASSWORD') ? getenv('CACIC_DB_PASSWORD') : null;
-$parameters['mailer_transport'] = getenv('CACIC_MAILER_TRANSPORT') ? getenv('CACIC_MAILER_TRANSPORT') : 'smtp';
-$parameters['mailer_host'] = getenv('CACIC_MAILER_HOST') ? getenv('CACIC_MAILER_HOST') : '127.0.0.1';
-$parameters['mailer_user'] = getenv('CACIC_MAILER_USER') ? getenv('CACIC_MAILER_USER') : null;
-$parameters['mailer_password'] = getenv('CACIC_MAILER_PASSWORD') ? getenv('CACIC_MAILER_PASSWORD') : null;
-$parameters['mailer_from'] = getenv('CACIC_MAILER_FROM') ? getenv('CACIC_MAILER_FROM') : 'cacic@localhost';
-$parameters['locale'] = getenv('CACIC_LOCALE') ? getenv('CACIC_LOCALE') : 'pt_BR';
+$paramaters['parameters'] = array();
+$parameters['parameters']['database_driver'] = getenv('CACIC_DB_DRIVER') ? getenv('CACIC_DB_DRIVER') : 'pdo_pgsql';
+$parameters['parameters']['database_host'] = getenv('CACIC_DB_HOST') ? getenv('CACIC_DB_HOST') : '127.0.0.1';
+$parameters['parameters']['database_port'] = getenv('CACIC_DB_PORT') ? getenv('CACIC_DB_PORT') : '5432';
+$parameters['parameters']['database_name'] = getenv('CACIC_DB_NAME') ? getenv('CACIC_DB_NAME') : 'cacic';
+$parameters['parameters']['database_password'] = getenv('CACIC_DB_PASSWORD') ? getenv('CACIC_DB_PASSWORD') : null;
+$parameters['parameters']['mailer_transport'] = getenv('CACIC_MAILER_TRANSPORT') ? getenv('CACIC_MAILER_TRANSPORT') : 'smtp';
+$parameters['parameters']['mailer_host'] = getenv('CACIC_MAILER_HOST') ? getenv('CACIC_MAILER_HOST') : '127.0.0.1';
+$parameters['parameters']['mailer_user'] = getenv('CACIC_MAILER_USER') ? getenv('CACIC_MAILER_USER') : null;
+$parameters['parameters']['mailer_password'] = getenv('CACIC_MAILER_PASSWORD') ? getenv('CACIC_MAILER_PASSWORD') : null;
+$parameters['parameters']['mailer_from'] = getenv('CACIC_MAILER_FROM') ? getenv('CACIC_MAILER_FROM') : 'cacic@localhost';
+$parameters['parameters']['locale'] = getenv('CACIC_LOCALE') ? getenv('CACIC_LOCALE') : 'pt_BR';
 
 // Get secret
-$parameters['secret'] = getToken();
+$parameters['parameters']['secret'] = getToken();
 
 // Serialize file
-$output_file = dirname(__FILE__) . "/config/app/parameters.yml";
-yaml_emit_file($output_file, $parameters);
+$output_file = dirname(__FILE__) . "/app/config/parameters.yml";
+file_put_contents($output_file, yaml_emit($parameters));
 
 // Composer commands
-`php composer.phar install --no-interaction`
-`php app/console cache:warmup --env=prod`
-`php app/console assets:install --symlink --env=prod`
-`php app/console doctrine:schema:update --force`
-`php app/console doctrine:migrations:migrate --no-interaction`
-`php app/console cache:warmup --env=prod`
-`php app/console lexik:monolog-browser:schema-create`
+exec('cd /var/www/html && php composer.phar install --no-interaction');
+exec('cd /var/www/html && php app/console cache:warmup --env=prod');
+exec('cd /var/www/html && php app/console assets:install --symlink --env=prod');
+exec('cd /var/www/html && php app/console doctrine:schema:update --force');
+exec('cd /var/www/html && php app/console doctrine:migrations:migrate --no-interaction');
+exec('cd /var/www/html && php app/console cache:warmup --env=prod');
+exec('cd /var/www/html && php app/console lexik:monolog-browser:schema-create');
+
+// Change owner
+chown('/var/www/html', 'www-data');
 
 
 /**
