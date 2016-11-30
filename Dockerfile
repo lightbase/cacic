@@ -63,9 +63,14 @@ RUN { \
 # Generate recomended settings
 COPY conf/php.ini /usr/local/etc/php/
 
+# Enable rewrite
+RUN a2enmod rewrite
+
 # Install Cacic
-ADD . /var/www/html/
-RUN cd /var/www/html && php entrypoint.php
+ADD . /usr/src/cacic
+RUN cd /usr/src/cacic && php entrypoint.php
+RUN chown -R www-data.www-data /usr/src/cacic
+RUN rm -rf /var/www/html && ln -s /usr/src/cacic/web /var/www/html
 
 # Clean up APT when done.
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*

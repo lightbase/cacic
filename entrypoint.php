@@ -10,6 +10,7 @@ $parameters['parameters']['database_driver'] = getenv('CACIC_DB_DRIVER') ? geten
 $parameters['parameters']['database_host'] = getenv('CACIC_DB_HOST') ? getenv('CACIC_DB_HOST') : '127.0.0.1';
 $parameters['parameters']['database_port'] = getenv('CACIC_DB_PORT') ? getenv('CACIC_DB_PORT') : '5432';
 $parameters['parameters']['database_name'] = getenv('CACIC_DB_NAME') ? getenv('CACIC_DB_NAME') : 'cacic';
+$parameters['parameters']['database_user'] = getenv('CACIC_DB_USER') ? getenv('CACIC_DB_USER') : 'cacic';
 $parameters['parameters']['database_password'] = getenv('CACIC_DB_PASSWORD') ? getenv('CACIC_DB_PASSWORD') : null;
 $parameters['parameters']['mailer_transport'] = getenv('CACIC_MAILER_TRANSPORT') ? getenv('CACIC_MAILER_TRANSPORT') : 'smtp';
 $parameters['parameters']['mailer_host'] = getenv('CACIC_MAILER_HOST') ? getenv('CACIC_MAILER_HOST') : '127.0.0.1';
@@ -26,16 +27,17 @@ $output_file = dirname(__FILE__) . "/app/config/parameters.yml";
 file_put_contents($output_file, yaml_emit($parameters));
 
 // Composer commands
-exec('cd /var/www/html && php composer.phar install --no-interaction');
-exec('cd /var/www/html && php app/console cache:warmup --env=prod');
-exec('cd /var/www/html && php app/console assets:install --symlink --env=prod');
-exec('cd /var/www/html && php app/console doctrine:schema:update --force');
-exec('cd /var/www/html && php app/console doctrine:migrations:migrate --no-interaction');
-exec('cd /var/www/html && php app/console cache:warmup --env=prod');
-exec('cd /var/www/html && php app/console lexik:monolog-browser:schema-create');
+exec('cd /usr/src/cacic && php composer.phar install --no-interaction');
+exec('cd /usr/src/cacic && php app/console cache:warmup --env=prod');
+exec('cd /usr/src/cacic && php app/console assets:install --symlink --env=prod');
+exec('cd /usr/src/cacic && php app/console assetic:dump --env=prod');
+//exec('cd /usr/src/cacic && php app/console doctrine:schema:update --force');
+//exec('cd /usr/src/cacic && php app/console doctrine:migrations:migrate --no-interaction');
+exec('cd /usr/src/cacic && php app/console cache:warmup --env=prod');
+exec('cd /usr/src/cacic && php app/console lexik:monolog-browser:schema-create');
 
 // Change owner
-chown('/var/www/html', 'www-data');
+chown('/usr/src/cacic', 'www-data');
 
 
 /**

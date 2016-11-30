@@ -39,7 +39,7 @@ class Version20150911101550 extends AbstractMigration implements ContainerAwareI
         $this->addSql($upgradeSQL1);
 
         // Executa a atualização
-        $this->addSql("SELECT update_licencas()");
+        //$this->addSql("SELECT update_licencas()");
 
     }
 

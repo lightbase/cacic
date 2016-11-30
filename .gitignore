@@ -33,8 +33,6 @@ web/assetic/
 #web/app.php
 web/app_dev.php
 
-# Ignora htaccess
-.htaccess
 .idea
 
 # Ignora arquivo do importador
